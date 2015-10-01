@@ -30,3 +30,13 @@ Tool to better prepare high school students for the Advanced Placement tests.
 	* Profiles: jetty
 	* Everything else was default for me
 	* Run -> jetty:run
+
+### Terms:
+* dao : data access object - connects to databases to access the objects
+* dto : data transfer object - java representation of database object
+* controller : REST access point
+* service : middleman between controller and dao to prepare query and post db actions
+* configs : sets up java annotation based Spring project
+
+
+How to Run Frontend is in static folder.
