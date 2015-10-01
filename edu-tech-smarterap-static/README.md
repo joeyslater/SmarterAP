@@ -1,4 +1,4 @@
-# APrep (Name Pending)
+# SmarterAP
 
 ## How to build:
   1. First, make sure you have the following tools install on to your computer:
