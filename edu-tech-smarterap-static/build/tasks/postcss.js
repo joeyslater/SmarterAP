@@ -2,15 +2,14 @@
 
 module.exports = {
 	options: {
+		map: true,
 		processors: [
-			require('autoprefixer-core')({
+			require('autoprefixer')({
 				browsers: ['> 5%', 'last 2 version', 'ie > 8', 'bb >= 7', 'ff >= 3', 'Opera >= 10.11']
-			}).postcss
+			})
 		]
 	},
 	dist: {
-		src: [
-			'<%= buildConfig.buildDir %>/main.css'
-		]
+		src: '<%= buildConfig.buildDir %>/main.css'
 	}
 };

@@ -12,15 +12,12 @@ module.exports = {
 			port: '<%= ports.connect %>',
 			// Change this to '0.0.0.0' to access the server from outside.
 			hostname: 'localhost',
-			middleware: function(connect) {
-				// Setup the proxy
-				var middlewares = [];
-				middlewares.push(require('grunt-connect-proxy/lib/utils').proxyRequest);
-
+			middleware: function(connect, options, middlewares) {
+				middlewares.unshift(require('grunt-connect-proxy/lib/utils').proxyRequest);
 				// Serve static files.
-				middlewares.push(connect.static(require('path').resolve('target')));
-				middlewares.push(connect.static(require('path').resolve('vendor')));
-				middlewares.push(connect.static(require('path').resolve('node_modules')));
+				// middlewares.push(connect.static(require('path').resolve('target')));
+				// middlewares.push(connect.static(require('path').resolve('vendor')));
+				// middlewares.push(connect.static(require('path').resolve('node_modules')));
 				return middlewares;
 			}
 

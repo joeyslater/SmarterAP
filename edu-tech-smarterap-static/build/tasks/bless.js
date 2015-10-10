@@ -2,7 +2,9 @@
 
 module.exports = {
 	css: {
-		options: {},
+		options: {
+			force: true
+		},
 		files: {
 			'<%= buildConfig.compileDir %>/main.css': '<%= buildConfig.compileDir %>/main.css'
 		}
