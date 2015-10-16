@@ -12,9 +12,10 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<!-- Versions -->
-		<version.appengine.app>1</version.appengine.app>
-		<version.appengine.target>1.9.20</version.appengine.target>
 		<version.spring>4.0.2.RELEASE</version.spring>
+		<version.spring-security>3.2.0.RELEASE</version.spring-security>
+		<version.stormpath>1.0.RC2</version.stormpath>
+		<version.stormpath-security>0.3.0</version.stormpath-security>
 
 		<!-- Build Properties -->
 		<war.name>smarter-ap</war.name>
@@ -22,11 +23,6 @@
 
 	<dependencies>
 		<!-- Compile/runtime dependencies -->
-		<dependency>
-			<groupId>com.google.appengine</groupId>
-			<artifactId>appengine-api-1.0-sdk</artifactId>
-			<version>${version.appengine.target}</version>
-		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
@@ -53,20 +49,15 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.4</version>
 		</dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.4</version>
-        </dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
+		</dependency>
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>1.9.13</version>
-		</dependency>
-		<dependency>
-			<groupId>com.googlecode.objectify</groupId>
-			<artifactId>objectify</artifactId>
-			<version>4.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.persistence</groupId>
@@ -78,16 +69,41 @@
 			<artifactId>pojomatic</artifactId>
 			<version>2.0.1</version>
 		</dependency>
-        <dependency>
-            <groupId>edu.stanford.nlp</groupId>
-            <artifactId>stanford-corenlp</artifactId>
-            <version>3.5.2</version>
-        </dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>r05</version>
+		</dependency>
 		<!-- Authentication -->
 		<dependency>
-			<groupId>org.springframework.security.oauth</groupId>
-			<artifactId>spring-security-oauth2</artifactId>
-			<version>2.0.7.RELEASE</version>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${version.spring-security}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+			<version>${version.spring-security}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${version.spring-security}</version>
+		</dependency>
+
+		<!-- Stormpath SDK -->
+		<dependency>
+			<groupId>com.stormpath.sdk</groupId>
+			<artifactId>stormpath-sdk-api</artifactId>
+			<version>${version.stormpath}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<!-- Stormpath Spring Security Plugin -->
+		<dependency>
+			<groupId>com.stormpath.spring.security</groupId>
+			<artifactId>stormpath-spring-security-core</artifactId>
+			<version>${version.stormpath-security}</version>
 		</dependency>
 
 
@@ -102,18 +118,6 @@
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
 			<version>1.9.0</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.google.appengine</groupId>
-			<artifactId>appengine-testing</artifactId>
-			<version>${version.appengine.target}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.google.appengine</groupId>
-			<artifactId>appengine-api-stubs</artifactId>
-			<version>${version.appengine.target}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -134,7 +138,7 @@
 						<configuration>
 							<webAppSourceDirectory>${basedir}/src/main/webapp</webAppSourceDirectory>
 							<webAppConfig>
-								<contextPath>/${war.name}</contextPath>
+								<contextPath>/</contextPath>
 							</webAppConfig>
 							<httpConnector>
 								<port>6080</port>
@@ -165,14 +169,18 @@
 							<targetPath>WEB-INF</targetPath>
 						</resource>
 					</webResources>
+					<source>1.7</source>
+					<target>1.7</target>
 				</configuration>
 			</plugin>
 
-            <plugin>
-				<groupId>com.google.appengine</groupId>
-				<artifactId>appengine-maven-plugin</artifactId>
-				<version>${version.appengine.target}</version>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.3</version>
 				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
 				</configuration>
 			</plugin>
 
@@ -180,6 +188,21 @@
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
 				<version>9.3.1-SNAPSHOT</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>com.heroku.sdk</groupId>
+				<artifactId>heroku-maven-plugin</artifactId>
+				<version>0.5.3</version>
+				<configuration>
+					<appName>gatech-edutech-smarterap</appName>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

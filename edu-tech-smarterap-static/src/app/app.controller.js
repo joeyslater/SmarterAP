@@ -2,15 +2,14 @@
 
 //Module for the application
 angular.module('smarterap', [
-	'templates-app',
-	'templates-common',
-	'ngMaterial',
-	'ngAnimate',
-	'ngAria'
+    'templates-app',
+    'templates-common',
+    'ngMaterial',
+    'ngAnimate',
+    'ngAria',
+    'ui.router'
 ])
 
-.controller('AppCtrl', function($scope, $http) {
+.controller('AppCtrl', AppCtrl);
 
-})
-
-;
+function AppCtrl() {}

@@ -1,5 +1,7 @@
 package edu.gatech.edutech.smarterap.dtos;
 
+import java.io.Serializable;
+
 import org.pojomatic.Pojomatic;
 import org.pojomatic.annotations.AutoProperty;
 
@@ -8,8 +10,10 @@ import org.pojomatic.annotations.AutoProperty;
  */
 
 @AutoProperty
-public class BaseDto {
+public class BaseDto implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	//Used for the database for unique identifiers
 	private long uid = -1l;
 	

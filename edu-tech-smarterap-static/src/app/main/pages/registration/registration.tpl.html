@@ -1,0 +1,31 @@
+<<div ng-include="'main/pages/noauth-common/header/header.tpl.html'"></div>
+	<md-content class="md-padding">
+		<div layout="row" layout-padding layout-wrap layout-fill>
+			<md-whiteframe class="md-whiteframe-3dp" flex="30" layout layout-align="center center">
+				<form name="login-form" ng-submit="login">
+					<h1 ng-bind="login.title"></h1>
+					<md-input-container>
+						<label>Username</label>
+						<input required name="username" ng-model="credentials.username" />
+						<div ng-messages="login-form.username.$error">
+							<div ng-message="required">This is required.</div>
+						</div>
+					</md-input-container>
+					<md-input-container>
+						<label>Password</label>
+						<input required type="password" name="password" ng-model="credentials.password" />
+						<div ng-messages="$login-form.password.$error">
+							<div ng-message="required">This is required.</div>
+						</div>
+					</md-input-container>
+					<div class="text-right">
+						<md-button class="md-flat md-primary">Forgot Password?</md-button>
+						<md-button type="submit" class="md-raised md-primary">Submit</md-button>
+					</div>
+				</form>
+			</md-whiteframe>
+		</div>
+		<div layout="row" layout-padding layout-wrap layout-fill>
+			<md-button class="md-flat md-primary">Create an Account</md-button>
+		</div>
+	</md-content>

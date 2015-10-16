@@ -1,0 +1,15 @@
+<md-card>
+    <md-card-content>
+        <div layout="row" layout-wrap layout-gt-sm>
+            <md-input-container flex>
+                <input ng-model="createAssessment.newAssessment.title">
+            </md-input-container>
+        </div>
+        <div layout="row" layout-wrap layout-gt-sm>
+            <md-input-container flex>
+                <label>Description or Instructions</label>
+                <textarea ng-model="createAssessment.newAssessment.description" columns="1" md-maxlength="250"></textarea>
+            </md-input-container>
+        </div>
+    </md-card-content>
+</md-card>

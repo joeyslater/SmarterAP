@@ -1,2 +1,11 @@
 //Submodule Stylesheets
 @import 'vendor/angular-material/angular-material.scss';
+body {
+    height: calc(100% - 20px);
+}
+
+.ap-fab {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
