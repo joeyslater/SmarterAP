@@ -1,19 +1,30 @@
 angular.module('smarterap')
 
-.config(function($urlRouterProvider, $stateProvider) {
-    $urlRouterProvider.otherwise("/");
+.config(function($urlRouterProvider, $stateProvider, $urlMatcherFactoryProvider) {
+    $urlMatcherFactoryProvider.strictMode(false);
+
     $stateProvider
+        .state('homepage', {
+            url: '/',
+            templateUrl: 'main/pages/homepage/homepage.tpl.html'
+        })
         .state('login', {
             url: '/login',
             templateUrl: 'main/pages/login/login.tpl.html',
             controller: 'LoginController',
             controllerAs: 'login'
         })
-        .state('signup', {
-            url: '/signup',
+        .state('registration', {
+            url: '/registration',
             templateUrl: 'main/pages/registration/registration.tpl.html',
             controller: 'RegistrationController',
             controllerAs: 'registration'
+        })
+        .state('question-create', {
+            url: '/question/new',
+            templateUrl: 'main/pages/question/question-create.tpl.html',
+            controller: 'QuestionCreateController',
+            controllerAs: 'questionCreate'
         })
         .state('dashboard', {
             url: '/dashboard',

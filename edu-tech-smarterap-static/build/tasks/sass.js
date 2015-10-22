@@ -5,12 +5,15 @@
  * imported from this file.
  */
 module.exports = {
-	build: {
-		options: {
-			style: 'expanded'
-		},
-		files: {
-			'<%= buildConfig.buildDir %>/main.css': '<%= buildConfig.appFiles.sass%>'
-		}
-	}
+    build: {
+        options: {
+            style: 'expanded',
+            includePaths: [
+                'vendor/angular-material/angular-material.scss'
+            ]
+        },
+        files: {
+            '<%= buildConfig.buildDir %>/main.css': '<%= buildConfig.appFiles.sass%>'
+        }
+    }
 };

@@ -1,9 +1,32 @@
 <div ng-controller='TeacherStudentsListController as studentsList'>
-    <div layout="row" layout-wrap layout-gt-sm>
-        <md-list>
-            <md-list-item ng-repeat="student in studentsList.students">
-                <p> {{ student.name }} </p>
-            </md-list-item>
-        </md-list>
-    </div>
+    <md-content layout="column" layout-wrap layout-gt-sm layout-fill flex="100">
+        <md-card layout-fill>
+            <md-data-table-toolbar>
+                <div flex></div>
+                <md-button class="md-icon-button " aria-label="Add ">
+                    <md-icon class="material-icons ">add</md-icon>
+                </md-button>
+            </md-data-table-toolbar>
+            <md-data-table-container>
+                <table md-data-table class="md-primary " md-row-select="studentsList.selected " md-progress="deferred ">
+                    <thead md-order="studentsList.listQuery.order " md-trigger="studentsList.onOrderChange ">
+                        <tr>
+                            <th order-by="surname " name="Last Name "></th>
+                            <th order-by="givenName " name="First Name "></th>
+                            <th order-by="username " name="Username "></th>
+                            <th order-by="emailAddress " name="Email Address "></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr md-auto-select ng-repeat="student in studentsList.students | orderBy: studentsList.listQuery.order ">
+                            <td name="Last Name " ng-bind="student.surname "></td>
+                            <td name="First Name " ng-bind="student.givenName "></td>
+                            <td name="Username " ng-bind="student.username "></td>
+                            <td name="Email Address " ng-bind="student.emailAddress "></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </md-data-table-container>
+        </md-card>
+    </md-content>
 </div>

@@ -30,7 +30,7 @@ function TeacherCourseDashboardController($http, $stateParams, $timeout, Ui) {
     }];
 
     $timeout(function() {
-        Ui.setHeaderTitle(ctrl.course.title);
+        Ui.setHeaderTitle(ctrl.course.subject);
     });
 
 }

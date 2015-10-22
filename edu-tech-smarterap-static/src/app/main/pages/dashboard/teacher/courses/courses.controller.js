@@ -6,7 +6,6 @@ function TeacherCoursesDashboardController($http, $location, Ui) {
     var ctrl = this;
 
     ctrl.goToCourse = function(uid) {
-        console.log('test');
         $location.url("/dashboard/course/" + uid);
     };
 

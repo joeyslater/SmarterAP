@@ -1,0 +1,35 @@
+<beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+          http://www.springframework.org/schema/security
+          http://www.springframework.org/schema/security/spring-security-3.0.3.xsd">
+
+	<bean id="stormpathClient" class="com.stormpath.spring.security.client.ClientFactory">
+		<!-- # Replace this value with the file location from #2 above -->
+		<property name="apiKeyFileLocation"
+			value="#{systemProperties['user.home']}/stormpath/apiKey.properties" />
+		<!-- If you've configured a Spring CacheManager (recommended to reduce 
+			network calls) -->
+		<property name="cacheManager" ref="cacheManager" />
+	</bean>
+
+	<!-- Configure Spring Security with the Stormpath `AuthenticationProvider` -->
+	<bean id="authenticationProvider"
+		class="com.stormpath.spring.security.provider.StormpathAuthenticationProvider">
+		<property name="client" ref="stormpathClient" />
+		<property name="applicationRestUrl" value="https://api.stormpath.com/v1/accounts/2xA1EfRnolJI55xdbNEKLG" />
+	</bean>
+
+	<http auto-config='true' use-expressions="true">
+		<intercept-url pattern="/*/api/*"
+			access="hasRole('Test')" />
+		<logout logout-url="/logout" logout-success-url="/logoutSuccess.jsp" />
+	</http>
+
+	<authentication-manager>
+		<authentication-provider ref='authenticationProvider' />
+	</authentication-manager>
+
+</beans>

@@ -1,4 +1,4 @@
-<div ng-controller="HeaderController as header">
+<div class="header" ng-controller="HeaderController as header">
     <md-toolbar>
         <div class="md-toolbar-tools">
             <md-button class="md-icon-button" aria-label="Menu">
@@ -6,9 +6,21 @@
             </md-button>
             <h2 ng-bind="header.headerTitle()"></h2>
             <span flex></span>
-            <md-button class="md-icon-button" aria-label="More">
-                <md-icon class="material-icons">more_vert</md-icon>
-            </md-button>
+            <span hide-sm ng-bind="header.user().givenName"></span>
+            <md-menu>
+                <md-button class="md-icon-button" aria-label="More" ng-click="$mdOpenMenu($event)">
+                    <md-icon class="material-icons">more_vert</md-icon>
+                </md-button>
+                <md-menu-content width="2">
+                    <md-menu-item ng-click="header.logout();">
+                        <md-button class="md-ident">
+                            <md-icon class="material-icons">power_settings_new</md-icon>
+                            <span md-menu-align-target>Logout</span>
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
         </div>
     </md-toolbar>
+    {{header.user}}
 </div>

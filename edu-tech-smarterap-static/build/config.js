@@ -11,7 +11,15 @@ module.exports = {
     proxies: [{
         context: '/smarter-ap',
         host: 'localhost',
-        port: 6080
+        port: 8080
+    }, {
+        context: '/login',
+        host: 'localhost',
+        port: 8080
+    }, {
+        context: '/logout',
+        host: 'localhost',
+        port: 8080
     }],
 
 
@@ -65,10 +73,16 @@ module.exports = {
             'vendor/angular-ui-router/release/angular-ui-router.js',
             'vendor/angular-animate/angular-animate.js',
             'vendor/angular-aria/angular-aria.js',
-            'vendor/angular-material/angular-material.js'
+            'vendor/angular-material/angular-material.js',
+            'vendor/angular-material-data-table/dist/md-data-table.js',
+            'vendor/textAngular/dist/textAngular-sanitize.min.js',
+            'vendor/textAngular/dist/textAngular.min.js',
+            'vendor/textAngular/dist/textAngular-rangy.min.js'
         ],
         css: [
-
+            'vendor/angular-material/angular-material.scss',
+            'vendor/angular-material-data-table/dist/md-data-table.css',
+            'vendor/textAngular/dist/textAngular.css'
         ],
         html: [],
         images: [],

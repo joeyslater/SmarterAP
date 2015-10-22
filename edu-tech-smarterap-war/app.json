@@ -1,0 +1,6 @@
+{
+  "name": "SmarterAP",
+  "description": "enter descr",
+  "image": "heroku/java",
+  "addons": [ ]
+}

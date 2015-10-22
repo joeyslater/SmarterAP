@@ -1,13 +1,6 @@
 <div ng-include="'main/pages/dashboard/header/header.tpl.html'"></div>
-<section layout="row" flex="100">
-    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
-        <md-content layout-padding>
-            <p hide-md show-gt-md>
-                This sidenav is locked open on your device. To go back to the default behavior, narrow your display.
-            </p>
-        </md-content>
-    </md-sidenav>
-    <md-content flex layout-padding>
+<section layout="row" layout-fill>
+    <md-content flex layout-padding layout-fill>
         <div ng-include="'main/pages/dashboard/teacher/teacher-dashboard.tpl.html'"></div>
     </md-content>
 </section>

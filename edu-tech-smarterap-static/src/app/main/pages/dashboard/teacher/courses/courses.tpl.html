@@ -1,20 +1,24 @@
 <div layout="row">
-    <div hide-sm layout="row" flex="100">
-        <div ng-repeat="course in teacherCoursesDashboard.courses" flex="33">
+    <div hide-sm layout="row" layout-fill class="courses">
+        <div ng-repeat="course in teacherCoursesDashboard.courses | orderBy:['year', 'period', 'subject']" flex="33">
             <md-card>
                 <md-card-content>
                     <h2 class="md-title">
-                        <span ng-bind="course.period"></span>: <span ng-bind="course.title"></span>
+                        <span ng-bind="course.subject"></span> (<span ng-bind="course.year"></span>)
+                    </h2>
+                    <h2 class="md-subhead">
+                        Period <span ng-bind="course.period"></span>
                     </h2>
                     <p>
                         <ul>
                             <li>
-                                <strong>Upcoming Assignments: </strong><span ng-bind="course.period"></span>
+                                <strong>Upcoming Assignments: </strong><span>Demo</span>
                             </li>
                             <li>
-                                <strong>Open Assignments: </strong><span ng-bind="course.period"></span>
+                                <strong>Open Assignments: </strong><span>Demo</span>
                             </li>
                         </ul>
+                        <span>Determine Information</span>
                     </p>
                 </md-card-content>
                 <div class="md-actions" layout="row" layout-align="end center">
@@ -42,10 +46,12 @@
             </md-card>
         </div>
     </div>
-    <div hide show-sm layout="column" flex="100">
+    <div hide show-sm layout="column" flex="100" class="courses-list">
         <md-list>
-            <md-list-item ng-repeat="course in teacherCoursesDashboard.courses" ng-click="teacherCoursesDashboard.goToCourse(course.uid);">
-                <p> {{ course.title }} </p>
+            <md-list-item ng-repeat="course in teacherCoursesDashboard.courses | orderBy:['year','period', 'subject']" ng-click="teacherCoursesDashboard.goToCourse(course.uid);">
+                <p>
+                    P<span ng-bind="course.period"></span> - <span ng-bind="course.subject"></span> (<span ng-bind="course.year"></span>)
+                </p>
             </md-list-item>
         </md-list>
     </div>
