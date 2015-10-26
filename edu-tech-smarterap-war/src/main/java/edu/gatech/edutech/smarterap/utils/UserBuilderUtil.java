@@ -11,14 +11,16 @@ import com.stormpath.spring.security.provider.StormpathUserDetails;
 import edu.gatech.edutech.smarterap.dtos.User;
 import edu.gatech.edutech.smarterap.enums.SecurityRole;
 
-public class UserBuilderUtil {
+public class UserBuilderUtil
+{
+	private UserBuilderUtil()
+	{
 
-	private UserBuilderUtil(){
-		
 	}
-	
-	public static User build(StormpathUserDetails details){
-		User user = new User();
+
+	public static User build(final StormpathUserDetails details)
+	{
+		final User user = new User();
 		user.setUsername(details.getUsername());
 		user.setGivenName(details.getProperties().get("givenName"));
 		user.setSurname(details.getProperties().get("surname"));
@@ -27,9 +29,11 @@ public class UserBuilderUtil {
 		return user;
 	}
 
-	private static Set<SecurityRole> convertSecurities(Collection<? extends GrantedAuthority> authorities) {
-		Set<SecurityRole> roles = Sets.newHashSet();
-		for (GrantedAuthority authority : authorities) {
+	private static Set<SecurityRole> convertSecurities(final Collection<? extends GrantedAuthority> authorities)
+	{
+		final Set<SecurityRole> roles = Sets.newHashSet();
+		for (final GrantedAuthority authority : authorities)
+		{
 			roles.add(SecurityRole.toEnum(authority.getAuthority()));
 		}
 		return roles;

@@ -1,37 +1,55 @@
 package edu.gatech.edutech.smarterap.dtos;
 
-public class Course extends BaseDto {
+import javax.persistence.Column;
+import javax.persistence.Entity;
 
-	private static final long serialVersionUID = 1L;
-	private String subject;
-	private String period;
-	private int year;
-	
-	public Course(){
-		
+import org.pojomatic.annotations.AutoProperty;
+
+@Entity
+@AutoProperty
+public class Course extends BaseDto
+{
+	@Column
+	private String	subject;
+
+	@Column
+	private String	period;
+
+	@Column
+	private int		year;
+
+	public Course()
+	{
+
 	}
 
-	public String getSubject() {
+	public String getSubject()
+	{
 		return subject;
 	}
 
-	public void setSubject(String subject) {
+	public void setSubject(final String subject)
+	{
 		this.subject = subject;
 	}
 
-	public String getPeriod() {
+	public String getPeriod()
+	{
 		return period;
 	}
 
-	public void setPeriod(String period) {
+	public void setPeriod(final String period)
+	{
 		this.period = period;
 	}
 
-	public int getYear() {
+	public int getYear()
+	{
 		return year;
 	}
 
-	public void setYear(int year) {
+	public void setYear(final int year)
+	{
 		this.year = year;
 	}
 

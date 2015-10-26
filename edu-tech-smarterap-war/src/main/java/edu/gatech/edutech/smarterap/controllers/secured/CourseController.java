@@ -1,79 +1,53 @@
 package edu.gatech.edutech.smarterap.controllers.secured;
 
-import static com.google.common.collect.Sets.newHashSet;
+import java.util.List;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import edu.gatech.edutech.smarterap.controllers.CrudController;
 import edu.gatech.edutech.smarterap.dtos.Course;
+import edu.gatech.edutech.smarterap.dtos.json.JsonResponse;
+import edu.gatech.edutech.smarterap.services.CrudService;
 
 @Controller
 @RequestMapping("/api/course")
-public class CourseController implements CrudController<Course> {
+public class CourseController implements CrudController<Course>
+{
+	@Autowired
+	private CrudService crudService;
 
-	private HashSet<Course> courses = newHashSet();
-	
+	@Override
+	public List<Course> readAll()
 	{
-		{
-			Course course = new Course();
-			course.setSubject("Computer Science");
-			course.setPeriod("1");
-			course.setYear(2015);
-			course.setUid(0);
-			courses.add(course);
-		}
-		{
-			Course course = new Course();
-			course.setSubject("Computer Science");
-			course.setPeriod("2");
-			course.setYear(2015);
-			course.setUid(1);
-			courses.add(course);
-		}
-		{
-			Course course = new Course();
-			course.setSubject("Computer Science");
-			course.setPeriod("1");
-			course.setYear(2016);
-			course.setUid(2);
-			courses.add(course);
-		}
-		
-		{
-			Course course = new Course();
-			course.setSubject("Biology");
-			course.setPeriod("1");
-			course.setYear(2016);
-			course.setUid(3);
-			courses.add(course);
-		}
-	}
-	
-	
-	@Override
-	public Set<Course> readAll() {	
-		return courses;
+		return crudService.list(Course.class);
 	}
 
 	@Override
-	public Course read(@PathVariable Long uid) {
-		for (Course course : courses) {
-			if(course.getUid() == uid){
-				return course;
-			}
-		}
-		return null;
+	public Course read(@PathVariable final Long uid)
+	{
+		return crudService.get(Course.class, uid);
 	}
 
 	@Override
-	public Course create() {
-		// TODO Auto-generated method stub
-		return null;
+	public JsonResponse<Course> create(@RequestBody final Course dto)
+	{
+		return crudService.create(dto);
 	}
+
+	@Override
+	public JsonResponse<Course> delete(@PathVariable final Long uid)
+	{
+		return crudService.delete(Course.class, uid);
+	}
+
+	@Override
+	public JsonResponse<Course> update(@PathVariable final Long uid, @RequestBody final Course dto)
+	{
+		return crudService.update(uid, dto);
+	}
+
 }

@@ -14,13 +14,13 @@ import edu.gatech.edutech.smarterap.utils.UserBuilderUtil;
 
 @Controller
 @RequestMapping("/api/account")
-public class UserController {
-
+public class UserController
+{
 	@RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public User config(@AuthenticationPrincipal StormpathUserDetails details) {
-		User user = UserBuilderUtil.build(details);
+	public User config(@AuthenticationPrincipal final StormpathUserDetails details)
+	{
+		final User user = UserBuilderUtil.build(details);
 		return user;
 	}
-
 }

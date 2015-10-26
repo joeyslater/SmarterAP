@@ -1,6 +1,10 @@
 package edu.gatech.edutech.smarterap.dtos;
 
-import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 import org.pojomatic.Pojomatic;
 import org.pojomatic.annotations.AutoProperty;
@@ -9,35 +13,42 @@ import org.pojomatic.annotations.AutoProperty;
  * This class serves as a super class so all subclasses extend Pojomatic hashCode, equals, toString methods.
  */
 
+@Entity
 @AutoProperty
-public class BaseDto implements Serializable{
-	
-	private static final long serialVersionUID = 1L;
-
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class BaseDto
+{
 	//Used for the database for unique identifiers
-	private long uid = -1l;
-	
-	public long getUid() {
+	@Id
+	@GeneratedValue
+	private Long uid = -1L;
+
+	public Long getUid()
+	{
 		return uid;
 	}
 
-	public void setUid(long uid) {
+	public void setUid(final Long uid)
+	{
 		this.uid = uid;
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		return Pojomatic.hashCode(this);
 	}
-	
+
 	@Override
-	public boolean equals(Object other) {
+	public boolean equals(final Object other)
+	{
 		return Pojomatic.equals(this, other);
 	}
-	
+
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return Pojomatic.toString(this);
 	}
-	
+
 }
