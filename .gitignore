@@ -53,6 +53,8 @@ $RECYCLE.BIN/
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio
 
 *.iml
+edu-tech-smarterap-war/*.iml
+edu-tech-smarterap-static/*.iml
 
 ## Directory-based project format:
 .idea/

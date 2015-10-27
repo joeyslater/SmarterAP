@@ -7,7 +7,7 @@
     3. Grunt - http://gruntjs.com/ 
   2. Make sure to pull the folders from the git repo. 
   3. In the `edu-tech-smarterap-static` folder, run via command line `npm install -g grunt-cli bower` to be able to use Grunt/Bower commands.
-  4. Run `npm install` to install of the dependencies.
+  4. Run `npm install --dev` to install of the dependencies.
   4. Run `bower install` to make sure all the necessary third-party modules are properly installed.
   5. After running `grunt serve`.  
   6. Go to the port specified, the app should be running successfully.  
