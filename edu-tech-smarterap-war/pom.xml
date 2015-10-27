@@ -14,7 +14,7 @@
 		<!-- Versions -->
 		<version.spring>4.0.2.RELEASE</version.spring>
 		<version.spring-security>3.2.0.RELEASE</version.spring-security>
-		<version.stormpath>1.0.RC2</version.stormpath>
+		<version.stormpath>1.0.RC4.5</version.stormpath>
 		<version.stormpath-security>0.3.0</version.stormpath-security>
 
 		<!-- Build Properties -->
@@ -90,7 +90,7 @@
 		<dependency>
 			<groupId>com.stormpath.sdk</groupId>
 			<artifactId>stormpath-sdk-api</artifactId>
-			<version>1.0.RC2</version>
+			<version>${version.stormpath}</version>
 		</dependency>
 
 		<!-- Stormpath Spring Security Plugin -->
@@ -198,8 +198,6 @@
 							<targetPath>WEB-INF</targetPath>
 						</resource>
 					</webResources>
-					<source>1.7</source>
-					<target>1.7</target>
 				</configuration>
 			</plugin>
 
@@ -216,11 +214,7 @@
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
-				<version>9.3.1-SNAPSHOT</version>
-				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
-				</configuration>
+				<version>9.3.5.v20151012</version>
 			</plugin>
 
 			<plugin>
@@ -229,8 +223,6 @@
 				<version>0.5.3</version>
 				<configuration>
 					<appName>gatech-edutech-smarterap</appName>
-					<source>1.7</source>
-					<target>1.7</target>
 				</configuration>
 			</plugin>
 		</plugins>
