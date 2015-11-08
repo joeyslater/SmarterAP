@@ -14,7 +14,7 @@
 		<!-- Versions -->
 		<version.spring>4.0.2.RELEASE</version.spring>
 		<version.spring-security>3.2.0.RELEASE</version.spring-security>
-		<version.stormpath>1.0.RC4.5</version.stormpath>
+		<version.stormpath>1.0.RC5.1</version.stormpath>
 		<version.stormpath-security>0.3.0</version.stormpath-security>
 
 		<!-- Build Properties -->

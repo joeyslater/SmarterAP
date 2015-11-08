@@ -17,7 +17,7 @@ import com.stormpath.sdk.tenant.Tenant;
 import edu.gatech.edutech.smarterap.dtos.User;
 
 @Controller
-@RequestMapping("/register")
+@RequestMapping("/v1/api/register")
 public class RegistrationController
 {
 

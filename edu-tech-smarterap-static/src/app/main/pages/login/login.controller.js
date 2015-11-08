@@ -22,7 +22,7 @@ function LoginController($http, APP, $location, $state, Ui) {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(function(response) {
-            $http.get('/smarter-ap/api/account').then(function(response) {
+            $http.get('/api/account').then(function(response) {
                 Ui.setUser(response.data);
             });
             console.log(response);
@@ -31,7 +31,7 @@ function LoginController($http, APP, $location, $state, Ui) {
 
         }, function(response) {
             console.log(response);
-            console.log('failure');
+            console.log('ERROR: Login failure');
         });
 
     };

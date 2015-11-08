@@ -16,7 +16,7 @@ function RegistrationController($http, APP, $location, $state) {
 
     ctrl.register = function(credentials) {
         if (credentials.password === credentials.confirmPassword) {
-            console.log("Add Things");
+            console.log("Registration: Add new user");
             $http({
                 method: 'POST',
                 url: '/smarter-ap/register',
