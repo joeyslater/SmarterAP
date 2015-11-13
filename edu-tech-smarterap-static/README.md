@@ -11,6 +11,7 @@
   4. Run `bower install` to make sure all the necessary third-party modules are properly installed.
   5. After running `grunt serve`.  
   6. Go to the port specified, the app should be running successfully.  
+  7. Example http://localhost:9000/target/#/
 
 ## Notes
   * No need to touch index.html, it should be all set up.
