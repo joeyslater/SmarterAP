@@ -2,38 +2,36 @@ angular.module('smarterap')
 
 .controller('LoginController', LoginController);
 
-function LoginController($http, APP, $location, $state, Ui) {
+function LoginController($rootScope, $http, APP, $location, $state, Ui, $auth, $user, STORMPATH_CONFIG) {
     var ctrl = this;
     ctrl.title = APP.TITLE;
     ctrl.credentials = {
-        'submit': 'Login'
-    };
-
-    ctrl.goTo = function(state) {
-        $state.go(state);
+        username: 'joeyslater',
+        password: 'Password1'
     };
 
     ctrl.authenticate = function(credentials) {
-        $http({
-            method: 'POST',
-            url: '/login',
-            data: 'username=' + encodeURIComponent(credentials.username) + '&password=' + encodeURIComponent(credentials.password),
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        }).then(function(response) {
-            $http.get('/smarter-ap/api/account').then(function(response) {
-                Ui.setUser(response.data);
-            });
-            console.log(response);
-            console.log('success');
-            $location.url("/dashboard");
+        $http.post('/smarter-ap/authenticate', JSON.stringify(credentials), {
+                withCredentials: true,
+                'headers': {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(
+                function(response) {
+                    $rootScope.$broadcast(STORMPATH_CONFIG.AUTHENTICATION_SUCCESS_EVENT_NAME, response);
 
-        }, function(response) {
-            console.log(response);
-            console.log('failure');
-        });
-
+                },
+                function(response) {
+                    ctrl.errorMessage = response.data.message;
+                    $rootScope.$broadcast(STORMPATH_CONFIG.AUTHENTICATION_FAILURE_EVENT_NAME, response);
+                });
     };
+
+    $user.get()
+        .then(function(user) {
+            $state.go('dashboard.courses');
+        })
+        .catch(function(error) {});
 
 }

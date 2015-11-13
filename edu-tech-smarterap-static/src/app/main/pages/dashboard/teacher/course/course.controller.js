@@ -15,18 +15,17 @@ function TeacherCourseDashboardController($http, $stateParams, $timeout, Ui) {
     });
 
     ctrl.tabs = [{
-        'title': 'Schedule'
+        'title': 'Home',
+        'template': 'main/pages/dashboard/teacher/course/course-home.tpl.html'
     }, {
-        'title': 'Assessments'
+        'title': 'Assessments',
+        'template': 'main/pages/dashboard/teacher/assessment/assessments-list.tpl.html'
     }, {
         'title': 'Students',
         'template': 'main/pages/dashboard/teacher/students/student-list.tpl.html'
     }, {
-        'title': 'Reports'
-    }, {
-        'title': 'About',
-        'template': 'main/pages/dashboard/teacher/course/course-about.tpl.html'
-
+        'title': 'Reports',
+        'template': 'main/pages/dashboard/teacher/reports/reports.tpl.html'
     }];
 
     $timeout(function() {

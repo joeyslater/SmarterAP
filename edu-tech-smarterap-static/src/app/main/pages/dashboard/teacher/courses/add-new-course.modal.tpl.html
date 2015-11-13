@@ -1,0 +1,41 @@
+<md-dialog aria-label="Add New Course" ng-cloak>
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Add New Course</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="addNewCourse.cancel()">
+                    <md-icon class="material-icon" aria-label="Close dialog">close</md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <div layout="column">
+                    <md-input-container>
+                        <label>Course Name</label>
+                        <input ng-model="addNewCourse.newCourse.title">
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Section</label>
+                        <input ng-model="addNewCourse.newCourse.section">
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Subject</label>
+                        <md-select ng-model="addNewCourse.newCourse.subject">
+                            <md-option ng-repeat="subject in addNewCourse.subjects" ng-value="subject" ng-bind="subject.name"></md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+        </md-dialog-content>
+        <div class="md-actions" layout="row">
+            <span flex></span>
+            <md-button ng-click="addNewCourse.cancel()">
+                Cancel
+            </md-button>
+            <md-button ng-click="addNewCourse.save(newCourse)">
+                Save
+            </md-button>
+        </div>
+    </form>
+</md-dialog>

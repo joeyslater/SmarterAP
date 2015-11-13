@@ -1,0 +1,23 @@
+<div layout="row" flex class="course-home">
+    <md-content layout-padding layout-margin>
+        <div>
+            <strong>Name: </strong><span ng-bind=""></span>
+        </div>
+        <div>
+            <strong>Section: </strong><span ng-bind=""></span>
+        </div>
+        <div>
+            <strong>Subject: </strong><span ng-bind=""></span>
+        </div>
+    </md-content>
+    <div layout="row" flex ng-if="course.assessments">
+        <md-content layout-padding layout-margin flex>
+            test
+        </md-content>
+    </div>
+    <div layout="row" flex ng-if="!course.assessments" class="no-items">
+        <span>
+        	No current assessments. Create one?
+        </span>
+    </div>
+</div>

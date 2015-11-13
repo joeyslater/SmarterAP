@@ -6,41 +6,29 @@ function RegistrationController($http, APP, $location, $state) {
     var ctrl = this;
     ctrl.title = APP.TITLE;
 
-    ctrl.credentials = {
-        'submit': 'Login'
-    };
+    ctrl.credentials = {};
 
     ctrl.goTo = function(state) {
         $state.go(state);
     };
 
     ctrl.register = function(credentials) {
-        if (credentials.password === credentials.confirmPassword) {
-            console.log("Add Things");
-            $http({
-                method: 'POST',
-                url: '/smarter-ap/register',
-                data: {
-                    'user': credentials,
-                    'password': credentials.password
-                },
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
+        console.log(credentials);
+        console.log(JSON.stringify(credentials));
+        $http.post('/smarter-ap/register', JSON.stringify(credentials), {
+                'headers': {
+                    'Content-Type': 'application/json'
                 }
-            }).then(function(response) {
-                console.log(response);
-                console.log('success');
-                $location.url("/dashboard");
-
-            }, function(response) {
-                console.log(response);
-                console.log('failure');
-            });
-        } else {
-            console.log('test');
-        }
-
-
+            })
+            .then(
+                function(response) {
+                    console.log(response);
+                    console.log('success');
+                    //$location.url("/dashboard");
+                },
+                function(response) {
+                    console.log(response);
+                    console.log('failure');
+                });
     };
-
 }

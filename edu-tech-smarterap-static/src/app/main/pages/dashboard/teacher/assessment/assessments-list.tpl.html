@@ -1,0 +1,54 @@
+<div ng-controller='TeacherAssessmentsListController as assessmentsList'>
+    <md-content layout="column" flex="100" style="background: #eee;">
+        <span class="md-table-title">Active</span>
+        <md-card>
+            <md-data-table-toolbar ng-show="!assessmentsList.selected.length">
+                <div flex></div>
+            </md-data-table-toolbar>
+            <md-data-table-container>
+                <table md-data-table class="md-primary " md-progress="deferred ">
+                    <tbody>
+                        <tr ng-repeat="student in studentsList.students | orderBy: studentsList.listQuery.order ">
+                            <td name="Last Name " ng-bind="student.surname "></td>
+                            <td name="First Name " ng-bind="student.givenName "></td>
+                            <td name="Email Address " ng-bind="student.emailAddress "></td>
+                            <td name="Username ">Enabled</td>
+                            <td>
+                                <md-icon class="material-icons">delete</md-icon>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </md-data-table-container>
+        </md-card>
+        <span class="md-table-title">Archived</span>
+        <md-card>
+            <md-data-table-toolbar ng-show="!assessmentsList.selected.length">
+                <div flex></div>
+            </md-data-table-toolbar>
+            <md-data-table-container>
+                <table md-data-table class="md-primary " md-progress="deferred ">
+                    <tbody>
+                        <tr ng-repeat="student in studentsList.students | orderBy: studentsList.listQuery.order ">
+                            <td name="Last Name " ng-bind="student.surname "></td>
+                            <td name="First Name " ng-bind="student.givenName "></td>
+                            <td name="Email Address " ng-bind="student.emailAddress "></td>
+                            <td name="Username ">Enabled</td>
+                            <td>
+                                <md-icon class="material-icons">delete</md-icon>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </md-data-table-container>
+        </md-card>
+    </md-content>
+    <div class="bottom-fab">
+        <md-button class="md-fab md-primary" aria-label="Add New Assessment" ng-click="assessmentsList.addNewAssessment($event)">
+            <md-tooltip md-direction="left">
+                Add New Assessment
+            </md-tooltip>
+            <md-icon class="material-icons">add</md-icon>
+        </md-button>
+    </div>
+</div>

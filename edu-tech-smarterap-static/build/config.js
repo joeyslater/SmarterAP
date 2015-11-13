@@ -16,10 +16,6 @@ module.exports = {
         context: '/login',
         host: 'localhost',
         port: 8080
-    }, {
-        context: '/logout',
-        host: 'localhost',
-        port: 8080
     }],
 
 
@@ -77,12 +73,15 @@ module.exports = {
             'vendor/angular-material-data-table/dist/md-data-table.js',
             'vendor/textAngular/dist/textAngular-sanitize.min.js',
             'vendor/textAngular/dist/textAngular.min.js',
-            'vendor/textAngular/dist/textAngular-rangy.min.js'
+            'vendor/textAngular/dist/textAngular-rangy.min.js',
+            'vendor/ng-sortable/dist/ng-sortable.js',
+            'vendor/stormpath-sdk-angularjs/dist/stormpath-sdk-angularjs.js'
         ],
         css: [
             'vendor/angular-material/angular-material.scss',
             'vendor/angular-material-data-table/dist/md-data-table.css',
-            'vendor/textAngular/dist/textAngular.css'
+            'vendor/textAngular/dist/textAngular.css',
+            'vendor/ng-sortable/dist/ng-sortable.css'
         ],
         html: [],
         images: [],

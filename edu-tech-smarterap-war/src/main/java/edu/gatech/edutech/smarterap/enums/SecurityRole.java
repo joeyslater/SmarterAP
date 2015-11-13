@@ -25,7 +25,7 @@ public enum SecurityRole
 		{
 			VALUES.put(role.toString(), role);
 		}
-	}
+	} 
 
 	private String href;
 

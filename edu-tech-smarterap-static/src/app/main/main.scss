@@ -4,4 +4,40 @@
     background-size: 100%;
     height: 50px;
     width: 250px;
+    display: block;
+}
+
+.feedback {
+    background-color: white;
+    padding: 8px;
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    border: 2px solid black;
+    border-bottom-width: 0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    &:hover {
+        background-color: #A2B0FF;
+    }
+    a {
+        font-size: 12px;
+        font-color: blue;
+        font-weight: bold;
+        text-decoration: none;
+    }
+}
+
+.no-items {
+    span {
+        margin: 0 auto;
+        margin-top: 20px;
+        color: #aaa;
+        font-weight: bold;
+        font-family: Roboto, "Helvetica Neue", sans-serif;
+    }
+}
+
+p.md-warn {
+    color: red;
 }

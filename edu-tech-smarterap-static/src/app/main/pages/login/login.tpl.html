@@ -4,16 +4,23 @@
             <span class="app-logo" ng-click="login.goTo('homepage')"></span>
         </div>
         <div layout="row" layout-padding layout-wrap layout-fill layout-align="center center">
-            <md-whiteframe class="md-whiteframe-3dp" layout layout-padding layout-align="center top">
+            <md-whiteframe class="md-whiteframe-3dp" layout="row" layout-padding layout-align="center top">
                 <form name="login-form" ng-submit="login.authenticate(login.credentials)">
-                    <md-input-container>
-                        <label>Username</label>
-                        <input name="username" ng-model="login.credentials.username" ng-required="true" />
-                    </md-input-container>
-                    <md-input-container>
-                        <label>Password</label>
-                        <input type="password" name="password" ng-model="login.credentials.password" ng-required="true" />
-                    </md-input-container>
+                    <div layout="row">
+                        <md-input-container flex>
+                            <label>Username</label>
+                            <input name="username" ng-model="login.credentials.username" ng-required="true" />
+                        </md-input-container>
+                    </div>
+                    <div layout="row">
+                        <md-input-container flex>
+                            <label>Password</label>
+                            <input type="password" name="password" ng-model="login.credentials.password" ng-required="true" />
+                        </md-input-container>
+                    </div>
+                    <div layout="row">
+                        <p class="md-body-1 md-warn" ng-bind="login.errorMessage"></p>
+                    </div>
                     <div layout="row" layout-align="end end">
                         <md-button type="button" class="md-flat md-primary" ng-click="login.goTo('forget-password')">Forgot Password?</md-button>
                         <md-button type="submit" class="md-raised md-primary">Submit</md-button>

@@ -1,0 +1,14 @@
+<md-card>>
+    <md-card-content>
+        <h2 class="md-title">
+        	<span ng-bind="index"></span>.
+        	<span ng-bind-html="qusetion.description"></span>
+        </h2>
+        <div ng-if="question.hint">
+            <span ng-bind-html="question.hint"></span>
+        </div>
+        <md-radio-group ng-repeat="answer question.answers">
+            <md-radio-button ng-bind-html="answer.text"></md-radio-button>
+        </md-radio-group>
+    </md-card-content>
+</md-card>

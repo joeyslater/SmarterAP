@@ -12,10 +12,11 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<!-- Versions -->
-		<version.spring>4.0.2.RELEASE</version.spring>
-		<version.spring-security>3.2.0.RELEASE</version.spring-security>
-		<version.stormpath>1.0.RC4.5</version.stormpath>
+		<version.spring>4.1.7.RELEASE</version.spring>
+		<version.spring-security>4.0.2.RELEASE</version.spring-security>
+		<version.stormpath>1.0.RC5.1</version.stormpath>
 		<version.stormpath-security>0.3.0</version.stormpath-security>
+
 
 		<!-- Build Properties -->
 		<war.name>smarter-ap</war.name>
@@ -88,18 +89,24 @@
 
 		<!-- Stormpath SDK -->
 		<dependency>
+			<groupId>com.stormpath.spring</groupId>
+			<artifactId>stormpath-spring-security-webmvc</artifactId>
+			<version>${version.stormpath}</version>
+		</dependency>
+		<dependency>
 			<groupId>com.stormpath.sdk</groupId>
-			<artifactId>stormpath-sdk-api</artifactId>
+			<artifactId>stormpath-sdk-httpclient</artifactId>
+			<scope>runtime</scope>
 			<version>${version.stormpath}</version>
 		</dependency>
 
+		<!-- <dependency> <groupId>com.stormpath.sdk</groupId> <artifactId>stormpath-sdk-api</artifactId> 
+			<version>${version.stormpath}</version> </dependency> <dependency> <artifactId>stormpath-sdk-httpclient</artifactId> 
+			<groupId>com.stormpath.sdk</groupId> <version>${version.stormpath}</version> 
+			</dependency> -->
 		<!-- Stormpath Spring Security Plugin -->
-		<dependency>
-			<groupId>com.stormpath.spring.security</groupId>
-			<artifactId>stormpath-spring-security-core</artifactId>
-			<version>${version.stormpath-security}</version>
-		</dependency>
-
+		<!-- <dependency> <groupId>com.stormpath.spring.security</groupId> <artifactId>stormpath-spring-security-core</artifactId> 
+			<version>${version.stormpath-security}</version> </dependency> -->
 		<!-- Hibernate -->
 		<dependency>
 			<groupId>org.springframework</groupId>

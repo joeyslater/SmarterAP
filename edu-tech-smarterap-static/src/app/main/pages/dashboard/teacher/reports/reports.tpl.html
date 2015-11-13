@@ -1,0 +1,40 @@
+<div layout="column" flex ng-controller="TeacherReportsController as teacherReports">
+    <span class="md-table-title">Generator</span>
+    <md-card>
+        <md-input-container>
+            <label>Name</label>
+            <input></input>
+        </md-input-container>
+        <div layout="row">
+            <md-checkbox class="md-primary" ng-model="teacherReports.newReport.selectAllStudents" aria-label="Select All Students Checkbox">
+                Select All Students
+            </md-checkbox>
+            <div class="custom-label-container" ng-if="teacherReports.newReport.selectAllStudents">
+                <md-chips ng-model="test" readonly="false" placeholder="+ Students"></md-chips>
+            </div>
+        </div>
+    </md-card>
+    <span class="md-table-title">Previously Generated</span>
+    <div layout="row" flex ng-if="!teacherReports.previousReports" class="no-items">
+        <span>
+        	No current reports. Generate one?
+        </span>
+    </div>
+    <md-card layout="row" ng-if="teacherReports.previousReports">
+        <md-data-table-container layout="row" flex>
+            <table md-data-table class="md-primary ">
+                <tbody>
+                    <tr ng-repeat="report in teacherReports.previousReports">
+                        <td name="Title " ng-bind="report.title "></td>
+                        <td name="Last Run " ng-bind="report.lastRun "></td>
+                        <td name="# of Students " ng-bind="report.students.length "></td>
+                        <td>
+                            <md-icon class="material-icons">delete</md-icon>
+                            <md-icon class="material-icons">play_arrow</md-icon>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </md-data-table-container>
+    </md-card>
+</div>

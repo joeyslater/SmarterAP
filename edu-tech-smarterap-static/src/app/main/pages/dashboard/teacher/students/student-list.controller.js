@@ -2,7 +2,7 @@ angular.module('smarterap')
 
 .controller("TeacherStudentsListController", TeacherStudentsListController);
 
-function TeacherStudentsListController($timeout, $q) {
+function TeacherStudentsListController($timeout, $q, $document) {
     var ctrl = this;
 
     ctrl.selected = [];
@@ -16,6 +16,23 @@ function TeacherStudentsListController($timeout, $q) {
             deferred.resolve();
         }, 10);
         return deferred.promise;
+    };
+
+
+    ctrl.openAddNewStudentDialog = function($event) {
+        $mdDialog.show({
+            controller: AddNewStudentontroller,
+            controllerAs: 'addNewStudent',
+            templateUrl: 'main/pages/dashboard/teacher/courses/add-new-student.modal.tpl.html',
+            parent: angular.element($document[0].body),
+            targetEvent: $event,
+            clickOutsideToClose: true
+        });
+    };
+
+    ctrl.openUpload = function() {
+        console.log('test');
+        angular.element($document[0].querySelector('#file-students-csv-input')).trigger('click');
     };
 
     ctrl.students = [{

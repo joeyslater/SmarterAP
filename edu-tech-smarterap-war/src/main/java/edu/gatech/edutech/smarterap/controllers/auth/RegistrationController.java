@@ -1,52 +1,91 @@
 package edu.gatech.edutech.smarterap.controllers.auth;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.support.SessionStatus;
 
 import com.stormpath.sdk.account.Account;
-import com.stormpath.sdk.application.Application;
-import com.stormpath.sdk.application.ApplicationList;
-import com.stormpath.sdk.application.Applications;
-import com.stormpath.sdk.client.Client;
-import com.stormpath.sdk.tenant.Tenant;
+import com.stormpath.sdk.group.Group;
+import com.stormpath.sdk.group.GroupList;
+import com.stormpath.sdk.resource.ResourceException;
 
 import edu.gatech.edutech.smarterap.dtos.User;
+import edu.gatech.edutech.smarterap.dtos.json.JsonResponse;
+import edu.gatech.edutech.smarterap.enums.SecurityRole;
+import edu.gatech.edutech.smarterap.services.StormpathService;
+import edu.gatech.edutech.smarterap.validators.RegistrationValidator;
 
+/**
+ * @author Elder Crisostomo  - Template author
+ * @author Scott R. Leitstein - Customized for SmarterAP
+ * @author  Joey Slater - Customized for SmarterAP
+ */
 @Controller
 @RequestMapping("/register")
+@Transactional(propagation = Propagation.REQUIRES_NEW)
 public class RegistrationController
 {
+	@Autowired
+	private RegistrationValidator	registrationValidator;
 
 	@Autowired
-	private Client stormpathClient;
+	private StormpathService		stormpathService;
 
-	@RequestMapping(value = "", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public String register()
+	public RegistrationController()
 	{
-		final User user = new User();
-		final String password = "";
-		System.out.println("Test");
+	}
+
+	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public JsonResponse<String> register(final @RequestBody User user, final BindingResult result, final SessionStatus status, final HttpSession session,
+	        final HttpServletResponse response)
+	{
+		registrationValidator.validate(user, result);
+
 		try
 		{
-			final Account account = stormpathClient.instantiate(Account.class).setUsername(user.getUsername()).setEmail(user.getEmailAddress()).setGivenName(user.getGivenName())
-			        .setSurname(user.getSurname()).setPassword(password);
+			if (!result.hasErrors())
+			{
+				final Account account = stormpathService.getDataStore().instantiate(Account.class);
+				account.setEmail(user.getUsername());
+				account.setGivenName(user.getGivenName());
+				account.setSurname(user.getSurname());
+				account.setPassword(user.getPassword());
+				stormpathService.getApplication().createAccount(account);
 
-			final Tenant tenant = stormpathClient.getCurrentTenant();
-			final ApplicationList applications = tenant.getApplications(Applications.where(Applications.name().eqIgnoreCase("gatech-edutech-smarterap")));
+				final GroupList groups = stormpathService.getApplication().getGroups();
+				for (final Group group : groups)
+				{
+					if (SecurityRole.STUDENT.toString().equals(group.getHref()))
+					{
+						account.addGroup(group);
+						break;
+					}
+				}
 
-			final Application application = applications.iterator().next();
-			application.createAccount(account);
+				status.setComplete();
+				return new JsonResponse<String>(true, "Successfully registered.", "/dashboard");
+			}
 		}
-		catch (final Exception e)
+		catch (final ResourceException e)
 		{
-			System.out.println(e.getMessage());
+			response.setStatus(e.getStatus());
+			session.invalidate();
+			status.setComplete();
+			return new JsonResponse<String>(false, e.getDeveloperMessage(), "/register");
 		}
-		return "What";
+		return new JsonResponse<String>(false, result.getAllErrors().get(0).getDefaultMessage().toString(), "/register");
 	}
 
 }

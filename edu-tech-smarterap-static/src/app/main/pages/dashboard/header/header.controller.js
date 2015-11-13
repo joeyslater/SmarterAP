@@ -2,18 +2,17 @@ angular.module('smarterap')
 
 .controller("HeaderController", HeaderController);
 
-function HeaderController($http, Ui) {
+function HeaderController($http, $state, Ui) {
     var ctrl = this;
     ctrl.headerTitle = Ui.getHeaderTitle;
     ctrl.user = Ui.getUser;
 
+    ctrl.openSideNav = function() {
+
+    };
+
     ctrl.logout = function() {
-        $http.get('/logout')
-            .then(function() {
-                console.log('success');
-            })
-            .then(function() {
-                console.log('failure');
-            });
+        $http.get('/smarter-ap/logout');
+        $state.go("login");
     };
 }

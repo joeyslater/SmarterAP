@@ -1,13 +1,13 @@
 <div layout="row">
     <div hide-sm layout="row" layout-fill class="courses">
-        <div ng-repeat="course in teacherCoursesDashboard.courses | orderBy:['year', 'period', 'subject']" flex="33">
+        <div ng-repeat="course in teacherCoursesDashboard.courses track by $index | orderBy:['year', 'period', 'subject']" flex="33">
             <md-card>
                 <md-card-content>
                     <h2 class="md-title">
                         <span ng-bind="course.subject"></span> (<span ng-bind="course.year"></span>)
                     </h2>
                     <h2 class="md-subhead">
-                        Period <span ng-bind="course.period"></span>
+                        Period <span ng-bind="course.period"></span> - <span ng-bind="course.uid"></span>
                     </h2>
                     <p>
                         <ul>
@@ -54,5 +54,13 @@
                 </p>
             </md-list-item>
         </md-list>
+    </div>
+    <div class="bottom-fab">
+        <md-button class="md-fab md-primary" aria-label="Add Course" ng-click="teacherCoursesDashboard.openAddNewCourseDialog($event)">
+            <md-tooltip md-direction="left">
+                Add New Course
+            </md-tooltip>
+            <md-icon class="material-icons">add</md-icon>
+        </md-button>
     </div>
 </div>

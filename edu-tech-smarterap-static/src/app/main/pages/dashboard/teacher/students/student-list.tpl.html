@@ -1,28 +1,44 @@
-<div ng-controller='TeacherStudentsListController as studentsList'>
-    <md-content layout="column" layout-wrap layout-gt-sm layout-fill flex="100">
-        <md-card layout-fill>
-            <md-data-table-toolbar>
+<div ng-controller='TeacherAssessmentsListController as studentsList'>
+    <md-content layout="column" flex="100" style="background: #eee;">
+        <md-card>
+            <md-data-table-toolbar ng-show="!studentsList.selected.length">
                 <div flex></div>
-                <md-button class="md-icon-button " aria-label="Add ">
-                    <md-icon class="material-icons ">add</md-icon>
+                <input id="file-students-csv-input" name="file" type="file" class="ng-hide" accept=".csv">
+                <md-button id="file-students-csv-upload" upload="file-students-csv-input">
+                    Import via .csv
                 </md-button>
+                <md-input-container md-no-float>
+                    <input placeholder="Add Student (Email)"></input>
+                </md-input-container>
+                <md-icon class="material-icons">add</md-icon>
+            </md-data-table-toolbar>
+            <md-data-table-toolbar class="alternate" ng-show="studentsList.selected.length">
+                <div>{{studentsList.selected.length === studentsList.students.length ? 'All' : studentsList.selected.length}} {{studentsList.selected.length > 1 ? 'students' : 'student'}} selected</div>
+                <span flex></span>
+                <div>
+                    <md-icon class="material-icons">delete</md-icon>
+                </div>
             </md-data-table-toolbar>
             <md-data-table-container>
                 <table md-data-table class="md-primary " md-row-select="studentsList.selected " md-progress="deferred ">
                     <thead md-order="studentsList.listQuery.order " md-trigger="studentsList.onOrderChange ">
                         <tr>
-                            <th order-by="surname " name="Last Name "></th>
-                            <th order-by="givenName " name="First Name "></th>
-                            <th order-by="username " name="Username "></th>
-                            <th order-by="emailAddress " name="Email Address "></th>
+                            <th order-by="surname " name="Last Name"></th>
+                            <th order-by="givenName " name="First Name"></th>
+                            <th order-by="emailAddress " name="Email Address"></th>
+                            <th order-by="active " name="Enabled"></th>
+                            <th name="Actions"></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr md-auto-select ng-repeat="student in studentsList.students | orderBy: studentsList.listQuery.order ">
+                        <tr ng-repeat="student in studentsList.students | orderBy: studentsList.listQuery.order ">
                             <td name="Last Name " ng-bind="student.surname "></td>
                             <td name="First Name " ng-bind="student.givenName "></td>
-                            <td name="Username " ng-bind="student.username "></td>
                             <td name="Email Address " ng-bind="student.emailAddress "></td>
+                            <td name="Username ">Enabled</td>
+                            <td>
+                                <md-icon class="material-icons">delete</md-icon>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

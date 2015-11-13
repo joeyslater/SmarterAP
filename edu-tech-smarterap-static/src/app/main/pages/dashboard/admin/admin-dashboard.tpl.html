@@ -1,0 +1,11 @@
+<div ng-controller='AdminDashboardController as adminDashboard' flex>
+    <div>
+        <div layout="row" layout-wrap layout-gt-sm>
+            <md-tabs flex="100" md-selected="selectedIndex" md-border-bottom md-autoselect>
+                <md-tab ng-repeat="tab in adminDashboard.tabs" ng-disabled="tab.disabled" label="{{tab.title}}">
+                    <div ng-include="tab.template"></div>
+                </md-tab>
+            </md-tabs>
+        </div>
+    </div>
+</div>

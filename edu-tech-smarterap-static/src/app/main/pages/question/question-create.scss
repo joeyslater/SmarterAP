@@ -1,0 +1,113 @@
+.question-editor {
+    background: #eee;
+    md-card {
+        min-width: 400px;
+        max-width: 60%;
+    }
+    md-input-container {
+        margin: 0;
+    }
+    .question-text {
+        border-bottom: 1px solid #eee;
+        &:focus {
+            border-color: #3F51B5;
+        }
+    }
+}
+
+[contentEditable=true]:empty:not(:focus):before {
+    content: attr(placeholder);
+    color: #ccc;
+    font-size: 0.75em;
+}
+
+.question-answer-editor {
+    &:hover {
+        .answer-field {
+            border-bottom: 1px solid #ccc;
+        }
+        .reorder {
+            color: #ccc;
+        }
+    }
+    &:focus {
+        .wysiwyg-editor {
+            display: block;
+        }
+    }
+    md-radio-button,
+    md-radio-button .md-container {
+        cursor: default;
+    }
+    .answer-field {
+        max-width: 50%;
+        width: 100%;
+        top: 2px;
+        position: relative;
+        display: inline-block !important;
+        &:focus {
+            border-bottom: 2px solid #3F51B5;
+        }
+    }
+    .reorder {
+        color: transparent;
+        cursor: move;
+        display: inline-block !important;
+        padding: 0 5px;
+    }
+    .close {
+        color: #ccc;
+        cursor: pointer;
+        padding: 0 5px;
+        &:hover {
+            color: #000;
+        }
+    }
+    md-radio-button {
+        display: inline-block !important;
+        margin: 0;
+        md-list-item {
+            min-height: 0 !important;
+        }
+    }
+    md-input-container {
+        display: inline-block;
+        .ta-editor {
+            width: 100%;
+        }
+    }
+    md-list-item {
+        min-height: 0 !important;
+    }
+}
+
+.custom-label-container {
+    padding-top: 10px;
+    &:hover {
+        label {
+            color: #3F51B5;
+        }
+    }
+    label {
+        font-size: .75em;
+        color: rgba(0, 0, 0, .54);
+        padding: 0 8px;
+    }
+    &.wysiwyg {
+        margin: 0 10px;
+    }
+}
+
+.wysiwyg-editor {
+    clear: both;
+    display: none;
+}
+
+.extra-form-actions {
+    position: absolute;
+    top: 100px;
+    background-color: white;
+    .md-button.md-icon-button {
+        font-size: 20px;
+    }
+}

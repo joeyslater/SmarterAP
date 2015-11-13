@@ -1,10 +1,16 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700');
 //Submodule Stylesheets
 @import 'vendor/angular-material/angular-material';
 @import 'vendor/angular-material-data-table/dist/md-data-table';
 //SmarterAP SASS
 @import 'icons';
+@import 'text-angular';
 @import '../app/main/main';
 @import '../app/main/pages/login/login';
+@import '../app/main/pages/homepage/homepage';
 @import '../app/main/pages/registration/registration';
 @import '../app/main/pages/dashboard/teacher/courses/courses';
 @import '../app/main/pages/dashboard/header/header';
+@import '../app/main/pages/dashboard/teacher/course/course';
+@import '../app/main/pages/question/question-create';
+@import '../app/main/pages/dashboard/teacher/assessment/assessment';
