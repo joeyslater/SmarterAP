@@ -3,6 +3,7 @@ package edu.gatech.edutech.smarterap.services;
 import static edu.gatech.edutech.smarterap.utils.UserBuilderUtil.build;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.transaction.Transactional;
@@ -10,8 +11,10 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.stormpath.sdk.account.Account;
+import com.stormpath.sdk.account.AccountList;
 
 import edu.gatech.edutech.smarterap.daos.DatabaseDao;
 import edu.gatech.edutech.smarterap.dtos.Course;
@@ -30,6 +33,24 @@ public class UserService
 	public User get(final String href)
 	{
 		return databaseDao.getByUniqueField(User.class, "href", href);
+	}
+
+	public User getUserFromEmail(final String email)
+	{
+		final Map<String, Object> query = Maps.newHashMap();
+		query.put("email", email);
+		final AccountList accounts = stormpathService.getClient().getAccounts(query);
+		if (accounts != null && accounts.getSize() == 1)
+		{
+			final User user = build(accounts.single());
+			final User dbUser = get(user.getHref());
+			if (dbUser != null)
+			{
+				user.setUid(dbUser.getUid());
+			}
+			return user;
+		}
+		return null;
 	}
 
 	public List<Course> getCoursesOwnedByUser(final String username)

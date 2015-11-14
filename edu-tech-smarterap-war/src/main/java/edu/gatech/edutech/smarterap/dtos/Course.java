@@ -41,7 +41,7 @@ public class Course extends BaseDto
 	@Fetch(FetchMode.SELECT)
 	private Set<User>	owners		= Sets.newHashSet();
 
-	@JsonProperty
+	@JsonIgnore
 	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	@JoinTable(name = "course_students", joinColumns = @JoinColumn(name = "student_course_id") , inverseJoinColumns = @JoinColumn(name = "student_username", referencedColumnName = "username") )
 	@Fetch(FetchMode.SELECT)
@@ -53,14 +53,14 @@ public class Course extends BaseDto
 	/*	@Transient
 		private Set<Assessment>	assessments;*/
 
-	@JsonProperty
+	@JsonIgnore
 	@Transient
 	private Set<String>	ownerNames	= Sets.newHashSet();
 
-	@JsonProperty
+	@JsonIgnore
 	@Column
 	private boolean		enabled		= true;
-	@JsonProperty
+	@JsonIgnore
 	@Column
 	private boolean		visible		= true;
 
@@ -99,6 +99,7 @@ public class Course extends BaseDto
 		this.subject = subject;
 	}
 
+	@JsonIgnore
 	public Set<User> getOwners()
 	{
 		return owners;
@@ -110,6 +111,7 @@ public class Course extends BaseDto
 		this.owners = owners;
 	}
 
+	@JsonProperty
 	public Set<String> getOwnerNames()
 	{
 		return ownerNames;
@@ -121,6 +123,7 @@ public class Course extends BaseDto
 		this.ownerNames = ownerNames;
 	}
 
+	@JsonProperty
 	public Set<User> getStudents()
 	{
 		return students;
@@ -132,11 +135,13 @@ public class Course extends BaseDto
 		this.students = students;
 	}
 
+	@JsonProperty
 	public boolean isVisible()
 	{
 		return visible;
 	}
 
+	@JsonProperty
 	public boolean isEnabled()
 	{
 		return enabled;

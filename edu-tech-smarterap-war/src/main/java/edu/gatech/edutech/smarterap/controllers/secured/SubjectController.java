@@ -2,6 +2,8 @@ package edu.gatech.edutech.smarterap.controllers.secured;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,7 +34,7 @@ public class SubjectController implements CrudController<Subject>
 	}
 
 	@Override
-	public JsonResponse<Subject> create(final Subject dto)
+	public JsonResponse<Subject> create(final Subject dto, final HttpServletRequest request)
 	{
 		// TODO Auto-generated method stub
 		return null;

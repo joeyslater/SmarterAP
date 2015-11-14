@@ -48,8 +48,9 @@ public class CourseController implements CrudController<Course>
 	}
 
 	@Override
-	public JsonResponse<Course> create(@RequestBody final Course dto)
+	public JsonResponse<Course> create(@RequestBody final Course dto, final HttpServletRequest request)
 	{
+		dto.getOwners().add(userService.getUserFromEmail(request.getRemoteUser()));
 		return crudService.create(dto);
 	}
 
