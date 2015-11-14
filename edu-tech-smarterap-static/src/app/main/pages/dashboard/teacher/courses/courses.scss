@@ -1,13 +1,43 @@
 .courses {
     background: #eee;
+    @media (max-width: $layout-breakpoint-sm - 1) {
+        background: white;
+    }
     flex: 1;
-}
-
-.courses-list {
-    md-list-item {
-        border-bottom: 1px solid #eee;
+    .md-table-title {
+        height: 20px;
+        line-height: 20px;
+    }
+    .courses-list {
+        > md-list {
+            padding: 0;
+        }
+    }
+    md-menu.courses-menu {
+        padding: 0;
+    }
+    md-card.course-card {
+        .md-card-title {
+            padding: 16px;
+        }
+        .md-title {
+            font-size: 16px;
+        }
+        .md-subhead {
+            font-size: 14px;
+        }
+        md-card-content {
+            padding: 0;
+        }
     }
 }
+
+hr.archive-divider {
+    margin: 0;
+    color: #eee;
+}
+
+.courses-list {}
 
 .bottom-fab {
     position: fixed;

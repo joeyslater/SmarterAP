@@ -18,6 +18,7 @@ import org.hibernate.annotations.FetchMode;
 import org.pojomatic.annotations.AutoProperty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Sets;
 
 @Entity
@@ -40,6 +41,7 @@ public class Course extends BaseDto
 	@Fetch(FetchMode.SELECT)
 	private Set<User>	owners		= Sets.newHashSet();
 
+	@JsonProperty
 	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	@JoinTable(name = "course_students", joinColumns = @JoinColumn(name = "student_course_id") , inverseJoinColumns = @JoinColumn(name = "student_username", referencedColumnName = "username") )
 	@Fetch(FetchMode.SELECT)
@@ -51,8 +53,16 @@ public class Course extends BaseDto
 	/*	@Transient
 		private Set<Assessment>	assessments;*/
 
+	@JsonProperty
 	@Transient
 	private Set<String>	ownerNames	= Sets.newHashSet();
+
+	@JsonProperty
+	@Column
+	private boolean		enabled		= true;
+	@JsonProperty
+	@Column
+	private boolean		visible		= true;
 
 	public Course()
 	{
@@ -94,6 +104,7 @@ public class Course extends BaseDto
 		return owners;
 	}
 
+	@JsonIgnore
 	public void setOwners(final Set<User> owners)
 	{
 		this.owners = owners;
@@ -104,6 +115,7 @@ public class Course extends BaseDto
 		return ownerNames;
 	}
 
+	@JsonIgnore
 	public void setOwnerNames(final Set<String> ownerNames)
 	{
 		this.ownerNames = ownerNames;
@@ -114,9 +126,32 @@ public class Course extends BaseDto
 		return students;
 	}
 
+	@JsonIgnore
 	public void setStudents(final Set<User> students)
 	{
 		this.students = students;
+	}
+
+	public boolean isVisible()
+	{
+		return visible;
+	}
+
+	public boolean isEnabled()
+	{
+		return enabled;
+	}
+
+	@JsonIgnore
+	public void setEnabled(final boolean enabled)
+	{
+		this.enabled = enabled;
+	}
+
+	@JsonIgnore
+	public void setVisible(final boolean visible)
+	{
+		this.visible = visible;
 	}
 
 }

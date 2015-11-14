@@ -34,6 +34,18 @@ function TeacherCoursesDashboardController($http, $location, $document, $mdDialo
 
     Ui.setHeaderTitle('Dashboard');
 
+
+    ctrl.hasArchivedItems = function() {
+        if (ctrl.courses) {
+            for (var i = 0; i < ctrl.courses.length; i++) {
+                if (!ctrl.courses[i].enabled) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    };
+
     ctrl.getBorderColor = function($index) {
         return bottomColors[$index % bottomColors.length];
     };

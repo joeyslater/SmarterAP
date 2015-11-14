@@ -1,17 +1,20 @@
 <div layout="column" class="courses">
     <div hide-sm layout="row" layout-wrap>
-        <div ng-repeat="course in teacherCoursesDashboard.courses track by $index | orderBy:['year', 'period', 'subject']">
-            <md-card bottom-border="{{teacherCoursesDashboard.getBorderColor($index)}}">
+        <div ng-repeat="course in teacherCoursesDashboard.courses | orderBy:['name', 'section'] | filter:{enabled:true}">
+            <md-card bottom-border="{{teacherCoursesDashboard.getBorderColor($index)}}" class="course-card">
                 <md-card-content>
-                    <h2 class="md-title no-margin">
-                        <span ng-bind="course.name"></span>                        
-                    </h2>
-                    <h2 class="md-subhead no-margin">
-                        Section: <span ng-bind="course.section"></span>
-                    </h2>
-                    <span>
-                        <strong>Instructors:</strong> <span ng-bind="course.ownerNames.join(', ')"></span>
-                    </span>
+                    <div class="md-card-title">
+                        <h2 class="md-title no-margin">
+                            <span ng-bind="course.name"></span>
+                        </h2>
+                        <h2 class="md-subhead no-margin">
+                                Section: <span ng-bind="course.section"></span>
+                        </h2>
+                        <span class="md-body-1">
+                            <strong>Instructors:</strong>
+                            <span ng-bind="course.ownerNames.join(', ')"></span>
+                        </span>
+                    </div>
                     <hr/>
                     <div>
                         <ul>
@@ -30,7 +33,7 @@
                 </md-card-content>
                 <div class="md-actions" layout="row" layout-align="end center">
                     <md-button ng-click="teacherCoursesDashboard.goToCourse(course.uid);">Enter Course</md-button>
-                    <md-menu>
+                    <md-menu class="courses-menu">
                         <md-button class="md-icon-button" aria-label="More" ng-click="$mdOpenMenu($event)">
                             <md-icon class="material-icons">more_vert</md-icon>
                         </md-button>
@@ -53,14 +56,86 @@
             </md-card>
         </div>
     </div>
-    <div hide show-sm layout="column" flex="100" class="courses-list">
+    <div hide show-sm layout="column" class="courses-list">
         <md-list>
-            <md-list-item ng-repeat="course in teacherCoursesDashboard.courses | orderBy:['year','period', 'subject']" ng-click="teacherCoursesDashboard.goToCourse(course.uid);">
-                <p>
-                    <strong><span ng-bind="course.name"></span></strong> - <span ng-bind="course.section"></span>
-                </p>
+            <md-list-item ng-click="teacherCoursesDashboard.goToCourse(course.uid);" ng-repeat="course in teacherCoursesDashboard.courses | orderBy:['name', 'section'] | filter:{enabled:true}" class="md-2-line">
+                <div class="md-list-item-text" layout="column">
+                    <h3 ng-bind="course.name"></h3>
+                    <p ng-bind="course.section"></p>
+                </div>
             </md-list-item>
         </md-list>
+    </div>
+    <div ng-if="teacherCoursesDashboard.hasArchivedItems()">
+        <hr class="archive-divider hide show-sm" />
+        <span class="md-table-title">Archived</span>
+        <div hide-sm layout="row" layout-wrap>
+            <div ng-repeat="course in teacherCoursesDashboard.courses | orderBy:['name', 'section'] | filter:{enabled:false}">
+                <md-card bottom-border="#BBB" class="course-card">
+                    <md-card-content>
+                        <div class="md-card-title">
+                            <h2 class="md-title no-margin">
+                            <span ng-bind="course.name"></span>
+                        </h2>
+                            <h2 class="md-subhead no-margin">
+                                Section: <span ng-bind="course.section"></span>
+                        </h2>
+                            <span class="md-body-1">
+                            <strong>Instructors:</strong>
+                            <span ng-bind="course.ownerNames.join(', ')"></span>
+                            </span>
+                        </div>
+                        <hr/>
+                        <div>
+                            <ul>
+                                <li>
+                                    <spam class="md-body-1">
+                                        <strong>Open Assignments: </strong> <span ng-bind="course.openAssessments"></span>
+                                    </spam>
+                                </li>
+                                <li>
+                                    <spam class="md-body-1">
+                                        <strong>Students: </strong> <span ng-bind="course.students.length"></span>
+                                    </spam>
+                                </li>
+                            </ul>
+                        </div>
+                    </md-card-content>
+                    <div class="md-actions" layout="row" layout-align="end center">
+                        <md-button ng-click="teacherCoursesDashboard.goToCourse(course.uid);">Enter Course</md-button>
+                        <md-menu class="courses-menu">
+                            <md-button class="md-icon-button" aria-label="More" ng-click="$mdOpenMenu($event)">
+                                <md-icon class="material-icons">more_vert</md-icon>
+                            </md-button>
+                            <md-menu-content width="6">
+                                <md-menu-item>
+                                    <md-button class="md-ident">
+                                        <md-icon class="material-icons">edit</md-icon>
+                                        <span md-menu-align-target>Edit</span>
+                                    </md-button>
+                                </md-menu-item>
+                                <md-menu-item>
+                                    <md-button>
+                                        <md-icon class="material-icons">delete</md-icon>
+                                        <span md-menu-align-target>Delete</span>
+                                    </md-button>
+                                </md-menu-item>
+                            </md-menu-content>
+                        </md-menu>
+                    </div>
+                </md-card>
+            </div>
+        </div>
+        <div hide show-sm layout="column" class="courses-list">
+            <md-list>
+                <md-list-item ng-click="teacherCoursesDashboard.goToCourse(course.uid);" ng-repeat="course in teacherCoursesDashboard.courses | orderBy:['name', 'section'] | filter:{enabled:false}" class="md-2-line">
+                    <div class="md-list-item-text" layout="column">
+                        <h3 ng-bind="course.name"></h3>
+                        <p ng-bind="course.section"></p>
+                    </div>
+                </md-list-item>
+            </md-list>
+        </div>
     </div>
     <div class="bottom-fab">
         <md-button class="md-fab md-primary" aria-label="Add Course" ng-click="teacherCoursesDashboard.openAddNewCourseDialog($event)">
