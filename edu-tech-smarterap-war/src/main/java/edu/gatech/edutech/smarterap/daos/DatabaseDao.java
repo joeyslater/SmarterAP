@@ -10,6 +10,8 @@ import edu.gatech.edutech.smarterap.dtos.BaseDto;
 @Transactional(readOnly = true)
 public interface DatabaseDao
 {
+	public <T> T getByUniqueField(final Class<T> clazz, final String field, final Object value);
+
 	@Transactional(readOnly = false)
 	public <T extends BaseDto> void merge(List<T> dtos);
 
@@ -38,4 +40,6 @@ public interface DatabaseDao
 	public <T extends BaseDto> List<T> list(Class<? extends T> clazz);
 
 	public <T extends BaseDto> List<T> list(Class<T> clazz, List<Serializable> uids);
+
+	public <T extends BaseDto> List<T> getByUniqueFieldInCollection(final Class<T> clazz, final String collection, final String alias, String field, final Object value);
 }

@@ -1,5 +1,7 @@
 package edu.gatech.edutech.smarterap.controllers.auth;
 
+import static edu.gatech.edutech.smarterap.utils.UserBuilderUtil.build;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -23,6 +25,7 @@ import com.stormpath.sdk.resource.ResourceException;
 import edu.gatech.edutech.smarterap.dtos.User;
 import edu.gatech.edutech.smarterap.dtos.json.JsonResponse;
 import edu.gatech.edutech.smarterap.enums.SecurityRole;
+import edu.gatech.edutech.smarterap.services.CrudService;
 import edu.gatech.edutech.smarterap.services.StormpathService;
 import edu.gatech.edutech.smarterap.validators.RegistrationValidator;
 
@@ -41,6 +44,9 @@ public class RegistrationController
 
 	@Autowired
 	private StormpathService		stormpathService;
+
+	@Autowired
+	private CrudService				crudService;
 
 	public RegistrationController()
 	{
@@ -74,6 +80,7 @@ public class RegistrationController
 					}
 				}
 
+				crudService.create(build(account));
 				status.setComplete();
 				return new JsonResponse<String>(true, "Successfully registered.", "/dashboard");
 			}

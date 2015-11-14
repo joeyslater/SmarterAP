@@ -6,7 +6,7 @@ function LoginController($rootScope, $http, APP, $location, $state, Ui, $auth, $
     var ctrl = this;
     ctrl.title = APP.TITLE;
     ctrl.credentials = {
-        username: 'joeyslater',
+        username: 'joeyslater@gatech.edu',
         password: 'Password1'
     };
 

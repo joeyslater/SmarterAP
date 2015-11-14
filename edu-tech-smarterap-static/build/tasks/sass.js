@@ -8,9 +8,7 @@ module.exports = {
     build: {
         options: {
             style: 'expanded',
-            includePaths: [
-                'vendor/angular-material/angular-material.scss'
-            ]
+            includePaths: []
         },
         files: {
             '<%= buildConfig.buildDir %>/main.css': '<%= buildConfig.appFiles.sass%>'

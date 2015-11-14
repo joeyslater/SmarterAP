@@ -45,4 +45,16 @@ angular.module('smarterap')
     };
 })
 
+.directive('bottomBorder', function($document) {
+    return {
+        restrict: 'A',
+        scope: {
+            bottomBorder: '@'
+        },
+        link: function(scope, elem, attrs) {
+            angular.element(elem).css('border-bottom', '4px solid ' + attrs.bottomBorder);
+        }
+    };
+})
+
 ;

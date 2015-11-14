@@ -7,6 +7,9 @@ function TeacherCourseDashboardController($http, $stateParams, $timeout, Ui) {
 
     $http.get('/smarter-ap/api/course/' + $stateParams.courseId).then(function(response) {
         ctrl.course = response.data;
+        $timeout(function() {
+            Ui.setHeaderTitle(ctrl.course.name);
+        });
     }, function(response) {
         ctrl.course = {
             'courseId': $stateParams.courseId,
@@ -27,9 +30,5 @@ function TeacherCourseDashboardController($http, $stateParams, $timeout, Ui) {
         'title': 'Reports',
         'template': 'main/pages/dashboard/teacher/reports/reports.tpl.html'
     }];
-
-    $timeout(function() {
-        Ui.setHeaderTitle(ctrl.course.subject);
-    });
 
 }

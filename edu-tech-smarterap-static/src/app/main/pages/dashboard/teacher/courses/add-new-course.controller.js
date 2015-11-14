@@ -2,7 +2,7 @@ angular.module('smarterap')
 
 .controller("AddNewCourseController", AddNewCourseController);
 
-function AddNewCourseController($http, $mdDialog, $mdToast, $state) {
+function AddNewCourseController($http, $mdDialog, $mdToast, $state, Ui) {
     var ctrl = this;
     ctrl.newCourse = {};
     getSubjects();
@@ -10,6 +10,8 @@ function AddNewCourseController($http, $mdDialog, $mdToast, $state) {
     ctrl.cancel = function() {
         $mdDialog.cancel();
     };
+
+    console.log(Ui.getUser());
 
     ctrl.save = function() {
         $http({
@@ -35,28 +37,10 @@ function AddNewCourseController($http, $mdDialog, $mdToast, $state) {
         $http.get('/smarter-ap/api/subject/list')
             .then(
                 function(response) {
-                    ctrl.subjects = [{
-                        'uid': '1',
-                        'name': 'AP Computer Science'
-                    }, {
-                        'uid': '2',
-                        'name': 'AP Biology'
-                    }, {
-                        'uid': '3',
-                        'name': 'AP Calculus AB'
-                    }];
+                    ctrl.subjects = response.data;
                 },
                 function(response) {
-                    ctrl.subjects = [{
-                        'uid': '1',
-                        'name': 'AP Computer Science'
-                    }, {
-                        'uid': '2',
-                        'name': 'AP Biology'
-                    }, {
-                        'uid': '3',
-                        'name': 'AP Calculus AB'
-                    }];
+                    ctrl.subjects = [];
                 });
     }
 }

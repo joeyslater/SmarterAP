@@ -42,6 +42,31 @@ public class DatabaseDaoPostgreImpl implements DatabaseDao
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
+	public <T> T getByUniqueField(final Class<T> clazz, final String field, final Object value)
+	{
+		try
+		{
+			if (value != null)
+			{
+				final Criteria criteria = getCurrentSession().createCriteria(clazz);
+				criteria.add(Restrictions.ilike(field, value));
+				final List<Object> list = findByCriteria(criteria);
+				if (list != null && list.size() == 1)
+				{
+					return (T) list.get(0);
+				}
+			}
+			return null;
+		}
+		catch (final Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
 	public <T extends BaseDto> void merge(final List<T> dtos)
 	{
 		for (final T dto : dtos)
@@ -140,6 +165,7 @@ public class DatabaseDaoPostgreImpl implements DatabaseDao
 		}
 		catch (final Exception e)
 		{
+			e.printStackTrace();
 			throw new SmarterApException(ErrorCode.DATABASE_UPDATE, e.getMessage(), e);
 		}
 	}
@@ -181,5 +207,14 @@ public class DatabaseDaoPostgreImpl implements DatabaseDao
 	{
 		public static final String	WHERE_ID	= "where uid = :uid";
 		public static final String	DELETE_FROM	= "delete from ";
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public <T extends BaseDto> List<T> getByUniqueFieldInCollection(final Class<T> clazz, final String collection, final String alias, final String field, final Object value)
+	{
+		final Session session = getCurrentSession();
+		final List<T> list = session.createCriteria(clazz).createAlias(collection, alias).add(Restrictions.eq(alias + "." + field, value)).list();
+		return list;
 	}
 }

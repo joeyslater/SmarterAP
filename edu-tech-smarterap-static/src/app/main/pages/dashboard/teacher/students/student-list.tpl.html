@@ -26,16 +26,16 @@
                             <th order-by="surname " name="Last Name"></th>
                             <th order-by="givenName " name="First Name"></th>
                             <th order-by="emailAddress " name="Email Address"></th>
-                            <th order-by="active " name="Enabled"></th>
+                            <th order-by="active " name="Status"></th>
                             <th name="Actions"></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="student in studentsList.students | orderBy: studentsList.listQuery.order ">
+                        <tr ng-repeat="student in teacherCourseDashboard.course.students | orderBy: studentsList.listQuery.order ">
                             <td name="Last Name " ng-bind="student.surname "></td>
                             <td name="First Name " ng-bind="student.givenName "></td>
-                            <td name="Email Address " ng-bind="student.emailAddress "></td>
-                            <td name="Username ">Enabled</td>
+                            <td name="Email Address " ng-bind="student.username "></td>
+                            <td name="Status " ng-bind="student.status"></td>
                             <td>
                                 <md-icon class="material-icons">delete</md-icon>
                             </td>

@@ -1,25 +1,32 @@
-<div layout="row">
-    <div hide-sm layout="row" layout-fill class="courses">
-        <div ng-repeat="course in teacherCoursesDashboard.courses track by $index | orderBy:['year', 'period', 'subject']" flex="33">
-            <md-card>
+<div layout="column" class="courses">
+    <div hide-sm layout="row" layout-wrap>
+        <div ng-repeat="course in teacherCoursesDashboard.courses track by $index | orderBy:['year', 'period', 'subject']">
+            <md-card bottom-border="{{teacherCoursesDashboard.getBorderColor($index)}}">
                 <md-card-content>
-                    <h2 class="md-title">
-                        <span ng-bind="course.subject"></span> (<span ng-bind="course.year"></span>)
+                    <h2 class="md-title no-margin">
+                        <span ng-bind="course.name"></span>                        
                     </h2>
-                    <h2 class="md-subhead">
-                        Period <span ng-bind="course.period"></span> - <span ng-bind="course.uid"></span>
+                    <h2 class="md-subhead no-margin">
+                        Section: <span ng-bind="course.section"></span>
                     </h2>
-                    <p>
+                    <span>
+                        <strong>Instructors:</strong> <span ng-bind="course.ownerNames.join(', ')"></span>
+                    </span>
+                    <hr/>
+                    <div>
                         <ul>
                             <li>
-                                <strong>Upcoming Assignments: </strong><span>Demo</span>
+                                <spam class="md-body-1">
+                                    <strong>Open Assignments: </strong> <span ng-bind="course.openAssessments"></span>
+                                </spam>
                             </li>
                             <li>
-                                <strong>Open Assignments: </strong><span>Demo</span>
+                                <spam class="md-body-1">
+                                    <strong>Students: </strong> <span ng-bind="course.students.length"></span>
+                                </spam>
                             </li>
                         </ul>
-                        <span>Determine Information</span>
-                    </p>
+                    </div>
                 </md-card-content>
                 <div class="md-actions" layout="row" layout-align="end center">
                     <md-button ng-click="teacherCoursesDashboard.goToCourse(course.uid);">Enter Course</md-button>
@@ -50,7 +57,7 @@
         <md-list>
             <md-list-item ng-repeat="course in teacherCoursesDashboard.courses | orderBy:['year','period', 'subject']" ng-click="teacherCoursesDashboard.goToCourse(course.uid);">
                 <p>
-                    P<span ng-bind="course.period"></span> - <span ng-bind="course.subject"></span> (<span ng-bind="course.year"></span>)
+                    <strong><span ng-bind="course.name"></span></strong> - <span ng-bind="course.section"></span>
                 </p>
             </md-list-item>
         </md-list>

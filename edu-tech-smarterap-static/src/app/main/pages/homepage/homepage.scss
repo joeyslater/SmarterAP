@@ -2,4 +2,13 @@
     md-toolbar {
         background-color: white;
     }
+    footer {
+        border-top: 1px solid #eee;
+        padding: 20px;
+        background-color: white;
+        .app-logo {
+            height: 25px;
+            width: 125px;
+        }
+    }
 }

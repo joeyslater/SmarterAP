@@ -1,8 +1,5 @@
 package edu.gatech.edutech.smarterap.exceptions;
 
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
-
 import org.pojomatic.Pojomatic;
 import org.pojomatic.annotations.AutoProperty;
 
@@ -16,8 +13,7 @@ import org.pojomatic.annotations.AutoProperty;
 @AutoProperty
 public final class ErrorCode
 {
-	private String						errorCode;
-	private static final ResourceBundle	BUNDLE	= ResourceBundle.getBundle(ErrorCode.class.getName());
+	private String errorCode;
 
 	private ErrorCode()
 	{
@@ -39,18 +35,6 @@ public final class ErrorCode
 	public String getErrorCode()
 	{
 		return errorCode;
-	}
-
-	public String getErrorCodeDescription()
-	{
-		try
-		{
-			return BUNDLE.getString(errorCode);
-		}
-		catch (final MissingResourceException e)
-		{
-			return "!" + errorCode + "!";
-		}
 	}
 
 	@Override

@@ -2,6 +2,8 @@ package edu.gatech.edutech.smarterap.controllers.secured;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,13 +14,23 @@ import edu.gatech.edutech.smarterap.controllers.CrudController;
 import edu.gatech.edutech.smarterap.dtos.Course;
 import edu.gatech.edutech.smarterap.dtos.json.JsonResponse;
 import edu.gatech.edutech.smarterap.services.CrudService;
+import edu.gatech.edutech.smarterap.services.UserService;
 
 @RestController
 @RequestMapping("/api/course")
 public class CourseController implements CrudController<Course>
 {
 	@Autowired
-	private CrudService crudService;
+	private CrudService	crudService;
+
+	@Autowired
+	private UserService	userService;
+
+	@RequestMapping("/owned")
+	public List<Course> owned(final HttpServletRequest request)
+	{
+		return userService.getCoursesOwnedByUser(request.getUserPrincipal().getName());
+	}
 
 	@Override
 	public List<Course> readAll()
@@ -29,7 +41,10 @@ public class CourseController implements CrudController<Course>
 	@Override
 	public Course read(@PathVariable final Long uid)
 	{
-		return crudService.get(Course.class, uid);
+		final Course course = crudService.get(Course.class, uid);
+		course.setStudents(userService.addUserDetails(course.getStudents()));
+		course.setOwnerNames(userService.getNamesFromUsers(course.getOwners()));
+		return course;
 	}
 
 	@Override

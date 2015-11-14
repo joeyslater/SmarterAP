@@ -31,7 +31,6 @@ public class ResetPasswordValidator implements Validator
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmedPassword", "registration.required.confirmedPassword", "Confirmed password is required");
 
 		final User user = (User) o;
-		System.out.println(user);
 		if (!user.getPassword().equals(user.getConfirmedPassword()))
 		{
 			errors.rejectValue("password", "password.not.match", "Passwords do not match.");

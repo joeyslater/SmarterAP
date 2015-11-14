@@ -1,21 +1,38 @@
-<div layout="row" flex class="course-home">
-    <md-content layout-padding layout-margin>
-        <div>
-            <strong>Name: </strong><span ng-bind=""></span>
+<div layout="row" class="course-home" layout-align="center start">
+    <md-content flex="25" layout-padding layout-margin class="side-info md-whiteframe-1dp" ng-if="teacherCourseDashboard.course">
+        <div class="no-margin no-padding">
+            <span class="md-body-2">Name: </span>
         </div>
-        <div>
-            <strong>Section: </strong><span ng-bind=""></span>
+        <div class="no-margin no-padding">
+            <span class="md-body-1" ng-bind="teacherCourseDashboard.course.name"></span>
         </div>
-        <div>
-            <strong>Subject: </strong><span ng-bind=""></span>
+        <div class="no-margin no-padding">
+            <span class="md-body-2">Section: </span>
+        </div>
+        <div class="no-margin no-padding">
+            <span class="md-body-1" ng-bind="teacherCourseDashboard.course.section"></span>
+        </div>
+        <div class="no-margin no-padding">
+            <span class="md-body-2">Subject: </span>
+        </div>
+        <div class="no-margin no-padding">
+            <span class="md-body-1" ng-bind="teacherCourseDashboard.course.subject.name"></span>
+        </div>
+        <div class="no-margin no-padding">
+            <span class="md-body-2">Instructors: </span>
+        </div>
+        <div class="no-margin no-padding">
+            <ul ng-repeat="ownerName in teacherCourseDashboard.course.ownerNames" class="no-margin no-padding">
+                <li><span class="md-body-1" ng-bind="ownerName"></span></li>
+            </ul>
         </div>
     </md-content>
-    <div layout="row" flex ng-if="course.assessments">
+    <div flex="75" layout="row" ng-if="course.assessments">
         <md-content layout-padding layout-margin flex>
             test
         </md-content>
     </div>
-    <div layout="row" flex ng-if="!course.assessments" class="no-items">
+    <div flex="75" layout="row" ng-if="!course.assessments" class="no-items">
         <span>
         	No current assessments. Create one?
         </span>

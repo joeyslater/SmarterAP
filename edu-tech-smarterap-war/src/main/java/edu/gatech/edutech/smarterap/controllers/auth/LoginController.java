@@ -1,5 +1,7 @@
 package edu.gatech.edutech.smarterap.controllers.auth;
 
+import static edu.gatech.edutech.smarterap.utils.UserBuilderUtil.build;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -21,7 +23,9 @@ import com.stormpath.sdk.authc.UsernamePasswordRequest;
 
 import edu.gatech.edutech.smarterap.dtos.User;
 import edu.gatech.edutech.smarterap.dtos.json.JsonResponse;
+import edu.gatech.edutech.smarterap.services.CrudService;
 import edu.gatech.edutech.smarterap.services.StormpathService;
+import edu.gatech.edutech.smarterap.services.UserService;
 import edu.gatech.edutech.smarterap.validators.LoginValidator;
 
 /**
@@ -40,6 +44,12 @@ public class LoginController
 	@Autowired
 	private StormpathService	stormpathService;
 
+	@Autowired
+	private CrudService			crudService;
+
+	@Autowired
+	private UserService			userService;
+
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseBody
 	public JsonResponse<String> authenticate(final @RequestBody User user, final BindingResult result, final SessionStatus status, final HttpSession session,
@@ -56,10 +66,16 @@ public class LoginController
 				status.setComplete();
 				final UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
 				SecurityContextHolder.getContext().setAuthentication(authRequest);
+
+				if (userService.get(authResult.getHref()) == null)
+				{
+					crudService.create(build(authResult.getAccount()));
+				}
 				return new JsonResponse<String>(true, "Successfully authenticated", "/dashboard");
 			}
 			catch (final Exception e)
 			{
+				e.printStackTrace();
 				session.invalidate();
 				status.setComplete();
 				response.setStatus(409);

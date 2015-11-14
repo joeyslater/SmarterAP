@@ -1,9 +1,16 @@
 package edu.gatech.edutech.smarterap.services;
 
+import java.io.Serializable;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.google.common.collect.Lists;
 
 import edu.gatech.edutech.smarterap.daos.DatabaseDao;
 import edu.gatech.edutech.smarterap.dtos.BaseDto;
@@ -11,17 +18,28 @@ import edu.gatech.edutech.smarterap.dtos.json.JsonResponse;
 import edu.gatech.edutech.smarterap.exceptions.SmarterApException;
 
 @Service
+@Transactional
 public class CrudService
 {
+	private final Logger	LOG	= LoggerFactory.getLogger(CrudService.class);
+
 	@Autowired
-	private DatabaseDao databaseDao;
+	private DatabaseDao		databaseDao;
 
 	public <T extends BaseDto> List<T> list(final Class<T> clazz)
 	{
-		return databaseDao.list(clazz);
+		try
+		{
+			return databaseDao.list(clazz);
+		}
+		catch (final Exception e)
+		{
+			e.printStackTrace();
+			return Lists.newArrayList();
+		}
 	}
 
-	public <T extends BaseDto> T get(final Class<T> clazz, final Long uid)
+	public <T extends BaseDto> T get(final Class<T> clazz, final Serializable uid)
 	{
 		return databaseDao.get(clazz, uid);
 	}
@@ -30,7 +48,6 @@ public class CrudService
 	{
 		boolean success = true;
 		String message = "Created Dto";
-
 		try
 		{
 			databaseDao.saveOrUpdate(dto);
@@ -43,12 +60,14 @@ public class CrudService
 		catch (final Exception e)
 		{
 			message = "Unable to create";
+			//			LOG.error(message, e);
+			e.printStackTrace();
 			success = false;
 		}
 		return new JsonResponse<T>(success, message, dto);
 	}
 
-	public <T extends BaseDto> JsonResponse<T> update(final Long uid, final T dto)
+	public <T extends BaseDto> JsonResponse<T> update(final Serializable uid, final T dto)
 	{
 		boolean success = true;
 		String message = "Updated Dto";
@@ -70,7 +89,7 @@ public class CrudService
 		return new JsonResponse<T>(success, message, dto);
 	}
 
-	public <T extends BaseDto> JsonResponse<T> delete(final Class<T> clazz, final Long uid)
+	public <T extends BaseDto> JsonResponse<T> delete(final Class<T> clazz, final Serializable uid)
 	{
 		boolean success = true;
 		String message = "Deleted Dto";

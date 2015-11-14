@@ -28,7 +28,6 @@ angular.module('smarterap', [
 
         };
 
-        console.log(taOptions);
         return taOptions;
     }]);
 
