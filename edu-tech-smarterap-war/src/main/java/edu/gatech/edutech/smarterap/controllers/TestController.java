@@ -95,6 +95,10 @@ public class TestController
 
 		crudService.create(dto);
 		crudService.create(dto2);
+		dto2.setUid(-1L);
+		dto2.setEnabled(false);
+		crudService.create(dto2);
+
 		return crudService.list(Course.class);
 	}
 
