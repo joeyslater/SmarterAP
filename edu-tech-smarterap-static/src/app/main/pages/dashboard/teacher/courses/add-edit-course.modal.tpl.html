@@ -1,10 +1,10 @@
-<md-dialog aria-label="Add New Course" ng-cloak>
+<md-dialog aria-label="'{{!addEditCourse.currentCourse.uid ? 'Add New' : 'Edit'}}' + ' Course'" ng-cloak>
     <form>
         <md-toolbar>
             <div class="md-toolbar-tools">
-                <h2>Add New Course</h2>
+                <h2 ng-bind="'{{!addEditCourse.currentCourse.uid ? 'Add New' : 'Edit'}}' + ' Course'"></h2>
                 <span flex></span>
-                <md-button class="md-icon-button" ng-click="addNewCourse.cancel()">
+                <md-button class="md-icon-button" ng-click="addEditCourse.cancel()">
                     <md-icon class="material-icon" aria-label="Close dialog">close</md-icon>
                 </md-button>
             </div>
@@ -14,26 +14,26 @@
                 <div layout="column">
                     <md-input-container>
                         <label>Course Name</label>
-                        <input ng-model="addNewCourse.newCourse.name">
+                        <input ng-model="addEditCourse.currentCourse.name">
                     </md-input-container>
                     <md-input-container>
                         <label>Section</label>
-                        <input ng-model="addNewCourse.newCourse.section">
+                        <input ng-model="addEditCourse.currentCourse.section">
                     </md-input-container>
                     <md-input-container>
                         <label>Subject</label>
-                        <md-select ng-model="addNewCourse.newCourse.subject">
-                            <md-option ng-repeat="subject in addNewCourse.subjects" ng-value="subject" ng-bind="subject.name"></md-option>
+                        <md-select ng-model="addEditCourse.currentCourse.subject" ng-model-options="{trackBy: '$value.uid'}">
+                            <md-option ng-repeat="subject in addEditCourse.subjects" ng-value="subject" ng-bind="subject.name"></md-option>
                         </md-select>
                     </md-input-container>
                 </div>
         </md-dialog-content>
         <div class="md-actions" layout="row">
             <span flex></span>
-            <md-button ng-click="addNewCourse.cancel()">
+            <md-button ng-click="addEditCourse.cancel()">
                 Cancel
             </md-button>
-            <md-button ng-click="addNewCourse.save(newCourse)">
+            <md-button ng-click="addEditCourse.save(currentCourse)">
                 Save
             </md-button>
         </div>

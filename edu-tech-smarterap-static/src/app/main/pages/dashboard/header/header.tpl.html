@@ -1,7 +1,7 @@
 <div class="header" ng-controller="HeaderController as header">
     <md-toolbar>
         <div class="md-toolbar-tools">
-            <md-button class="md-icon-button" aria-label="Menu">
+            <md-button class="md-icon-button" aria-label="Menu" ng-click="header.toggleSideNavigation()">
                 <md-icon class="material-icons">menu</md-icon>
             </md-button>
             <h2 ng-bind="header.headerTitle()"></h2>
@@ -15,7 +15,7 @@
                     <md-optgroup>
                         <md-subheader class="md-primary">Switch to Role</md-subheader>
                         <md-menu-item ng-click="header.logout();" ng-repeat="role in header.user().securityRoles">
-                            <md-button>
+                            <md-button aria-label="{{role}}">
                                 <span md-menu-align-target ng-bind="role"></span>
                             </md-button>
                         </md-menu-item>

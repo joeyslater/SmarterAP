@@ -2,7 +2,7 @@ angular.module('smarterap')
 
 .controller("TeacherCoursesDashboardController", TeacherCoursesDashboardController);
 
-function TeacherCoursesDashboardController($http, $location, $document, $mdDialog, Ui) {
+function TeacherCoursesDashboardController($http, $location, $document, $mdDialog, $timeout, Ui) {
     var ctrl = this;
 
     var bottomColors = [
@@ -17,20 +17,42 @@ function TeacherCoursesDashboardController($http, $location, $document, $mdDialo
 
     ctrl.openAddNewCourseDialog = function($event) {
         $mdDialog.show({
-            controller: AddNewCourseController,
-            controllerAs: 'addNewCourse',
-            templateUrl: 'main/pages/dashboard/teacher/courses/add-new-course.modal.tpl.html',
+            controller: AddEditCourseController,
+            controllerAs: 'addEditCourse',
+            templateUrl: 'main/pages/dashboard/teacher/courses/add-edit-course.modal.tpl.html',
             parent: angular.element($document[0].body),
             targetEvent: $event,
-            clickOutsideToClose: true
+            clickOutsideToClose: true,
+            bindToController: true,
+            locals: {
+                course: null
+            }
         });
     };
 
-    $http.get('/smarter-ap/api/course/owned').then(function(response) {
-        ctrl.courses = response.data;
-    }, function(response) {
-        ctrl.courses = [];
-    });
+
+    ctrl.openEditCourseDialog = function(course, $event) {
+        $mdDialog.show({
+            controller: AddEditCourseController,
+            controllerAs: 'addEditCourse',
+            templateUrl: 'main/pages/dashboard/teacher/courses/add-edit-course.modal.tpl.html',
+            parent: angular.element($document[0].body),
+            targetEvent: $event,
+            clickOutsideToClose: true,
+            locals: {
+                course: course
+            }
+        });
+    };
+
+    $http.get('/smarter-ap/api/course/owned')
+        .then(
+            function(response) {
+                ctrl.courses = response.data;
+            },
+            function(response) {
+                ctrl.courses = [];
+            });
 
     Ui.setHeaderTitle('Dashboard');
 
@@ -48,6 +70,25 @@ function TeacherCoursesDashboardController($http, $location, $document, $mdDialo
 
     ctrl.getBorderColor = function($index) {
         return bottomColors[$index % bottomColors.length];
+    };
+
+    ctrl.enable = function(course, shouldEnable) {
+        var copy = angular.copy(course);
+        copy.enabled = !course.enabled;
+        $http.post('smarter-ap/api/course/' + course.uid + '/', JSON.stringify(copy), {
+                withCredentials: true,
+                'headers': {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(
+                function(response) {
+                    course.enabled = copy.enabled;
+                },
+                function(response) {
+                    $mdToast.show($mdToast.simple().content('Unable to enable. Try again later.').hideDelay(2000));
+                });
+
     };
 
     function shuffle(array) {

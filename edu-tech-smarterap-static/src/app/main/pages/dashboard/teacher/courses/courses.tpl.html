@@ -32,22 +32,20 @@
                     </div>
                 </md-card-content>
                 <div class="md-actions" layout="row" layout-align="end center">
-                    <md-button ng-click="teacherCoursesDashboard.goToCourse(course.uid);">Enter Course</md-button>
+                    <md-button aria-label="Enter Course" ng-click="teacherCoursesDashboard.goToCourse(course.uid);">Enter Course</md-button>
                     <md-menu class="courses-menu">
                         <md-button class="md-icon-button" aria-label="More" ng-click="$mdOpenMenu($event)">
                             <md-icon class="material-icons">more_vert</md-icon>
                         </md-button>
-                        <md-menu-content width="6">
+                        <md-menu-content width="2">
                             <md-menu-item>
-                                <md-button class="md-ident">
-                                    <md-icon class="material-icons">edit</md-icon>
+                                <md-button class="md-ident" ng-click="teacherCoursesDashboard.openEditCourseDialog(course);">
                                     <span md-menu-align-target>Edit</span>
                                 </md-button>
                             </md-menu-item>
                             <md-menu-item>
-                                <md-button>
-                                    <md-icon class="material-icons">delete</md-icon>
-                                    <span md-menu-align-target>Delete</span>
+                                <md-button ng-click="teacherCoursesDashboard.enable(course, false)">
+                                    <span md-menu-align-target>Disable</span>
                                 </md-button>
                             </md-menu-item>
                         </md-menu-content>
@@ -58,7 +56,7 @@
     </div>
     <div hide show-sm layout="column" class="courses-list">
         <md-list>
-            <md-list-item ng-click="teacherCoursesDashboard.goToCourse(course.uid);" ng-repeat="course in teacherCoursesDashboard.courses | orderBy:['name', 'section'] | filter:{enabled:true}" class="md-2-line">
+            <md-list-item aria-label="{{course.name}}" ng-click="teacherCoursesDashboard.goToCourse(course.uid);" ng-repeat="course in teacherCoursesDashboard.courses | orderBy:['name', 'section'] | filter:{enabled:true}" class="md-2-line">
                 <div class="md-list-item-text" layout="column">
                     <h3 ng-bind="course.name"></h3>
                     <p ng-bind="course.section"></p>
@@ -102,22 +100,20 @@
                         </div>
                     </md-card-content>
                     <div class="md-actions" layout="row" layout-align="end center">
-                        <md-button ng-click="teacherCoursesDashboard.goToCourse(course.uid);">Enter Course</md-button>
+                        <md-button aria-label="Enter Course" ng-click="teacherCoursesDashboard.goToCourse(course.uid);">Enter Course</md-button>
                         <md-menu class="courses-menu">
                             <md-button class="md-icon-button" aria-label="More" ng-click="$mdOpenMenu($event)">
                                 <md-icon class="material-icons">more_vert</md-icon>
                             </md-button>
-                            <md-menu-content width="6">
+                            <md-menu-content width="2">
                                 <md-menu-item>
-                                    <md-button class="md-ident">
-                                        <md-icon class="material-icons">edit</md-icon>
+                                    <md-button class="md-ident" ng-click="teacherCoursesDashboard.openEditCourseDialog(course);">
                                         <span md-menu-align-target>Edit</span>
                                     </md-button>
                                 </md-menu-item>
                                 <md-menu-item>
-                                    <md-button>
-                                        <md-icon class="material-icons">delete</md-icon>
-                                        <span md-menu-align-target>Delete</span>
+                                    <md-button ng-click="teacherCoursesDashboard.enable(course, true)">
+                                        <span md-menu-align-target>Enable</span>
                                     </md-button>
                                 </md-menu-item>
                             </md-menu-content>
@@ -128,7 +124,7 @@
         </div>
         <div hide show-sm layout="column" class="courses-list">
             <md-list>
-                <md-list-item ng-click="teacherCoursesDashboard.goToCourse(course.uid);" ng-repeat="course in teacherCoursesDashboard.courses | orderBy:['name', 'section'] | filter:{enabled:false}" class="md-2-line">
+                <md-list-item aria-label="{{course.name}}" ng-click="teacherCoursesDashboard.goToCourse(course.uid);" ng-repeat="course in teacherCoursesDashboard.courses | orderBy:['name', 'section'] | filter:{enabled:false}" class="md-2-line">
                     <div class="md-list-item-text" layout="column">
                         <h3 ng-bind="course.name"></h3>
                         <p ng-bind="course.section"></p>

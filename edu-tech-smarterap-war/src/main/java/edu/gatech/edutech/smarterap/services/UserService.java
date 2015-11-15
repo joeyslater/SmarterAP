@@ -37,9 +37,7 @@ public class UserService
 
 	public User getUserFromEmail(final String email)
 	{
-		final Map<String, Object> query = Maps.newHashMap();
-		query.put("email", email);
-		final AccountList accounts = stormpathService.getClient().getAccounts(query);
+		final AccountList accounts = getAccountFromEmail(email);
 		if (accounts != null && accounts.getSize() == 1)
 		{
 			final User user = build(accounts.single());
@@ -53,6 +51,13 @@ public class UserService
 		return null;
 	}
 
+	private AccountList getAccountFromEmail(final String email)
+	{
+		final Map<String, Object> query = Maps.newHashMap();
+		query.put("email", email);
+		return stormpathService.getClient().getAccounts(query);
+	}
+
 	public List<Course> getCoursesOwnedByUser(final String username)
 	{
 		final List<Course> ownedCourses = databaseDao.getByUniqueFieldInCollection(Course.class, "owners", "ownersAlias", "username", username);
@@ -60,10 +65,10 @@ public class UserService
 		{
 			for (final User user : course.getOwners())
 			{
-				final Account account = stormpathService.getClient().getResource(user.getHref(), Account.class);
-				if (account != null)
+				final AccountList accounts = getAccountFromEmail(user.getUsername());
+				if (accounts != null && accounts.getSize() == 1)
 				{
-					course.getOwnerNames().add(account.getFullName());
+					course.getOwnerNames().add(accounts.single().getFullName());
 				}
 			}
 		}
@@ -75,10 +80,10 @@ public class UserService
 		final Set<String> names = Sets.newHashSet();
 		for (final User user : users)
 		{
-			final Account account = stormpathService.getClient().getResource(user.getHref(), Account.class);
-			if (account != null)
+			final AccountList accounts = getAccountFromEmail(user.getUsername());
+			if (accounts != null && accounts.getSize() == 1)
 			{
-				names.add(account.getFullName());
+				names.add(accounts.single().getFullName());
 			}
 		}
 		return names;

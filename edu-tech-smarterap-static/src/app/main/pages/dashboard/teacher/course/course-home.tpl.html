@@ -26,6 +26,9 @@
                 <li><span class="md-body-1" ng-bind="ownerName"></span></li>
             </ul>
         </div>
+        <div class="no-margin no-padding" layout="column" layout-align="center center">
+            <md-button class="md-primary">Invite Teachers</md-button>
+        </div>
     </md-content>
     <div flex="75" layout="row" ng-if="course.assessments">
         <md-content layout-padding layout-margin flex>
@@ -34,7 +37,7 @@
     </div>
     <div flex="75" layout="row" ng-if="!course.assessments" class="no-items">
         <span>
-        	No current assessments. Create one?
+            No current assessments. Create one?
         </span>
     </div>
 </div>

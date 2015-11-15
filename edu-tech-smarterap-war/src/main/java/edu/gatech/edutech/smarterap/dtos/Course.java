@@ -1,5 +1,7 @@
 package edu.gatech.edutech.smarterap.dtos;
 
+import static com.google.common.collect.Sets.newHashSet;
+
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -18,8 +20,9 @@ import org.hibernate.annotations.FetchMode;
 import org.pojomatic.annotations.AutoProperty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.collect.Sets;
 
 @Entity
 @Table(name = "course")
@@ -35,17 +38,15 @@ public class Course extends BaseDto
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Subject		subject;
 
-	@JsonIgnore
 	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	@JoinTable(name = "course_owners", joinColumns = @JoinColumn(name = "owned_course_id") , inverseJoinColumns = @JoinColumn(name = "owner_username", referencedColumnName = "username") )
 	@Fetch(FetchMode.SELECT)
-	private Set<User>	owners		= Sets.newHashSet();
+	private Set<User>	owners		= newHashSet();
 
-	@JsonIgnore
 	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	@JoinTable(name = "course_students", joinColumns = @JoinColumn(name = "student_course_id") , inverseJoinColumns = @JoinColumn(name = "student_username", referencedColumnName = "username") )
 	@Fetch(FetchMode.SELECT)
-	private Set<User>	students	= Sets.newHashSet();
+	private Set<User>	students	= newHashSet();
 
 	//	@JsonIgnore
 	//	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
@@ -55,7 +56,7 @@ public class Course extends BaseDto
 
 	@JsonIgnore
 	@Transient
-	private Set<String>	ownerNames	= Sets.newHashSet();
+	private Set<String>	ownerNames	= newHashSet();
 
 	@JsonIgnore
 	@Column
@@ -99,13 +100,11 @@ public class Course extends BaseDto
 		this.subject = subject;
 	}
 
-	@JsonIgnore
 	public Set<User> getOwners()
 	{
 		return owners;
 	}
 
-	@JsonIgnore
 	public void setOwners(final Set<User> owners)
 	{
 		this.owners = owners;
@@ -123,13 +122,11 @@ public class Course extends BaseDto
 		this.ownerNames = ownerNames;
 	}
 
-	@JsonProperty
 	public Set<User> getStudents()
 	{
 		return students;
 	}
 
-	@JsonIgnore
 	public void setStudents(final Set<User> students)
 	{
 		this.students = students;
@@ -147,7 +144,7 @@ public class Course extends BaseDto
 		return enabled;
 	}
 
-	@JsonIgnore
+	@JsonInclude(Include.NON_NULL)
 	public void setEnabled(final boolean enabled)
 	{
 		this.enabled = enabled;

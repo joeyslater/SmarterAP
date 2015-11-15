@@ -1,2 +1,15 @@
-<div>
+<div ng-controller='SidebarController as sidebar'>
+    <md-sidenav md-component-id="left-nav">
+        <md-list>
+            <md-list-item ng-click="sidebar.goTo('dashboard.courses')">
+                <md-icon class="material-icons">home</md-icon>
+                <p>Dashboard</p>
+            </md-list-item>
+            <md-divider></md-divider>
+            <md-list-item>
+                <md-icon class="material-icons">settings</md-icon>
+                <p>Settings</p>
+            </md-list-item>
+        </md-list>
+    </md-sidenav>
 </div>

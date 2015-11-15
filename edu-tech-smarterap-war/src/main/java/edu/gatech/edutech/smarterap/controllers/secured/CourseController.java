@@ -26,12 +26,6 @@ public class CourseController implements CrudController<Course>
 	@Autowired
 	private UserService	userService;
 
-	@RequestMapping("/owned")
-	public List<Course> owned(final HttpServletRequest request)
-	{
-		return userService.getCoursesOwnedByUser(request.getUserPrincipal().getName());
-	}
-
 	@Override
 	public List<Course> readAll()
 	{
@@ -42,7 +36,10 @@ public class CourseController implements CrudController<Course>
 	public Course read(@PathVariable final Long uid)
 	{
 		final Course course = crudService.get(Course.class, uid);
-		course.setStudents(userService.addUserDetails(course.getStudents()));
+		if (course.getStudents() != null)
+		{
+			course.setStudents(userService.addUserDetails(course.getStudents()));
+		}
 		course.setOwnerNames(userService.getNamesFromUsers(course.getOwners()));
 		return course;
 	}
@@ -66,4 +63,9 @@ public class CourseController implements CrudController<Course>
 		return crudService.update(uid, dto);
 	}
 
+	@RequestMapping("/owned")
+	public List<Course> owned(final HttpServletRequest request)
+	{
+		return userService.getCoursesOwnedByUser(request.getUserPrincipal().getName());
+	}
 }
