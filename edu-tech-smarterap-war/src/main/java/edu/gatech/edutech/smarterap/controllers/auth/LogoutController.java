@@ -1,7 +1,5 @@
 package edu.gatech.edutech.smarterap.controllers.auth;
 
-import static javax.servlet.http.HttpServletResponse.SC_MOVED_PERMANENTLY;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -28,10 +26,9 @@ public class LogoutController
 	@ResponseBody
 	public JsonResponse<Integer> logout(final HttpSession session, final HttpServletResponse response)
 	{
-		response.setStatus(SC_MOVED_PERMANENTLY);
-		response.setHeader("Location", "/");
 		try
 		{
+			session.removeAttribute("sessionUser");
 			session.invalidate();
 			return new JsonResponse<Integer>(true, "Logout successful", 0);
 		}

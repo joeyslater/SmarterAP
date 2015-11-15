@@ -16,9 +16,11 @@ function Ui($http) {
     var user;
     service.setUser = function(newUser) {
         user = newUser;
-        user.securityRoles.sort();
-        if (user.securityRoles.length > 0) {
+        if (user && user.securityRoles.length > 0) {
+            user.securityRoles.sort();
             service.setRole(user.securityRoles[0]);
+        } else {
+            service.setRole();
         }
     };
     service.getUser = function() {

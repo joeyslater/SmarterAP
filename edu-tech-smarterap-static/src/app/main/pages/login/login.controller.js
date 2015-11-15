@@ -28,6 +28,10 @@ function LoginController($rootScope, $http, APP, $location, $state, Ui, $auth, $
                 });
     };
 
+    $rootScope.$watch(STORMPATH_CONFIG.AUTHENTICATION_SUCCESS_EVENT_NAME, function() {
+        $location.url('/dashboard');
+    });
+
     $user.get()
         .then(function(user) {
             $location.url('/dashboard');

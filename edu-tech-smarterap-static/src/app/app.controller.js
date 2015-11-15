@@ -35,6 +35,7 @@ angular.module('smarterap', [
     STORMPATH_CONFIG.AUTHENTICATION_ENDPOINT = "/smarter-ap/login";
     STORMPATH_CONFIG.CURRENT_USER_URI = "/smarter-ap/account";
     STORMPATH_CONFIG.REGISTER_URI = "/smarter-ap/register";
+    STORMPATH_CONFIG.DESTROY_SESSION_ENDPOINT = "/smarter-ap/logout";
 
     //     $provide.decorator('taTools', ['$delegate', function(taTools) {
     //         taTools.bold.iconclass = 'icon-bold';
