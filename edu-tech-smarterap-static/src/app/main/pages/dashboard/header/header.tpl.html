@@ -12,14 +12,12 @@
                     <md-icon class="material-icons">expand_more</md-icon>
                 </md-button>
                 <md-menu-content width="2">
-                    <md-optgroup>
-                        <md-subheader class="md-primary">Switch to Role</md-subheader>
-                        <md-menu-item ng-click="header.logout();" ng-repeat="role in header.user().securityRoles">
-                            <md-button aria-label="{{role}}">
-                                <span md-menu-align-target ng-bind="role"></span>
-                            </md-button>
-                        </md-menu-item>
-                    </md-optgroup>
+                    <md-subheader class="md-primary">Switch to Role</md-subheader>
+                    <md-divider></md-divider>
+                    <md-menu-item ng-repeat="role in header.user().securityRoles">
+                        <md-button aria-label="{{role}}" ng-click="header.changeDashboard(role);" ng-bind="role | capitalize">
+                        </md-button>
+                    </md-menu-item>
                 </md-menu-content>
             </md-menu>
             <md-menu>

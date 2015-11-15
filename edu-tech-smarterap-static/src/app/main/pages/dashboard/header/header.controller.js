@@ -13,7 +13,7 @@ function HeaderController($http, $state, Ui, $mdSidenav) {
 
     ctrl.changeDashboard = function(role) {
         Ui.setRole(role);
-        $state.go('dashboard' + role.toLowerCase());
+        $state.go('dashboard.' + role.toLowerCase());
     };
 
     ctrl.logout = function() {

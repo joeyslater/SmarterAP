@@ -43,9 +43,27 @@ angular.module('smarterap')
                 authenticate: true
             }
         })
-        .state('dashboard.courses', {
+        .state('dashboard.teacher', {
             url: "",
             templateUrl: 'main/pages/dashboard/teacher/courses/courses.tpl.html',
+            controller: 'TeacherCoursesDashboardController',
+            controllerAs: 'teacherCoursesDashboard',
+            sp: {
+                authenticate: true
+            }
+        })
+        .state('dashboard.admin', {
+            url: "",
+            templateUrl: 'main/pages/dashboard/admin/admin-dashboard.tpl.html',
+            controller: 'AdminDashboardController',
+            controllerAs: 'adminDashboard',
+            sp: {
+                authenticate: true
+            }
+        })
+        .state('dashboard.student', {
+            url: "",
+            templateUrl: 'main/pages/dashboard/student/student-dashboard.tpl.html',
             controller: 'TeacherCoursesDashboardController',
             controllerAs: 'teacherCoursesDashboard',
             sp: {
@@ -71,11 +89,9 @@ angular.module('smarterap')
         });
 })
 
-
-.run(function($rootScope, $state, $stormpath) {
+.run(function($rootScope, $state, $stormpath, Ui) {
     $stormpath.uiRouter({
-        loginState: 'login',
-        defaultPostLoginState: 'dashboard.courses'
+        loginState: 'login'
     });
 
     $rootScope.$on('$sessionEnd', function() {

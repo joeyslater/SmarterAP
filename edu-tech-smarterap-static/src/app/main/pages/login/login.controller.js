@@ -20,7 +20,7 @@ function LoginController($rootScope, $http, APP, $location, $state, Ui, $auth, $
             .then(
                 function(response) {
                     $rootScope.$broadcast(STORMPATH_CONFIG.AUTHENTICATION_SUCCESS_EVENT_NAME, response);
-
+                    $location.url('/dashboard');
                 },
                 function(response) {
                     ctrl.errorMessage = response.data.message;
@@ -30,7 +30,7 @@ function LoginController($rootScope, $http, APP, $location, $state, Ui, $auth, $
 
     $user.get()
         .then(function(user) {
-            $state.go('dashboard.courses');
+            $location.url('/dashboard');
         })
         .catch(function(error) {});
 
