@@ -75,6 +75,23 @@ public class UserService
 		return ownedCourses;
 	}
 
+	public List<Course> getCoursesRegisteredByUser(final String username)
+	{
+		final List<Course> registered = databaseDao.getByUniqueFieldInCollection(Course.class, "students", "studentsAlias", "username", username);
+		for (final Course course : registered)
+		{
+			for (final User user : course.getOwners())
+			{
+				final AccountList accounts = getAccountFromEmail(user.getUsername());
+				if (accounts != null && accounts.getSize() == 1)
+				{
+					course.getOwnerNames().add(accounts.single().getFullName());
+				}
+			}
+		}
+		return registered;
+	}
+
 	public Set<String> getNamesFromUsers(final Set<User> users)
 	{
 		final Set<String> names = Sets.newHashSet();
@@ -99,5 +116,4 @@ public class UserService
 		}
 		return studentsWithDetails;
 	}
-
 }

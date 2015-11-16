@@ -78,7 +78,7 @@ angular.module('smarterap')
             sp: {
                 authenticate: true
             }
-        }).state('dashboard.assessment', {
+        }).state('dashboard.teacher-assessment', {
             url: "/assessment",
             templateUrl: 'main/pages/dashboard/teacher/assessment/create-assessment.tpl.html',
             controller: 'CreateAssessmentController',

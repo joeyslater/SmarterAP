@@ -68,4 +68,11 @@ public class CourseController implements CrudController<Course>
 	{
 		return userService.getCoursesOwnedByUser(request.getUserPrincipal().getName());
 	}
+
+	//Classes you are registered for
+	@RequestMapping("/registered")
+	public List<Course> registered(final HttpServletRequest request)
+	{
+		return userService.getCoursesRegisteredByUser(request.getUserPrincipal().getName());
+	}
 }

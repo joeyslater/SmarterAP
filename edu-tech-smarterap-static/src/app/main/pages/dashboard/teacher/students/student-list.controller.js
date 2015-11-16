@@ -31,7 +31,6 @@ function TeacherStudentsListController($timeout, $q, $document) {
     };
 
     ctrl.openUpload = function() {
-        console.log('test');
         angular.element($document[0].querySelector('#file-students-csv-input')).trigger('click');
     };
 

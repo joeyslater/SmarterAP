@@ -2,7 +2,7 @@ angular.module('smarterap')
 
 .controller("TeacherCourseDashboardController", TeacherCourseDashboardController);
 
-function TeacherCourseDashboardController($http, $stateParams, $timeout, Ui) {
+function TeacherCourseDashboardController($http, $stateParams, $timeout, Ui, $state) {
     var ctrl = this;
 
     $http.get('/smarter-ap/api/course/' + $stateParams.courseId).then(function(response) {
@@ -16,6 +16,10 @@ function TeacherCourseDashboardController($http, $stateParams, $timeout, Ui) {
             'title': 'AP Computer Science'
         };
     });
+
+    ctrl.goTo = function(state) {
+        $state.go(state);
+    };
 
     ctrl.tabs = [{
         'title': 'Home',

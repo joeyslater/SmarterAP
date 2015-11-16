@@ -4,7 +4,7 @@ import static edu.gatech.edutech.smarterap.utils.UserBuilderUtil.build;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -59,7 +59,7 @@ public class TestController
 	 */
 	@RequestMapping(value = "/dto", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Course> getCourseTest(final HttpSession session)
+	public List<Course> getCourseTest(final HttpServletRequest request)
 	{
 		Subject subject = databaseDao.getByUniqueField(Subject.class, "name", "AP Computer Science A");
 		if (subject == null)
@@ -75,7 +75,7 @@ public class TestController
 		dto.setSection("Fall 2015");
 		dto.setSubject(subject);
 
-		final User user = userService.get(((Account) session.getAttribute("sessionUser")).getHref());
+		final User user = userService.getUserFromEmail(request.getUserPrincipal().getName());
 
 		final Account account = stormpathService.getClient().getResource("https://api.stormpath.com/v1/accounts/PIxmeeDbTNL5SqBOAWs3c", Account.class);
 		if (userService.get(account.getHref()) == null)
