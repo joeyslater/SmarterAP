@@ -7,6 +7,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import com.stormpath.spring.config.EnableStormpathWebSecurity;
 import com.stormpath.spring.config.StormpathWebSecurityConfigurerAdapter;
 
+import edu.gatech.edutech.smarterap.enums.SecurityRole;
+
 @Configuration
 @EnableStormpathWebSecurity
 @PropertySource("classpath:api-key.properties")
@@ -31,6 +33,8 @@ public class SecurityConfig extends StormpathWebSecurityConfigurerAdapter
 		        .antMatchers("/index.html", "/home.html", "/login.html", "/*.js", "/*.css").permitAll()
 
 		        .antMatchers("/#/**", "/smarter-ap/authenticate", "/smarter-ap/logout", "/smarter-ap/register", "/smarter-ap/account").permitAll()
+
+		        .antMatchers("/smarter-ap/api/admin/**").hasRole(SecurityRole.ADMIN.toString())
 
 		        .antMatchers("/smarter-ap/api/**").authenticated()
 

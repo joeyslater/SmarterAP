@@ -67,7 +67,7 @@ public class LoginController
 				final UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
 				SecurityContextHolder.getContext().setAuthentication(authRequest);
 
-				final User userFromService = userService.get(authResult.getAccount().getHref());
+				final User userFromService = userService.getUserFromEmail(authResult.getAccount().getEmail());
 				if (userFromService == null)
 				{
 					crudService.create(build(authResult.getAccount()));

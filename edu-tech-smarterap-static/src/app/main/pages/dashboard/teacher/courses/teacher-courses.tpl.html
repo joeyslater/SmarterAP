@@ -4,7 +4,7 @@
             <md-progress-circular md-mode="indeterminate"></md-progress-circular>
         </div>
         <div layout="row" layout-align="center start" flex ng-if="!teacherCoursesDashboard.loadingCourses && !teacherCoursesDashboard.courses" class="no-items">
-            <span>No active courses. Maybe, go read a book?</span>
+            <span>No active courses. Create new course?</span>
         </div>
         <div ng-repeat="course in teacherCoursesDashboard.courses | orderBy:['name', 'section'] | filter:{enabled:true}">
             <md-card bottom-border="{{teacherCoursesDashboard.getBorderColor($index)}}" class="course-card">

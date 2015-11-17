@@ -3,9 +3,13 @@ package edu.gatech.edutech.smarterap.services;
 import static edu.gatech.edutech.smarterap.configs.SecurityConfig.APP_REST_URL;
 import static edu.gatech.edutech.smarterap.configs.SecurityConfig.DIRECTORY_URL;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.collect.Maps;
+import com.stormpath.sdk.account.Account;
 import com.stormpath.sdk.application.Application;
 import com.stormpath.sdk.client.Client;
 import com.stormpath.sdk.directory.Directory;
@@ -65,6 +69,20 @@ public class StormpathService
 			directory = getDataStore().getResource(DIRECTORY_URL, Directory.class);
 		}
 		return directory;
+	}
+
+	public Account getAccount(final String field, final String value)
+	{
+		final Map<String, Object> query = Maps.newHashMap();
+		query.put(field, value);
+		try
+		{
+			return getClient().getAccounts(query).single();
+		}
+		catch (final IllegalStateException e)
+		{
+			return null;
+		}
 	}
 
 }

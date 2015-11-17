@@ -54,3 +54,10 @@ p.md-warn {
 .pointer {
     cursor: pointer;
 }
+
+md-tab-content {
+    background-color: #eee;
+    md-content {
+        background-color: #eee;
+    }
+}

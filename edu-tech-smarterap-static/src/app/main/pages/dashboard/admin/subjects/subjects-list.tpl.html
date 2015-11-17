@@ -1,0 +1,78 @@
+<div ng-controller='AdminSubjectsListController as subjectsList' layout="row">
+    <md-content layout="column" flex>
+        <md-card>
+            <md-data-table-toolbar class="alternate" ng-show="!subjectsList.selected.length">
+                <span flex></span>
+                <md-icon class="material-icons">filter_list</md-icon>
+                <md-icon class="material-icons">add</md-icon>
+            </md-data-table-toolbar>
+            <md-data-table-toolbar ng-show="subjectsList.listQuery.showFilter && !subjectsList.selected.length" aria-hidden="true" class="ng-hide">
+                <i class="material-icons">search</i>
+                <!--                 <form flex="" name="filter.form" class="ng-pristine ng-valid">
+                    <input type="text" ng-model="query.filter" ng-model-options="filter.options" placeholder="Filter Subjects" class="ng-pristine ng-untouched ng-valid" tabindex="0" aria-invalid="false">
+                </form> -->
+                <form flex>
+                    <input type="text" />
+                </form>
+                <span flex></span>
+                <i class="material-icons md-dark" ng-click="">close</i>
+            </md-data-table-toolbar>
+            <md-data-table-toolbar class="alternate" ng-show="subjectsList.selected.length">
+                <div>{{subjectsList.selected.length === subjectsList.subjects.length ? 'All' : subjectsList.selected.length}} {{subjectsList.selected.length > 1 ? 'subjects' : 'subject'}} selected</div>
+                <span flex></span>
+                <div>
+                    <md-icon class="material-icons">delete</md-icon>
+                </div>
+            </md-data-table-toolbar>
+            <md-data-table-container>
+                <table md-data-table class="md-primary " md-row-select="subjectsList.selected " md-progress="subjectsList.subjectDeferred ">
+                    <thead md-order="subjectsList.listQuery.order " md-trigger="subjectsList.onOrderChange ">
+                        <tr>
+                            <th order-by="name " name="Name"></th>
+                            <th order-by="category " name="Category"></th>
+                            <th name="Actions"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="subject in subjectsList.subjects | orderBy: subjectsList.listQuery.order ">
+                            <td name="Name " ng-bind="subject.name "></td>
+                            <td name="Category " ng-bind="subject.category "></td>
+                            <td>
+                                <md-icon class="material-icons">edit</md-icon>
+                                <md-menu>
+                                    <md-button class="md-icon-button" aria-label="Actions" ng-click="$mdOpenMenu($event)">
+                                        <md-icon class="material-icons">more_vert</md-icon>
+                                    </md-button>
+                                    <md-menu-content width="2">
+                                        <md-menu-item>
+                                            <md-button class="md-ident" ng-click="">
+                                                <span md-menu-align-target>Add to Group</span>
+                                            </md-button>
+                                        </md-menu-item>
+                                        <md-menu-item>
+                                            <md-button ng-click="">
+                                                <span md-menu-align-target>Remove from Group</span>
+                                            </md-button>
+                                        </md-menu-item>
+                                        <md-divider></md-divider>
+                                        <md-menu-item>
+                                            <md-button class="md-ident" ng-click="">
+                                                <span md-menu-align-target>Reset Password</span>
+                                            </md-button>
+                                        </md-menu-item>
+                                        <md-menu-item>
+                                            <md-button ng-click="">
+                                                <span md-menu-align-target>Resend Verification Email</span>
+                                            </md-button>
+                                        </md-menu-item>
+                                    </md-menu-content>
+                                </md-menu>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </md-data-table-container>
+            <md-data-table-pagination md-limit="subjectsList.listQuery.limit" md-page="subjectsList.listQuery.page" md-total="90" md-trigger="subjectsList.onOrderChange"></md-data-table-pagination>
+        </md-card>
+    </md-content>
+</div>

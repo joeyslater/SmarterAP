@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.stormpath.sdk.account.Account;
-import com.stormpath.sdk.account.AccountList;
 
 import edu.gatech.edutech.smarterap.daos.DatabaseDao;
 import edu.gatech.edutech.smarterap.dtos.Course;
@@ -35,27 +34,41 @@ public class UserService
 		return databaseDao.getByUniqueField(User.class, "href", href);
 	}
 
+	public Long getUid(final String href)
+	{
+		final User user = databaseDao.getByUniqueField(User.class, "href", href);
+		if (user != null)
+		{
+			return user.getUid();
+		}
+		else
+		{
+			return -1L;
+		}
+	}
+
 	public User getUserFromEmail(final String email)
 	{
-		final AccountList accounts = getAccountFromEmail(email);
-		if (accounts != null && accounts.getSize() == 1)
+		final Account account = stormpathService.getAccount("email", email);
+		if (account != null)
 		{
-			final User user = build(accounts.single());
-			final User dbUser = get(user.getHref());
-			if (dbUser != null)
-			{
-				user.setUid(dbUser.getUid());
-			}
+			final User user = build(account);
+			user.setUid(getUid(user.getHref()));
 			return user;
 		}
 		return null;
 	}
 
-	private AccountList getAccountFromEmail(final String email)
+	public User getUserAccount(final User user)
 	{
-		final Map<String, Object> query = Maps.newHashMap();
-		query.put("email", email);
-		return stormpathService.getClient().getAccounts(query);
+		final Account account = stormpathService.getAccount("email", user.getUsername());
+		if (account != null)
+		{
+			final User userAccount = build(account);
+			userAccount.setUid(user.getUid());
+			return userAccount;
+		}
+		return null;
 	}
 
 	public List<Course> getCoursesOwnedByUser(final String username)
@@ -65,10 +78,10 @@ public class UserService
 		{
 			for (final User user : course.getOwners())
 			{
-				final AccountList accounts = getAccountFromEmail(user.getUsername());
-				if (accounts != null && accounts.getSize() == 1)
+				final Account account = stormpathService.getAccount("email", user.getUsername());
+				if (account != null)
 				{
-					course.getOwnerNames().add(accounts.single().getFullName());
+					course.getOwnerNames().add(account.getFullName());
 				}
 			}
 		}
@@ -85,10 +98,10 @@ public class UserService
 		{
 			for (final User user : course.getOwners())
 			{
-				final AccountList accounts = getAccountFromEmail(user.getUsername());
-				if (accounts != null && accounts.getSize() == 1)
+				final Account account = stormpathService.getAccount("email", user.getUsername());
+				if (account != null)
 				{
-					course.getOwnerNames().add(accounts.single().getFullName());
+					course.getOwnerNames().add(account.getFullName());
 				}
 			}
 		}
@@ -100,10 +113,10 @@ public class UserService
 		final Set<String> names = Sets.newHashSet();
 		for (final User user : users)
 		{
-			final AccountList accounts = getAccountFromEmail(user.getUsername());
-			if (accounts != null && accounts.getSize() == 1)
+			final Account account = stormpathService.getAccount("email", user.getUsername());
+			if (account != null)
 			{
-				names.add(accounts.single().getFullName());
+				names.add(account.getFullName());
 			}
 		}
 		return names;

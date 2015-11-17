@@ -13,8 +13,8 @@ import com.google.common.collect.Sets;
 public enum SecurityRole
 {
 	// hrefs gathered from Stormpath
-	ADMIN("https://api.stormpath.com/v1/groups/4fSFW1N4MOPaPRt892dnX1"),
-	STUDENT("https://api.stormpath.com/v1/groups/3zVltAWBLvUcqQ6TK2Bczb"),
+	ADMIN("https://api.stormpath.com/v1/groups/4fSFW1N4MOPaPRt892dnX1"), 
+	STUDENT("https://api.stormpath.com/v1/groups/3zVltAWBLvUcqQ6TK2Bczb"), 
 	TEACHER("https://api.stormpath.com/v1/groups/4PDEkxAduB0BRqXVFaIQpv");
 
 	private static final Map<String, SecurityRole> VALUES = Maps.newHashMap();
@@ -25,9 +25,9 @@ public enum SecurityRole
 		{
 			VALUES.put(role.toString(), role);
 		}
-	} 
+	}
 
-	private String href;
+	private final String href;
 
 	private SecurityRole(final String href)
 	{
