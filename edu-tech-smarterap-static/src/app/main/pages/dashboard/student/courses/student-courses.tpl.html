@@ -1,0 +1,51 @@
+<div layout="column" class="courses">
+    <div hide-sm layout="row" layout-wrap>
+        <div layout="row" layout-align="center start" flex ng-if="studentCoursesDashboard.loadingCourses">
+            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+        </div>
+        <div layout="row" layout-align="center start" flex ng-if="!studentCoursesDashboard.loadingCourses && !studentCoursesDashboard.courses.length" class="no-items">
+            <span>No active courses. Maybe, go read a book?</span>
+        </div>
+        <div ng-repeat="course in studentCoursesDashboard.courses | orderBy:['name', 'section']">
+            <md-card bottom-border="{{studentCoursesDashboard.getBorderColor($index)}}" class="course-card">
+                <md-card-content>
+                    <div class="md-card-title">
+                        <h2 class="md-title no-margin">
+                            <span ng-bind="course.name"></span>
+                        </h2>
+                        <h2 class="md-subhead no-margin">
+                                Section: <span ng-bind="course.section"></span>
+                        </h2>
+                        <span class="md-body-1">
+                            <strong>Instructors:</strong>
+                            <span ng-bind="course.ownerNames.join(', ')"></span>
+                        </span>
+                    </div>
+                    <hr/>
+                    <div>
+                        <ul>
+                            <li>
+                                <spam class="md-body-1">
+                                    <strong>Open Assignments: </strong> <span ng-bind="course.openAssessments"></span>
+                                </spam>
+                            </li>
+                        </ul>
+                    </div>
+                </md-card-content>
+                <div class="md-actions" layout="row" layout-align="end center">
+                    <md-button aria-label="Enter Course" ng-click="studentCoursesDashboard.goToCourse(course.uid);">Enter Course</md-button>
+                </div>
+            </md-card>
+        </div>
+    </div>
+    <div hide show-sm layout="column" class="courses-list">
+        <md-list>
+            <md-list-item aria-label="{{course.name}}" ng-click="studentCoursesDashboard.goToCourse(course.uid);" ng-repeat="course in studentCoursesDashboard.courses | orderBy:['name', 'section'] | filter:{enabled:true}" class="md-2-line">
+                <div class="md-list-item-text" layout="column">
+                    <h3 ng-bind="course.name"></h3>
+                    <p ng-bind="course.section"></p>
+                </div>
+            </md-list-item>
+        </md-list>
+    </div>
+</div>

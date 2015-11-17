@@ -77,7 +77,10 @@ public class UserService
 
 	public List<Course> getCoursesRegisteredByUser(final String username)
 	{
-		final List<Course> registered = databaseDao.getByUniqueFieldInCollection(Course.class, "students", "studentsAlias", "username", username);
+		final Map<String, Object> criterias = Maps.newHashMap();
+		criterias.put("enabled", true);
+		criterias.put("visible", true);
+		final List<Course> registered = databaseDao.getByUniqueFieldInCollectionWithOtherCriteria(Course.class, "students", "studentsAlias", "username", username, criterias);
 		for (final Course course : registered)
 		{
 			for (final User user : course.getOwners())

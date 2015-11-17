@@ -2,8 +2,9 @@ angular.module('smarterap')
 
 .controller("TeacherCoursesDashboardController", TeacherCoursesDashboardController);
 
-function TeacherCoursesDashboardController($http, $location, $document, $mdDialog, $timeout, Ui) {
+function TeacherCoursesDashboardController($http, $location, $document, $mdDialog, $timeout, $mdToast, Ui) {
     var ctrl = this;
+    ctrl.loadingCourses = true;
 
     var bottomColors = [
         "#3F51B5", "#FF5722", "#9C27B0", "#E91E63", "#FFC107", "#4CAF50", "#3F51B5", "#673AB7", "#F44336", "#009688"
@@ -49,9 +50,11 @@ function TeacherCoursesDashboardController($http, $location, $document, $mdDialo
         .then(
             function(response) {
                 ctrl.courses = response.data;
+                ctrl.loadingCourses = false;
             },
             function(response) {
                 ctrl.courses = [];
+                ctrl.loadingCourses = false;
             });
 
     Ui.setHeaderTitle('Dashboard');
@@ -86,7 +89,8 @@ function TeacherCoursesDashboardController($http, $location, $document, $mdDialo
                     course.enabled = copy.enabled;
                 },
                 function(response) {
-                    $mdToast.show($mdToast.simple().content('Unable to enable. Try again later.').hideDelay(2000));
+                    var action = course.enabled ? 'disable' : 'enable';
+                    $mdToast.show($mdToast.simple().content('Unable to ' + action + '. Try again later.').hideDelay(2000));
                 });
 
     };

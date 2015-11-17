@@ -38,19 +38,7 @@ angular.module('smarterap')
             abstract: true,
             templateUrl: 'main/pages/dashboard/dashboard.tpl.html',
             controller: 'DashboardController',
-            controllerAs: 'dashboard',
-            sp: {
-                authenticate: true
-            }
-        })
-        .state('dashboard.teacher', {
-            url: "",
-            templateUrl: 'main/pages/dashboard/teacher/courses/courses.tpl.html',
-            controller: 'TeacherCoursesDashboardController',
-            controllerAs: 'teacherCoursesDashboard',
-            sp: {
-                authenticate: true
-            }
+            controllerAs: 'dashboard'
         })
         .state('dashboard.admin', {
             url: "",
@@ -58,16 +46,31 @@ angular.module('smarterap')
             controller: 'AdminDashboardController',
             controllerAs: 'adminDashboard',
             sp: {
-                authenticate: true
+                authenticate: true,
+                group: 'ADMIN',
+                waitForUser: true
             }
         })
         .state('dashboard.student', {
             url: "",
-            templateUrl: 'main/pages/dashboard/student/student-dashboard.tpl.html',
+            templateUrl: 'main/pages/dashboard/student/courses/student-courses.tpl.html',
+            controller: 'StudentCoursesDashboardController',
+            controllerAs: 'studentCoursesDashboard',
+            sp: {
+                authenticate: true,
+                group: 'STUDENT',
+                waitForUser: true
+            }
+        })
+        .state('dashboard.teacher', {
+            url: "",
+            templateUrl: 'main/pages/dashboard/teacher/courses/teacher-courses.tpl.html',
             controller: 'TeacherCoursesDashboardController',
             controllerAs: 'teacherCoursesDashboard',
             sp: {
-                authenticate: true
+                authenticate: true,
+                group: 'TEACHER',
+                waitForUser: true
             }
         })
         .state('dashboard.course', {

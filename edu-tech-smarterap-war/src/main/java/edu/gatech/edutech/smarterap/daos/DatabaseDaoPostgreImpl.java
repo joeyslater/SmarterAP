@@ -2,6 +2,7 @@ package edu.gatech.edutech.smarterap.daos;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
@@ -213,8 +214,19 @@ public class DatabaseDaoPostgreImpl implements DatabaseDao
 	@SuppressWarnings("unchecked")
 	public <T extends BaseDto> List<T> getByUniqueFieldInCollection(final Class<T> clazz, final String collection, final String alias, final String field, final Object value)
 	{
-		final Session session = getCurrentSession();
-		final List<T> list = session.createCriteria(clazz).createAlias(collection, alias).add(Restrictions.eq(alias + "." + field, value)).list();
-		return list;
+		return buildCollectionCriteria(clazz, collection, alias, field, value).list();
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public <T extends BaseDto> List<T> getByUniqueFieldInCollectionWithOtherCriteria(final Class<T> clazz, final String collection, final String alias, final String field,
+	        final Object value, final Map<String, Object> criterias)
+	{
+		return buildCollectionCriteria(clazz, collection, alias, field, value).add(Restrictions.allEq(criterias)).list();
+	}
+
+	private <T extends BaseDto> Criteria buildCollectionCriteria(final Class<T> clazz, final String collection, final String alias, final String field, final Object value)
+	{
+		return getCurrentSession().createCriteria(clazz).createAlias(collection, alias).add(Restrictions.eq(alias + "." + field, value));
 	}
 }

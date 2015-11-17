@@ -16,7 +16,7 @@
                             <th order-by="name " name="Name"></th>
                             <th order-by="openDate " name="Open Date"></th>
                             <th order-by="dueDate" name="Due Date"></th>
-                            <th order-by="turnedIn" name="Turned In"></th>
+                            <th order-by="submitted" name="Submitted"></th>
                             <th name="Actions"></th>
                         </tr>
                     </thead>
@@ -25,7 +25,7 @@
                             <td name="Name" ng-bind=" assessment.name " ng-click="assessmentsList.enterAssessment(assessment.uid)" class="pointer"></td>
                             <td name="Open Date" ng-bind="assessment.openDate | date : short"></td>
                             <td name="Due Date" ng-bind="assessment.dueDate  | date : short"></td>
-                            <td name="Turned In " ng-bind="assessment.turnedIn "></td>
+                            <td name="Turned In " ng-bind="assessment.submitted "></td>
                             <td>
                                 <md-icon class="material-icons ">delete</md-icon>
                                 <md-icon class="material-icons ">star_border</md-icon>

@@ -2,6 +2,7 @@ package edu.gatech.edutech.smarterap.daos;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,4 +43,7 @@ public interface DatabaseDao
 	public <T extends BaseDto> List<T> list(Class<T> clazz, List<Serializable> uids);
 
 	public <T extends BaseDto> List<T> getByUniqueFieldInCollection(final Class<T> clazz, final String collection, final String alias, String field, final Object value);
+
+	public <T extends BaseDto> List<T> getByUniqueFieldInCollectionWithOtherCriteria(Class<T> clazz, String collection, String alias, String field, Object value,
+	        Map<String, Object> criterias);
 }

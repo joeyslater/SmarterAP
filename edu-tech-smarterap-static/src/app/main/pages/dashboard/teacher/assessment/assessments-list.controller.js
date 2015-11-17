@@ -18,37 +18,37 @@ function TeacherAssessmentsListController($q, $timeout, $state) {
         'name': 'Friday Quiz #1',
         'openDate': new Date(2015, 10, 12),
         'dueDate': new Date(2015, 10, 14),
-        'turnedIn': 5
+        'submitted': 5
     }, {
         'uid': 2,
         'name': 'Friday Quiz #2',
         'openDate': new Date(2015, 10, 17),
         'dueDate': new Date(2015, 10, 18),
-        'turnedIn': 0
+        'submitted': 0
     }, {
         'uid': 4,
         'name': 'Thanksgiving Blitz',
         'openDate': new Date(2015, 10, 24),
         'dueDate': new Date(2015, 10, 26),
-        'turnedIn': 2
+        'submitted': 2
     }, {
         'uid': 3,
         'name': 'Arrays & Lists Quiz',
         'openDate': new Date(2015, 10, 10),
         'dueDate': new Date(2015, 10, 11),
-        'turnedIn': 10
+        'submitted': 10
     }, {
         'uid': 5,
         'name': 'Time to Q-q-q-q-quiz',
         'openDate': new Date(2015, 10, 08),
         'dueDate': new Date(2015, 10, 10),
-        'turnedIn': 22
+        'submitted': 22
     }, {
         'uid': 6,
         'name': 'Boolean Recap',
         'openDate': new Date(2015, 10, 16),
         'dueDate': new Date(2015, 10, 17),
-        'turnedIn': 15
+        'submitted': 15
     }];
 
     ctrl.onOrderChange = function(order) {
