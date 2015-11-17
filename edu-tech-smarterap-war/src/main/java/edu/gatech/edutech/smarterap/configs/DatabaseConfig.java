@@ -75,10 +75,7 @@ public class DatabaseConfig
 
 	private void configureSessionFactory(final LocalSessionFactoryBean sessionFactory)
 	{
-		//		sessionFactory.setMappingDirectoryLocations(new ClassPathResource("", BaseDto.class));
 		sessionFactory.setAnnotatedClasses(Course.class, User.class, Subject.class);
-		//		sessionFactory.setAnnotatedPackages("edu.gatech.edutech.smarterap.dtos");
-		//		sessionFactory.setAnnotatedClasses(Course.class);
 	}
 
 	private Properties buildHibernateProperties()
@@ -89,9 +86,9 @@ public class DatabaseConfig
 
 			{
 				setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
-				setProperty("hibernate.show_sql", "false");
+				setProperty("hibernate.show_sql", "true");
 				setProperty("hibernate.connection.autocommit", "true");
-				setProperty("hibernate.hbm2ddl.auto", "create");
+				setProperty("hibernate.hbm2ddl.auto", "validate");
 			}
 		};
 	}
