@@ -110,4 +110,16 @@ public class CrudService
 		}
 		return new JsonResponse<T>(success, message, null);
 	}
+
+	public <T> Long count(final Class<T> clazz)
+	{
+		try
+		{
+			return databaseDao.count(clazz);
+		}
+		catch (final SmarterApException e)
+		{
+			return -1L;
+		}
+	}
 }

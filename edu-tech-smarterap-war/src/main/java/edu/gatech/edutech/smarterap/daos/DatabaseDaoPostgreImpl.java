@@ -9,6 +9,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Disjunction;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -201,12 +202,13 @@ public class DatabaseDaoPostgreImpl implements DatabaseDao
 
 	private <T> Query createQuery(final Class<T> clazz, final String queryType)
 	{
+		System.out.println(queryType + clazz.getSimpleName() + QueryConstants.WHERE_ID);
 		return getCurrentSession().createQuery(queryType + clazz.getSimpleName() + QueryConstants.WHERE_ID);
 	}
 
 	private class QueryConstants
 	{
-		public static final String	WHERE_ID	= "where uid = :uid";
+		public static final String	WHERE_ID	= " where uid = :uid";
 		public static final String	DELETE_FROM	= "delete from ";
 	}
 
@@ -228,5 +230,11 @@ public class DatabaseDaoPostgreImpl implements DatabaseDao
 	private <T extends BaseDto> Criteria buildCollectionCriteria(final Class<T> clazz, final String collection, final String alias, final String field, final Object value)
 	{
 		return getCurrentSession().createCriteria(clazz).createAlias(collection, alias).add(Restrictions.eq(alias + "." + field, value));
+	}
+
+	@Override
+	public <T> Long count(final Class<T> clazz)
+	{
+		return (Long) getCurrentSession().createCriteria(clazz).setProjection(Projections.rowCount()).uniqueResult();
 	}
 }

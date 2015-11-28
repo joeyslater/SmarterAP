@@ -1,18 +1,22 @@
 package edu.gatech.edutech.smarterap.dtos;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
 import org.pojomatic.annotations.AutoProperty;
 
 @Entity
 @AutoProperty
-public class Subject extends BaseDto
+public class Tag extends BaseDto
 {
-	@Column(unique = true)
-	private String	name;
 	@Column
-	private String	category;
+	private String	name;
+
+	@ManyToOne(cascade = CascadeType.ALL)
+	private Subject	subject;
+
 	@Column
 	private boolean	enabled	= true;
 
@@ -26,14 +30,14 @@ public class Subject extends BaseDto
 		this.name = name;
 	}
 
-	public String getCategory()
+	public Subject getSubject()
 	{
-		return category;
+		return subject;
 	}
 
-	public void setCategory(final String category)
+	public void setSubject(final Subject subject)
 	{
-		this.category = category;
+		this.subject = subject;
 	}
 
 	public boolean isEnabled()

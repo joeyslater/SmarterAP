@@ -12,6 +12,9 @@ function AdminDashboardController($http, $location, Ui) {
         'title': 'Subjects',
         'template': 'main/pages/dashboard/admin/subjects/subjects-list.tpl.html'
     }, {
+        'title': 'Tags',
+        'template': 'main/pages/dashboard/admin/tags/tags-list.tpl.html'
+    }, {
         'title': 'Questions'
     }, {
         'title': 'Database'

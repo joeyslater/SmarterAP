@@ -18,13 +18,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.stormpath.sdk.account.Account;
-import com.stormpath.sdk.group.Group;
-import com.stormpath.sdk.group.GroupList;
 import com.stormpath.sdk.resource.ResourceException;
 
 import edu.gatech.edutech.smarterap.dtos.User;
 import edu.gatech.edutech.smarterap.dtos.json.JsonResponse;
-import edu.gatech.edutech.smarterap.enums.SecurityRole;
 import edu.gatech.edutech.smarterap.services.CrudService;
 import edu.gatech.edutech.smarterap.services.StormpathService;
 import edu.gatech.edutech.smarterap.validators.RegistrationValidator;
@@ -58,28 +55,11 @@ public class RegistrationController
 	        final HttpServletResponse response)
 	{
 		registrationValidator.validate(user, result);
-
 		try
 		{
 			if (!result.hasErrors())
 			{
-				final Account account = stormpathService.getDataStore().instantiate(Account.class);
-				account.setEmail(user.getUsername());
-				account.setGivenName(user.getGivenName());
-				account.setSurname(user.getSurname());
-				account.setPassword(user.getPassword());
-				stormpathService.getApplication().createAccount(account);
-
-				final GroupList groups = stormpathService.getApplication().getGroups();
-				for (final Group group : groups)
-				{
-					if (SecurityRole.STUDENT.toString().equals(group.getHref()))
-					{
-						account.addGroup(group);
-						break;
-					}
-				}
-
+				final Account account = stormpathService.createNewAccount(user);
 				crudService.create(build(account));
 				status.setComplete();
 				return new JsonResponse<String>(true, "Successfully registered.", "/dashboard");

@@ -16,6 +16,7 @@ import com.google.common.collect.Sets;
 import com.stormpath.sdk.account.Account;
 
 import edu.gatech.edutech.smarterap.daos.DatabaseDao;
+import edu.gatech.edutech.smarterap.daos.StormpathDao;
 import edu.gatech.edutech.smarterap.dtos.Course;
 import edu.gatech.edutech.smarterap.dtos.User;
 
@@ -24,10 +25,10 @@ import edu.gatech.edutech.smarterap.dtos.User;
 public class UserService
 {
 	@Autowired
-	private DatabaseDao			databaseDao;
+	private DatabaseDao		databaseDao;
 
 	@Autowired
-	private StormpathService	stormpathService;
+	private StormpathDao	stormpathDao;
 
 	public User get(final String href)
 	{
@@ -49,7 +50,7 @@ public class UserService
 
 	public User getUserFromEmail(final String email)
 	{
-		final Account account = stormpathService.getAccount("email", email);
+		final Account account = stormpathDao.getAccount("email", email);
 		if (account != null)
 		{
 			final User user = build(account);
@@ -61,7 +62,7 @@ public class UserService
 
 	public User getUserAccount(final User user)
 	{
-		final Account account = stormpathService.getAccount("email", user.getUsername());
+		final Account account = stormpathDao.getAccount("email", user.getUsername());
 		if (account != null)
 		{
 			final User userAccount = build(account);
@@ -78,7 +79,7 @@ public class UserService
 		{
 			for (final User user : course.getOwners())
 			{
-				final Account account = stormpathService.getAccount("email", user.getUsername());
+				final Account account = stormpathDao.getAccount("email", user.getUsername());
 				if (account != null)
 				{
 					course.getOwnerNames().add(account.getFullName());
@@ -98,7 +99,7 @@ public class UserService
 		{
 			for (final User user : course.getOwners())
 			{
-				final Account account = stormpathService.getAccount("email", user.getUsername());
+				final Account account = stormpathDao.getAccount("email", user.getUsername());
 				if (account != null)
 				{
 					course.getOwnerNames().add(account.getFullName());
@@ -113,7 +114,7 @@ public class UserService
 		final Set<String> names = Sets.newHashSet();
 		for (final User user : users)
 		{
-			final Account account = stormpathService.getAccount("email", user.getUsername());
+			final Account account = stormpathDao.getAccount("email", user.getUsername());
 			if (account != null)
 			{
 				names.add(account.getFullName());
@@ -127,8 +128,7 @@ public class UserService
 		final Set<User> studentsWithDetails = Sets.newHashSet();
 		for (final User student : students)
 		{
-			final Account account = stormpathService.getClient().getResource(student.getHref(), Account.class);
-			studentsWithDetails.add(build(account));
+			studentsWithDetails.add(build(stormpathDao.getAccount("href", student.getHref())));
 		}
 		return studentsWithDetails;
 	}

@@ -27,6 +27,12 @@ public class CourseController implements CrudController<Course>
 	private UserService	userService;
 
 	@Override
+	public Long count()
+	{
+		return crudService.count(Course.class);
+	}
+
+	@Override
 	public List<Course> readAll()
 	{
 		return crudService.list(Course.class);

@@ -46,4 +46,6 @@ public interface DatabaseDao
 
 	public <T extends BaseDto> List<T> getByUniqueFieldInCollectionWithOtherCriteria(Class<T> clazz, String collection, String alias, String field, Object value,
 	        Map<String, Object> criterias);
+
+	public <T> Long count(Class<T> clazz);
 }

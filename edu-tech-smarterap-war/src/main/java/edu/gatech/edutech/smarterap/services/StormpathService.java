@@ -1,88 +1,63 @@
 package edu.gatech.edutech.smarterap.services;
 
-import static edu.gatech.edutech.smarterap.configs.SecurityConfig.APP_REST_URL;
-import static edu.gatech.edutech.smarterap.configs.SecurityConfig.DIRECTORY_URL;
-
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.google.common.collect.Maps;
 import com.stormpath.sdk.account.Account;
-import com.stormpath.sdk.application.Application;
-import com.stormpath.sdk.client.Client;
-import com.stormpath.sdk.directory.Directory;
-import com.stormpath.sdk.ds.DataStore;
-import com.stormpath.sdk.tenant.Tenant;
+import com.stormpath.sdk.authc.AuthenticationRequest;
+import com.stormpath.sdk.authc.AuthenticationResult;
+import com.stormpath.sdk.group.Group;
+import com.stormpath.sdk.group.GroupList;
+import com.stormpath.sdk.resource.ResourceException;
+
+import edu.gatech.edutech.smarterap.daos.StormpathDao;
+import edu.gatech.edutech.smarterap.dtos.User;
+import edu.gatech.edutech.smarterap.enums.SecurityRole;
 
 @Service
 public class StormpathService
 {
 	@Autowired
-	private Client		stormpathClient;
+	private StormpathDao stormpathDao;
 
-	private DataStore	dataStore;
-
-	private Directory	directory;
-
-	private Application	application;
-
-	private Tenant		tenant;
-
-	public Application getApplication()
+	public AuthenticationResult authenticate(final AuthenticationRequest request)
 	{
-		if (application == null)
-		{
-			application = getDataStore().getResource(APP_REST_URL, Application.class);
-		}
-		return application;
+		return stormpathDao.getApplication().authenticateAccount(request);
 	}
 
-	public Client getClient()
+	public Account getAccount(final String string)
 	{
-		return stormpathClient;
+		return stormpathDao.getClient().getResource("https://api.stormpath.com/v1/accounts/PIxmeeDbTNL5SqBOAWs3c", Account.class);
 	}
 
-	public DataStore getDataStore()
+	public Account getNewAccount()
 	{
-		if (dataStore == null)
-		{
-			dataStore = getClient().getDataStore();
-		}
-		return dataStore;
+		return stormpathDao.getDataStore().instantiate(Account.class);
 	}
 
-	public Tenant getTenant()
+	public Account createNewAccount(final User user) throws ResourceException
 	{
-		if (tenant == null)
+		final Account account = stormpathDao.getDataStore().instantiate(Account.class);
+		account.setEmail(user.getUsername());
+		account.setGivenName(user.getGivenName());
+		account.setSurname(user.getSurname());
+		account.setPassword(user.getPassword());
+		stormpathDao.getApplication().createAccount(account);
+
+		final GroupList groups = stormpathDao.getApplication().getGroups();
+		for (final Group group : groups)
 		{
-			tenant = getClient().getCurrentTenant();
+			if (SecurityRole.STUDENT.toString().equals(group.getHref()))
+			{
+				account.addGroup(group);
+				break;
+			}
 		}
-		return tenant;
+		return account;
 	}
 
-	public Directory getDirectory()
+	public Account verifyAccountEmail(final String token)
 	{
-		if (directory == null)
-		{
-			directory = getDataStore().getResource(DIRECTORY_URL, Directory.class);
-		}
-		return directory;
+		return stormpathDao.getTenant().verifyAccountEmail(token);
 	}
-
-	public Account getAccount(final String field, final String value)
-	{
-		final Map<String, Object> query = Maps.newHashMap();
-		query.put(field, value);
-		try
-		{
-			return getClient().getAccounts(query).single();
-		}
-		catch (final IllegalStateException e)
-		{
-			return null;
-		}
-	}
-
 }

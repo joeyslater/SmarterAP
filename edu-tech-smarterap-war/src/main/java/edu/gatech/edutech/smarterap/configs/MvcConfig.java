@@ -21,7 +21,6 @@ public class MvcConfig extends WebMvcConfigurerAdapter
 	public void handle(final HttpMessageNotReadableException e)
 	{
 		e.printStackTrace();
-		System.out.println("Ugh");
 		throw e;
 	}
 }

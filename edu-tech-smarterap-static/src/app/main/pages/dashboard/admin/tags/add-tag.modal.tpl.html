@@ -1,0 +1,37 @@
+<md-dialog aria-label="Add Tag" ng-cloak>
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Add Tag</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="addTag.cancel()">
+                    <md-icon class="material-icon" aria-label="Close Dialog">close</md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <div layout="column">
+                    <md-input-container>
+                        <label>Tag Name</label>
+                        <input ng-model="addTag.currentTag.name">
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Subject</label>
+                        <md-select ng-model="addTag.currentTag.subject" ng-model-options="{trackBy: '$value.uid'}">
+                            <md-option ng-repeat="subject in addTag.subjects" ng-value="subject" ng-bind="subject.name"></md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+        </md-dialog-content>
+        <div class="md-actions" layout="row">
+            <span flex></span>
+            <md-button ng-click="addTag.cancel()">
+                Cancel
+            </md-button>
+            <md-button ng-click="addTag.save()">
+                Save
+            </md-button>
+        </div>
+    </form>
+</md-dialog>

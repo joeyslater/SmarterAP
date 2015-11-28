@@ -20,6 +20,7 @@ public class AdminService
 	private DatabaseDao	databaseDao;
 
 	//TODO Will not grab users from StormPath not in Database. Will run other script that will take care of that daily.
+	//	@PreAuthorize("hasRole('" + SecurityRole.ADMIN.toString() + "')")
 	public List<User> retrieveAllUsers()
 	{
 		final List<User> usersToReturn = Lists.newArrayList();

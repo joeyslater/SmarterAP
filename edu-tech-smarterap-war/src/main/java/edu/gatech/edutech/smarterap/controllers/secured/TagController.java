@@ -11,43 +11,43 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.gatech.edutech.smarterap.controllers.CrudController;
-import edu.gatech.edutech.smarterap.dtos.Subject;
+import edu.gatech.edutech.smarterap.dtos.Tag;
 import edu.gatech.edutech.smarterap.dtos.json.JsonResponse;
 import edu.gatech.edutech.smarterap.services.CrudService;
 
 @RestController
-@RequestMapping("/api/subject")
-public class SubjectController implements CrudController<Subject>
+@RequestMapping("/api/tag")
+public class TagController implements CrudController<Tag>
 {
 	@Autowired
 	private CrudService crudService;
 
 	@Override
-	public List<Subject> readAll()
+	public List<Tag> readAll()
 	{
-		return crudService.list(Subject.class);
+		return crudService.list(Tag.class);
 	}
 
 	@Override
-	public Subject read(@PathVariable final Long uid)
+	public Tag read(@PathVariable final Long uid)
 	{
-		return crudService.get(Subject.class, uid);
+		return crudService.get(Tag.class, uid);
 	}
 
 	@Override
-	public JsonResponse<Subject> create(@RequestBody final Subject dto, final HttpServletRequest request)
+	public JsonResponse<Tag> create(@RequestBody final Tag dto, final HttpServletRequest request)
 	{
 		return crudService.create(dto);
 	}
 
 	@Override
-	public JsonResponse<Subject> delete(@PathVariable final Long uid)
+	public JsonResponse<Tag> delete(@PathVariable final Long uid)
 	{
-		return crudService.delete(Subject.class, uid);
+		return crudService.delete(Tag.class, uid);
 	}
 
 	@Override
-	public JsonResponse<Subject> update(final Long uid, final Subject dto)
+	public JsonResponse<Tag> update(final Long uid, final Tag dto)
 	{
 		return crudService.update(uid, dto);
 	}
@@ -55,7 +55,6 @@ public class SubjectController implements CrudController<Subject>
 	@Override
 	public Long count()
 	{
-		return crudService.count(Subject.class);
+		return crudService.count(Tag.class);
 	}
-
 }

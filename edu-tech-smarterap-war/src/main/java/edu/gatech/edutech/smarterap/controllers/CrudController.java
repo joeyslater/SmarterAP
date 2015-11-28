@@ -15,6 +15,10 @@ import edu.gatech.edutech.smarterap.dtos.json.JsonResponse;
 
 public interface CrudController<T>
 {
+	@RequestMapping(value = "/count", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public Long count();
+
 	@RequestMapping(value = "/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<T> readAll();

@@ -77,7 +77,7 @@ public class TestController
 
 		final User user = userService.getUserFromEmail(request.getUserPrincipal().getName());
 
-		final Account account = stormpathService.getClient().getResource("https://api.stormpath.com/v1/accounts/PIxmeeDbTNL5SqBOAWs3c", Account.class);
+		final Account account = stormpathService.getAccount("https://api.stormpath.com/v1/accounts/PIxmeeDbTNL5SqBOAWs3c");
 		if (userService.get(account.getHref()) == null)
 		{
 			crudService.create(build(account));

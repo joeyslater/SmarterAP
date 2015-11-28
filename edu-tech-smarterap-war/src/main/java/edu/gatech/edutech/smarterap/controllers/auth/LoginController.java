@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.stormpath.sdk.authc.AuthenticationRequest;
 import com.stormpath.sdk.authc.AuthenticationResult;
 import com.stormpath.sdk.authc.UsernamePasswordRequest;
 
@@ -60,10 +61,11 @@ public class LoginController
 		{
 			try
 			{
-				final AuthenticationResult authResult = stormpathService.getApplication()
-				        .authenticateAccount(UsernamePasswordRequest.builder().setUsernameOrEmail(user.getUsername()).setPassword(user.getPassword()).build());
+				final AuthenticationRequest request = UsernamePasswordRequest.builder().setUsernameOrEmail(user.getUsername()).setPassword(user.getPassword()).build();
+				final AuthenticationResult authResult = stormpathService.authenticate(request);
 				session.setAttribute("sessionUser", authResult.getAccount());
 				status.setComplete();
+
 				final UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
 				SecurityContextHolder.getContext().setAuthentication(authRequest);
 
@@ -94,7 +96,7 @@ public class LoginController
 	{
 		try
 		{
-			stormpathService.getTenant().verifyAccountEmail(token);
+			stormpathService.verifyAccountEmail(token);
 			return new JsonResponse<String>(true, "Successfully authenticated", "/dashboard");
 		}
 		catch (final RuntimeException re)

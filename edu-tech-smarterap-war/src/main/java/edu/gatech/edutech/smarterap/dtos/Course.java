@@ -12,7 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.Fetch;
@@ -25,7 +24,6 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-@Table(name = "course")
 @AutoProperty
 public class Course extends BaseDto
 {
@@ -43,6 +41,7 @@ public class Course extends BaseDto
 	@Fetch(FetchMode.SELECT)
 	private Set<User>	owners		= newHashSet();
 
+	//TODO Make it lazy
 	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	@JoinTable(name = "course_students", joinColumns = @JoinColumn(name = "student_course_id") , inverseJoinColumns = @JoinColumn(name = "student_username", referencedColumnName = "username") )
 	@Fetch(FetchMode.SELECT)

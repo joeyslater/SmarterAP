@@ -34,9 +34,9 @@ public class SecurityConfig extends StormpathWebSecurityConfigurerAdapter
 
 		        .antMatchers("/#/**", "/smarter-ap/authenticate", "/smarter-ap/logout", "/smarter-ap/register", "/smarter-ap/account").permitAll()
 
-		        .antMatchers("/smarter-ap/api/admin/**").hasRole(SecurityRole.ADMIN.toString())
-
 		        .antMatchers("/smarter-ap/api/**").authenticated()
+
+		        .antMatchers("/smarter-ap/api/admin/**").hasAnyRole("ADMIN", SecurityRole.ADMIN.toString())
 
 		        .and().formLogin().loginPage("/#/login").loginProcessingUrl("/smarter-ap/login").permitAll()
 
