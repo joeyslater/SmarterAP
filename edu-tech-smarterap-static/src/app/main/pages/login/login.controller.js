@@ -10,8 +10,8 @@ function LoginController($scope, $rootScope, $http, APP, $location, $state, Ui, 
         password: 'Password1'
     };
 
-	$scope.register = function() {
-		$location.url('/registration');
+	ctrl.goTo = function(state) {
+		$state.go(state);
 	};
 
     ctrl.authenticate = function(credentials) {
