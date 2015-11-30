@@ -8,26 +8,32 @@
                 <form name="registration-form" ng-submit="registration.register(registration.credentials)">
                     <div layout layout-sm="column">
                         <md-input-container flex>
-                            <label>First Name</label>
-                            <input ng-model="registration.credentials.givenName" ng-required="true"></input>
+							<!-- TODO: Min or Max length?-->
+                            <label for="givenName">First Name</label>
+                            <input id="givenName" ng-model="registration.credentials.givenName" ng-required="true"/>
                         </md-input-container>
                         <md-input-container flex>
-                            <label>Last Name</label>
-                            <input ng-model="registration.credentials.surname" ng-required="true"></input>
+							<!-- TODO: Min or Max length?-->
+                            <label for="surname">Last Name</label>
+                            <input id="surname" ng-model="registration.credentials.surname" ng-required="true"/>
                         </md-input-container>
                     </div>
                     <md-input-container>
-                        <label>Email Address</label>
-                        <input name="username" ng-model="registration.credentials.emailAddress" ng-required="true" type="email" />
+                        <label for="email">Email Address</label>
+                       		<input id="email" type="email" name="email" ng-model="registration.credentials.email" ng-required="true" />
+						<span ng-show="registration-form.email.$error.required">Email is required.</span>
+						<span ng-show="registration-form.email.$error.email">Invalid Email address.</span>
                     </md-input-container>
                     <div layout layout-sm="column">
                         <md-input-container flex>
+							<!-- TODO: Password match confirmation -->
                             <label>Password</label>
-                            <input type="password" name="password" ng-model="registration.credentials.password" ng-required="true" />
+                            <input type="password" id="password" name="password" ng-model="registration.credentials.password" ng-required="true" />
                         </md-input-container>
                         <md-input-container flex>
                             <label>Confirm Password</label>
-                            <input type="password" name="password" ng-model="registration.credentials.confirmedPassword" ng-required="true" />
+                            <input type="password" id="confirm-password" name="confirm-password" ng-model="registration.credentials.confirmedPassword"
+								   ng-required="true" pw-check="password"/>
                         </md-input-container>
                     </div>
                     <div layout layout-align="end end">
