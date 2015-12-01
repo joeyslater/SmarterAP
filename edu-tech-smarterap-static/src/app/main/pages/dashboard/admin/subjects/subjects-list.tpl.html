@@ -29,8 +29,7 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="subject in subjectsList.subjects | orderBy: subjectsList.listQuery.order ">
-                            <td name="Name " ng-bind="subject.name ">
-                                <span ng-if="subjectsLists." </td>
+                            <td name="Name " ng-bind="subject.name "></td>
                             <td name="Category " ng-bind="subject.category "></td>
                             <td name="Status">
                                 <md-icon class="material-icons" ng-if="subject.enabled">check</md-icon>

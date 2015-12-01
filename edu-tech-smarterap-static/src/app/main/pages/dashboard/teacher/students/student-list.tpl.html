@@ -7,10 +7,10 @@
                 <md-button id="file-students-csv-upload" upload="file-students-csv-input">
                     Import via .csv
                 </md-button>
-                <md-input-container md-no-float>
+                <md-input-container ng-model="studentsLists.newStudentEmail" md-no-float>
                     <input placeholder="Add Student (Email)"></input>
                 </md-input-container>
-                <md-icon class="material-icons">add</md-icon>
+                <md-icon ng-click="studentsLists.addStudent(studentsLists.newStudentEmail)" class="material-icons">add</md-icon>
             </md-data-table-toolbar>
             <md-data-table-toolbar class="alternate" ng-show="studentsList.selected.length">
                 <div>{{studentsList.selected.length === studentsList.students.length ? 'All' : studentsList.selected.length}} {{studentsList.selected.length > 1 ? 'students' : 'student'}} selected</div>

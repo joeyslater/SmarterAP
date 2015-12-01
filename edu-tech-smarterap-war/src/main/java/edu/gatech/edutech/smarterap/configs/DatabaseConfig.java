@@ -16,10 +16,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import edu.gatech.edutech.smarterap.daos.DatabaseDao;
 import edu.gatech.edutech.smarterap.daos.DatabaseDaoPostgreImpl;
-import edu.gatech.edutech.smarterap.dtos.Course;
-import edu.gatech.edutech.smarterap.dtos.Subject;
-import edu.gatech.edutech.smarterap.dtos.Tag;
-import edu.gatech.edutech.smarterap.dtos.User;
 
 @Configuration
 @EnableTransactionManagement
@@ -76,7 +72,10 @@ public class DatabaseConfig
 
 	private void configureSessionFactory(final LocalSessionFactoryBean sessionFactory)
 	{
-		sessionFactory.setAnnotatedClasses(Tag.class, Course.class, User.class, Subject.class);
+		sessionFactory.setAnnotatedPackages("edu.gatech.edutech.smarterap.dtos");
+		sessionFactory.setPackagesToScan("edu.gatech.edutech.smarterap.dtos");
+
+		//		sessionFactory.setAnnotatedClasses(Tag.class, Course.class, User.class, Subject.class);
 	}
 
 	private Properties buildHibernateProperties()
@@ -87,7 +86,7 @@ public class DatabaseConfig
 
 			{
 				setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
-				setProperty("hibernate.show_sql", "true");
+				setProperty("hibernate.show_sql", "false");
 				setProperty("hibernate.connection.autocommit", "true");
 				//				setProperty("hibernate.hbm2ddl.auto", "validate");
 			}

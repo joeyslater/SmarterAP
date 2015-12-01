@@ -1,7 +1,19 @@
 <div ng-controller='TeacherAssessmentsListController as assessmentsList'>
-    <md-content layout="column" flex="100" style="background: #eee;">
+    <div layout="row" layout-align="center start" flex ng-if="assessmentsList.loadingAssessments">
+        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+    <md-content layout="column" flex="100" style="background: #eee;" ng-if="!assessmentsList.loadingAssessments">
         <span class="md-table-title">Active</span>
         <md-card>
+            <md-data-table-toolbar ng-show="!assessmentsList.selected.length">
+                <div flex></div>
+                <md-button aria-label="Add New Assessment " ng-click="assessmentsList.openAddAssessmentDialog()">
+                    <md-tooltip md-direction="left ">
+                        Add New Assessment
+                    </md-tooltip>
+                    <md-icon class="material-icons">add</md-icon>
+                </md-button>
+            </md-data-table-toolbar>
             <md-data-table-toolbar ng-show="assessmentsList.selected.length">
                 <div>{{assessmentsList.selected.length === assessmentsList.assessments.length ? 'All' : assessmentsList.selected.length}} {{assessmentsList.selected.length > 1 ? 'assessments' : 'assessment'}} selected</div>
                 <span flex></span>
@@ -28,7 +40,7 @@
                             <td name="Turned In " ng-bind="assessment.submitted "></td>
                             <td>
                                 <md-icon class="material-icons ">delete</md-icon>
-                                <md-icon class="material-icons ">star_border</md-icon>
+                                <md-icon class="material-icons " ng-click="assessmentsList.favorite(assessment)">star_border</md-icon>
                                 <md-icon class="material-icons ">more_vert</md-icon>
                             </td>
                         </tr>
@@ -37,12 +49,4 @@
             </md-data-table-container>
         </md-card>
     </md-content>
-    <div class="bottom-fab ">
-        <md-button class="md-fab md-primary " aria-label="Add New Assessment " ng-click="assessmentsList.goTo('dashboard.teacher-assessment')">
-            <md-tooltip md-direction="left ">
-                Add New Assessment
-            </md-tooltip>
-            <md-icon class="material-icons ">add</md-icon>
-        </md-button>
-    </div>
 </div>

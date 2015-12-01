@@ -125,10 +125,16 @@ public class UserService
 
 	public Set<User> addUserDetails(final Set<User> students)
 	{
+		System.out.println(students);
 		final Set<User> studentsWithDetails = Sets.newHashSet();
 		for (final User student : students)
 		{
-			studentsWithDetails.add(build(stormpathDao.getAccount("href", student.getHref())));
+			final User user = build(stormpathDao.getAccount(student.getHref()));
+			if (user.getUid() == -1)
+			{
+				user.setStatus("disabled");
+			}
+			studentsWithDetails.add(student);
 		}
 		return studentsWithDetails;
 	}

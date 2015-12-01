@@ -84,4 +84,16 @@ public class StormpathDao
 			return null;
 		}
 	}
+
+	public Account getAccount(final String href)
+	{
+		try
+		{
+			return getClient().getResource(href, Account.class);
+		}
+		catch (final Exception e)
+		{
+			return null;
+		}
+	}
 }

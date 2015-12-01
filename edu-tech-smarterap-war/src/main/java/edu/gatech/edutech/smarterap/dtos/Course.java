@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.Fetch;
@@ -28,41 +29,39 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Course extends BaseDto
 {
 	@Column
-	private String		name;
+	private String			name;
 
 	@Column
-	private String		section;
+	private String			section;
 
 	@ManyToOne(cascade = CascadeType.ALL)
-	private Subject		subject;
+	private Subject			subject;
 
 	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	@JoinTable(name = "course_owners", joinColumns = @JoinColumn(name = "owned_course_id") , inverseJoinColumns = @JoinColumn(name = "owner_username", referencedColumnName = "username") )
 	@Fetch(FetchMode.SELECT)
-	private Set<User>	owners		= newHashSet();
+	private Set<User>		owners		= newHashSet();
 
 	//TODO Make it lazy
 	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	@JoinTable(name = "course_students", joinColumns = @JoinColumn(name = "student_course_id") , inverseJoinColumns = @JoinColumn(name = "student_username", referencedColumnName = "username") )
 	@Fetch(FetchMode.SELECT)
-	private Set<User>	students	= newHashSet();
+	private Set<User>		students	= newHashSet();
 
-	//	@JsonIgnore
-	//	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
-	//	@JoinColumn(name = "course_id")
-	/*	@Transient
-		private Set<Assessment>	assessments;*/
+	@JsonIgnore
+	@OneToMany
+	private Set<Assessment>	assessments;
 
 	@JsonIgnore
 	@Transient
-	private Set<String>	ownerNames	= newHashSet();
+	private Set<String>		ownerNames	= newHashSet();
 
 	@JsonIgnore
 	@Column
-	private boolean		enabled		= true;
+	private boolean			enabled		= true;
 	@JsonIgnore
 	@Column
-	private boolean		visible		= true;
+	private boolean			visible		= true;
 
 	public Course()
 	{
