@@ -38,7 +38,7 @@ public class StormpathService
 	public Account createNewAccount(final User user) throws ResourceException
 	{
 		final Account account = stormpathDao.getDataStore().instantiate(Account.class);
-		account.setEmail(user.getUsername());
+		account.setEmail(user.getEmail());
 		account.setGivenName(user.getGivenName());
 		account.setSurname(user.getSurname());
 		account.setPassword(user.getPassword());

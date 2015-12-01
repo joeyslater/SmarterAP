@@ -62,7 +62,7 @@ public class RegistrationController
 				final Account account = stormpathService.createNewAccount(user);
 				crudService.create(build(account));
 				status.setComplete();
-				return new JsonResponse<String>(true, "Successfully registered.", "/dashboard");
+				return new JsonResponse<>(true, "Successfully registered.", "/login");
 			}
 		}
 		catch (final ResourceException e)
@@ -70,9 +70,9 @@ public class RegistrationController
 			response.setStatus(e.getStatus());
 			session.invalidate();
 			status.setComplete();
-			return new JsonResponse<String>(false, e.getDeveloperMessage(), "/register");
+			return new JsonResponse<>(false, e.getDeveloperMessage(), "/register");
 		}
-		return new JsonResponse<String>(false, result.getAllErrors().get(0).getDefaultMessage().toString(), "/register");
+		return new JsonResponse<>(false, result.getAllErrors().get(0).getDefaultMessage().toString(), "/register");
 	}
 
 }

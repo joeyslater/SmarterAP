@@ -29,6 +29,11 @@ public class User extends BaseDto implements Serializable
 	@Column(unique = true)
 	private String				href;
 
+
+
+	@Transient
+	private String				email;
+
 	@Transient
 	private String				givenName;
 
@@ -41,11 +46,13 @@ public class User extends BaseDto implements Serializable
 	@JsonProperty
 	@Transient
 	private String				password;
-	@JsonIgnore
+
 	@Transient
 	private String				confirmedPassword;
+
 	@Transient
 	private String				status;
+
 	@Transient
 	private Set<SecurityRole>	securityRoles;
 
@@ -58,6 +65,10 @@ public class User extends BaseDto implements Serializable
 	{
 		this.href = href;
 	}
+
+	public String getEmail() { return email; }
+
+	public void setEmail(String email) { this.email = email;}
 
 	public String getGivenName()
 	{

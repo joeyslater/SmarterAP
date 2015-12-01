@@ -2,13 +2,17 @@ angular.module('smarterap')
 
 .controller('LoginController', LoginController);
 
-function LoginController($rootScope, $http, APP, $location, $state, Ui, $auth, $user, STORMPATH_CONFIG) {
+function LoginController($scope, $rootScope, $http, APP, $location, $state, Ui, $auth, $user, STORMPATH_CONFIG) {
     var ctrl = this;
     ctrl.title = APP.TITLE;
     ctrl.credentials = {
         username: 'joeyslater@gatech.edu',
         password: 'Password1'
     };
+
+	ctrl.goTo = function(state) {
+		$state.go(state);
+	};
 
     ctrl.authenticate = function(credentials) {
         $http.post('/smarter-ap/authenticate', JSON.stringify(credentials), {
