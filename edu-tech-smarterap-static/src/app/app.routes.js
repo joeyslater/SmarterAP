@@ -24,6 +24,12 @@ angular.module('smarterap')
             controller: 'RegistrationController',
             controllerAs: 'registration'
         })
+		.state('reset-password', {
+			url: '/reset-password',
+			templateUrl: 'main/pages/reset-password/reset-password.tpl.html',
+			controller: 'ResetPasswordController',
+			controllerAs: 'resetPassword'
+		})
         .state('question-create', {
             url: '/question/new',
             templateUrl: 'main/pages/question/question-create.tpl.html',

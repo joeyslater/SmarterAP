@@ -32,7 +32,8 @@ public class SecurityConfig extends StormpathWebSecurityConfigurerAdapter
 
 		        .antMatchers("/index.html", "/home.html", "/login.html", "/*.js", "/*.css").permitAll()
 
-		        .antMatchers("/#/**", "/smarter-ap/authenticate", "/smarter-ap/logout", "/smarter-ap/register", "/smarter-ap/account").permitAll()
+		        .antMatchers("/#/**", "/smarter-ap/authenticate", "/smarter-ap/logout", "/smarter-ap/register",
+							 "/smarter-ap/account", "/smarter-ap/password/**").permitAll()
 
 		        .antMatchers("/smarter-ap/api/**").authenticated()
 

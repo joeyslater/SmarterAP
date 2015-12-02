@@ -60,4 +60,5 @@ public class StormpathService
 	{
 		return stormpathDao.getTenant().verifyAccountEmail(token);
 	}
+
 }
