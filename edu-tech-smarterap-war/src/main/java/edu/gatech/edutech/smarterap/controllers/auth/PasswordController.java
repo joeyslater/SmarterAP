@@ -6,6 +6,7 @@ import edu.gatech.edutech.smarterap.dtos.User;
 import edu.gatech.edutech.smarterap.dtos.json.JsonResponse;
 import edu.gatech.edutech.smarterap.services.IStormpathService;
 import edu.gatech.edutech.smarterap.validators.ChangePasswordValidator;
+import edu.gatech.edutech.smarterap.validators.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -34,8 +35,7 @@ import javax.servlet.http.HttpSession;
 @Transactional(propagation = Propagation.REQUIRES_NEW)
 public class PasswordController {
 	ChangePasswordValidator changePasswordValidator;
-
-	ResetPasswordValidator resetPasswordValidator;
+	EmailValidator emailValidator;
 
 	@Autowired
 	UserDao userDao;
@@ -48,9 +48,9 @@ public class PasswordController {
 	}
 
 	@Autowired
-	public PasswordController(ChangePasswordValidator changePasswordValidator, ResetPasswordValidator resetPasswordValidator) {
+	public PasswordController(ChangePasswordValidator changePasswordValidator, EmailValidator emailValidator) {
 		this.changePasswordValidator = changePasswordValidator;
-		this.resetPasswordValidator = resetPasswordValidator;
+		this.emailValidator = emailValidator;
 	}
 
 
@@ -59,14 +59,14 @@ public class PasswordController {
 	public JsonResponse<String> processResetPassword(final @RequestBody String email, final BindingResult result, final SessionStatus status, final HttpSession session,
 													 final HttpServletResponse response) {
 
-//		resetPasswordValidator.validate(email, result);
+		emailValidator.validate(email, result);
 
-		System.out.println("processResetPassword: Email -> " + email);
 		if (result.hasErrors()) {
 			return new JsonResponse<>(false, "ERROR: Password Reset, Validation Error.", "/reset-password");
 		} else {
 			try {
 				stormpath.getApplication().sendPasswordResetEmail(email);
+				status.setComplete();
 			} catch (ResourceException re) {
 				response.setStatus(re.getStatus());
 				result.addError(new ObjectError("email", re.getCode() == 404 ? "The provided email for password reset does not exist." : re.getMessage()));
