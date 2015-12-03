@@ -4,6 +4,7 @@ angular.module('smarterap')
 
 function LoginController($scope, $rootScope, $http, APP, $location, $state, Ui, $auth, $user, STORMPATH_CONFIG) {
     var ctrl = this;
+	console.log('Starting LoginController');
     ctrl.title = APP.TITLE;
     ctrl.credentials = {
         username: 'joeyslater@gatech.edu',

@@ -1,25 +1,25 @@
-<div id="resetpassword-form" layout="column" layout-fill flex="100">
+<div id="resendverification-form" layout="column" layout-fill flex="100">
     <md-content class="md-padding form-content" flex="100">
         <div layout="row" layout-padding layout-wrap layout-fill layout-align="center center">
             <span class="app-logo" ng-click="login.goTo('homepage')"></span>
         </div>
         <div layout="row" layout-padding layout-wrap layout-fill layout-align="center center">
             <md-whiteframe class="md-whiteframe-3dp" layout layout-padding layout-align="center top">
-                <form name="resetpassword-form" ng-submit="resetPassword.sendRequest(resetPassword.user)">
+                <form name="resendverification-form" ng-submit="resendVerification.sendRequest(resendVerification.user)">
                     <md-input-container>
                         <label for="email">Email Address</label>
-                       		<input id="email" type="email" name="email" size="30" ng-model="resetPassword.user.email" ng-required="true" />
-						<span ng-show="resetpassword-form.email.$error.required">Email is required.</span>
-						<span ng-show="resetpassword-form.email.$error.email">Invalid Email address.</span>
+                       		<input id="email" type="email" name="email" size="30" ng-model="resendVerification.user.email" ng-required="true" />
+						<span ng-show="resendverification-form.email.$error.required">Email is required.</span>
+						<span ng-show="resendverification-form.email.$error.email">Invalid Email address.</span>
                     </md-input-container>
-                    <div layout layout-align="center center">
-                        <md-button type="submit" class="md-raised md-primary">Reset Password</md-button>
+                    <div layout layout-align="end end">
+                        <md-button type="submit" class="md-raised md-primary">Resend Verification</md-button>
                     </div>
                 </form>
             </md-whiteframe>
         </div>
         <div layout="row" layout-padding layout-wrap layout-fill layout-align="center center">
-            <md-button ng-click="resetPassword.goTo('login')" class="md-flat md-primary">Log In</md-button>
+            <md-button ng-click="resendVerification.goTo('login')" class="md-flat md-primary">Log In</md-button>
         </div>
     </md-content>
 </div>

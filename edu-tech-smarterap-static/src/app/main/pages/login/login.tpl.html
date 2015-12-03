@@ -21,11 +21,18 @@
                     <div layout="row">
                         <p class="md-body-1 md-warn" ng-bind="login.errorMessage"></p>
                     </div>
-                    <div layout="row" layout-align="end end">
-                        <md-button type="button" class="md-flat md-primary" ng-click="login.goTo('reset-password')">Forgot Password?</md-button>
+                    <div layout="row" layout-align="center center">
                         <md-button type="submit" class="md-raised md-primary">Submit</md-button>
                     </div>
-                </form>
+					<div layout="row" layout-align="end end">
+						<md-button type="button" class="md-flat md-primary" ng-click="login.goTo('reset-password')">
+							Forgot Password?
+						</md-button>
+						<md-button type="button" class="md-flat md-primary" ng-click="login.goTo('resend-verification')">
+							Resend Email Verification?
+						</md-button>
+					</div>
+				</form>
             </md-whiteframe>
         </div>
         <div layout="row" layout-padding layout-wrap layout-fill layout-align="center center">

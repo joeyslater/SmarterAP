@@ -1,5 +1,7 @@
 package edu.gatech.edutech.smarterap.controllers.auth;
 
+import com.stormpath.sdk.account.VerificationEmailRequest;
+import com.stormpath.sdk.application.Applications;
 import com.stormpath.sdk.resource.ResourceException;
 import edu.gatech.edutech.smarterap.daos.UserDao;
 import edu.gatech.edutech.smarterap.dtos.User;
@@ -62,7 +64,7 @@ public class PasswordController {
 		emailValidator.validate(email, result);
 
 		if (result.hasErrors()) {
-			return new JsonResponse<>(false, "ERROR: Password Reset, Validation Error.", "/reset-password");
+			return new JsonResponse<>(false, "ERROR: Password Reset, Email Validation Error.", "/reset-password");
 		} else {
 			try {
 				stormpath.getApplication().sendPasswordResetEmail(email);
@@ -79,4 +81,32 @@ public class PasswordController {
 		return new JsonResponse<>(true, "Sent Password Reset Email.", "/login");
 	}
 
+	@RequestMapping(value = "/resendVerification", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public JsonResponse<String> processResendVerification(final @RequestBody String email, final BindingResult result, final SessionStatus status, final HttpSession session,
+													 final HttpServletResponse response) {
+
+		emailValidator.validate(email, result);
+
+		if (result.hasErrors()) {
+			return new JsonResponse<>(false, "ERROR: Resend Email Verification, Email Validation Error.", "/resend-verification");
+		} else {
+			try {
+				VerificationEmailRequest verificationEmailRequest = Applications.verificationEmailBuilder()
+						.setLogin(email)
+						.setAccountStore(stormpath.getDirectory())
+						.build();
+				stormpath.getApplication().sendVerificationEmail(verificationEmailRequest);
+				status.setComplete();
+			} catch (ResourceException re) {
+				response.setStatus(re.getStatus());
+				result.addError(new ObjectError("email", re.getCode() == 404 ? "The provided email for the email verification does not exist." : re.getMessage()));
+				re.printStackTrace();
+				return new JsonResponse<>(false, result.getAllErrors().toString(), "/resend-verification");
+			}
+		}
+
+		// Success
+		return new JsonResponse<>(true, "Resent Email Verification email.", "/login");
+	}
 }
