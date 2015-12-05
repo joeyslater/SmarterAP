@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.stormpath.sdk.account.Account;
+import com.stormpath.sdk.account.VerificationEmailRequest;
+import com.stormpath.sdk.application.Applications;
 import com.stormpath.sdk.authc.AuthenticationRequest;
 import com.stormpath.sdk.authc.AuthenticationResult;
 import com.stormpath.sdk.group.Group;
@@ -60,4 +62,16 @@ public class StormpathService
 	{
 		return stormpathDao.getTenant().verifyAccountEmail(token);
 	}
+
+	public void sendVerificationEmail(final String email)
+	{
+		final VerificationEmailRequest verificationEmailRequest = Applications.verificationEmailBuilder().setLogin(email).setAccountStore(stormpathDao.getDirectory()).build();
+		stormpathDao.getApplication().sendVerificationEmail(verificationEmailRequest);
+	}
+
+	public void sendPasswordResetEmail(final String email)
+	{
+		stormpathDao.getApplication().sendPasswordResetEmail(email);
+	}
+
 }

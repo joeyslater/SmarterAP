@@ -111,7 +111,18 @@ angular.module('smarterap')
             sp: {
                 authenticate: true
             }
-        });
+        }).state('resend-verification', {
+			url: '/resend-verification',
+			templateUrl: 'main/pages/resend-verification/resend-verification.tpl.html',
+			controller: 'ResendVerificationController',
+			controllerAs: 'resendVerification'
+		})
+		.state('reset-password', {
+			url: '/reset-password',
+			templateUrl: 'main/pages/reset-password/reset-password.tpl.html',
+			controller: 'ResetPasswordController',
+			controllerAs: 'resetPassword'
+		});
 })
 
 .run(function($rootScope, $state, $stormpath, Ui, UserService) {

@@ -1,39 +1,38 @@
 <div id="registration-form" layout="column" layout-fill flex="100">
     <md-content class="md-padding form-content" flex="100">
         <div layout="row" layout-padding layout-wrap layout-fill layout-align="center center">
-            <span class="app-logo" ng-click="login.goTo('homepage')"></span>
+            <span class="app-logo" ui-sref="homepage"></span>
         </div>
         <div layout="row" layout-padding layout-wrap layout-fill layout-align="center center">
             <md-whiteframe class="md-whiteframe-3dp" layout layout-padding layout-align="center top">
                 <form name="registration-form" ng-submit="registration.register(registration.credentials)">
                     <div layout layout-sm="column">
                         <md-input-container flex>
-							<!-- TODO: Min or Max length?-->
+                            <!-- TODO: Min or Max length?-->
                             <label for="givenName">First Name</label>
-                            <input id="givenName" ng-model="registration.credentials.givenName" ng-required="true"/>
+                            <input id="givenName" ng-model="registration.credentials.givenName" ng-required="true" />
                         </md-input-container>
                         <md-input-container flex>
-							<!-- TODO: Min or Max length?-->
+                            <!-- TODO: Min or Max length?-->
                             <label for="surname">Last Name</label>
-                            <input id="surname" ng-model="registration.credentials.surname" ng-required="true"/>
+                            <input id="surname" ng-model="registration.credentials.surname" ng-required="true" />
                         </md-input-container>
                     </div>
                     <md-input-container>
                         <label for="email">Email Address</label>
-                       		<input id="email" type="email" name="email" ng-model="registration.credentials.email" ng-required="true" />
-						<span ng-show="registration-form.email.$error.required">Email is required.</span>
-						<span ng-show="registration-form.email.$error.email">Invalid Email address.</span>
+                        <input id="email" type="email" name="email" ng-model="registration.credentials.email" ng-required="true" />
+                        <span ng-show="registration-form.email.$error.required">Email is required.</span>
+                        <span ng-show="registration-form.email.$error.email">Invalid Email address.</span>
                     </md-input-container>
                     <div layout layout-sm="column">
                         <md-input-container flex>
-							<!-- TODO: Password match confirmation -->
+                            <!-- TODO: Password match confirmation -->
                             <label>Password</label>
                             <input type="password" id="password" name="password" ng-model="registration.credentials.password" ng-required="true" />
                         </md-input-container>
                         <md-input-container flex>
                             <label>Confirm Password</label>
-                            <input type="password" id="confirm-password" name="confirm-password" ng-model="registration.credentials.confirmedPassword"
-								   ng-required="true" pw-check="password"/>
+                            <input type="password" id="confirm-password" name="confirm-password" ng-model="registration.credentials.confirmedPassword" ng-required="true" pw-check="password" />
                         </md-input-container>
                     </div>
                     <div layout layout-align="end end">
@@ -43,7 +42,7 @@
             </md-whiteframe>
         </div>
         <div layout="row" layout-padding layout-wrap layout-fill layout-align="center center">
-            <md-button ng-click="registration.goTo('login')" class="md-flat md-primary">Sign In</md-button>
+            <md-button ui-sref="login" class="md-flat md-primary">Sign In</md-button>
         </div>
     </md-content>
 </div>

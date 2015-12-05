@@ -2,16 +2,13 @@ angular.module('smarterap')
 
 .controller('RegistrationController', RegistrationController);
 
-function RegistrationController($http, APP, $location, $state) {
+function RegistrationController($http, APP, $state, $mdToast) {
     var ctrl = this;
-    ctrl.title = APP.TITLE;
 
     ctrl.credentials = {};
 
     ctrl.register = function(credentials) {
         var regError = 'Error (Registration): ';
-        console.log(credentials);
-        console.log(JSON.stringify(credentials));
         if (credentials.password !== credentials.confirmedPassword) {
             console.log(regError + 'Passwords do not match! --> password: "' + credentials.password + "' != '" +
                 credentials.confirmedPassword + "'");
@@ -27,9 +24,8 @@ function RegistrationController($http, APP, $location, $state) {
                 })
                 .then(
                     function(response) {
-                        console.log(response);
-                        console.log('success');
-                        //$location.url("/login");
+                        $mdToast.show($mdToast.simple().content('Successfully registered. Please see your email.').hideDelay(3000));
+                        $state.go('login');
                     },
                     function(response) {
                         console.log(response);

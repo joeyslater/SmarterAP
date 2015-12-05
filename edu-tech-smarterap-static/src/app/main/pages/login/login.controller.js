@@ -4,7 +4,6 @@ angular.module('smarterap')
 
 function LoginController($scope, $rootScope, $http, $timeout, APP, $state, Ui, UserService, $auth, $user, STORMPATH_CONFIG) {
     var ctrl = this;
-    ctrl.title = APP.TITLE;
     ctrl.loginLoading = false;
     ctrl.credentials = {
         username: 'joeyslater@gatech.edu',
@@ -47,7 +46,6 @@ function LoginController($scope, $rootScope, $http, $timeout, APP, $state, Ui, U
     function init() {
         $http.get('/smarter-ap/account')
             .then(function(response) {
-                console.log(response.data);
                 UserService.setUser(response.data);
                 $state.go(UserService.getDashboard());
             });

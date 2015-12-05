@@ -1,7 +1,7 @@
 <div id="login-form" layout="column" layout-fill flex="100">
     <md-content class="md-padding form-content" flex="100">
         <div layout="row" layout-padding layout-wrap layout-fill layout-align="center center">
-            <span class="app-logo" ng-click="login.goTo('homepage')"></span>
+            <span class="app-logo" ui-sref="homepage"></span>
         </div>
         <div layout="row" layout-padding layout-wrap layout-fill layout-align="center center">
             <md-whiteframe class="md-whiteframe-3dp" layout="row" layout-padding layout-align="center top">
@@ -21,9 +21,18 @@
                     <div layout="row">
                         <p class="md-body-1 md-warn" ng-bind="login.errorMessage"></p>
                     </div>
-                    <div layout="row" layout-align="end end" ng-if="!login.loginLoading">
-                        <md-button type="button" class="md-flat md-primary" ng-click="login.goTo('forget-password')">Forgot Password?</md-button>
+                    <div layout="row" layout-align="center end" ng-if="!login.loginLoading">
                         <md-button type="submit" class="md-raised md-primary">Submit</md-button>
+                    </div>
+                    <div layout="row" layout-align="end end" ng-if="!login.loginLoading">
+                        <div layout="row" layout-align="end end">
+                            <md-button type="button" class="md-flat md-primary" ui-sref="reset-password">
+                                Forgot Password?
+                            </md-button>
+                            <md-button type="button" class="md-flat md-primary" ui-sref="resend-verification">
+                                Resend Email Verification?
+                            </md-button>
+                        </div>
                     </div>
                     <div layout="row" layout-align="center start" flex ng-if="login.loginLoading">
                         <md-progress-circular md-mode="indeterminate"></md-progress-circular>
@@ -32,7 +41,7 @@
             </md-whiteframe>
         </div>
         <div layout="row" layout-padding layout-wrap layout-fill layout-align="center center">
-            <md-button ng-click="login.goTo('registration')" class="md-flat md-primary">Create an Account</md-button>
+            <md-button ui-sref="registration" class="md-flat md-primary">Create an Account</md-button>
         </div>
     </md-content>
 </div>
