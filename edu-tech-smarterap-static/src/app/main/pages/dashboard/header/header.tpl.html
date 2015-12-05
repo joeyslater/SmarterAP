@@ -20,20 +20,12 @@
                     </md-menu-item>
                 </md-menu-content>
             </md-menu>
-            <md-menu>
-                <md-button class="md-icon-button" aria-label="More" ng-click="$mdOpenMenu($event)">
-                    <md-icon class="material-icons">more_vert</md-icon>
-                </md-button>
-                <md-menu-content width="2">
-                    <md-menu-item ng-click="header.logout();">
-                        <md-button class="md-ident">
-                            <md-icon class="material-icons">power_settings_new</md-icon>
-                            <span md-menu-align-target>Logout</span>
-                        </md-button>
-                    </md-menu-item>
-                </md-menu-content>
-            </md-menu>
+            <md-button class="md-icon-button" aria-label="More" ng-click="header.logout();">
+                <md-tooltip md-direction="left">
+                    Logout
+                </md-tooltip>
+                <md-icon class="material-icons">exit_to_app</md-icon>
+            </md-button>
         </div>
     </md-toolbar>
-    {{header.user}}
 </div>

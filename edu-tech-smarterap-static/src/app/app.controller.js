@@ -12,7 +12,8 @@ angular.module('smarterap', [
     'textAngular',
     'as.sortable',
     'ngSanitize',
-    'stormpath'
+    'stormpath',
+    'ui.bootstrap'
 ])
 
 .config(function($provide, STORMPATH_CONFIG) {
@@ -56,8 +57,33 @@ angular.module('smarterap', [
     //         taTools.quote.buttontext = 'quote';
     //         return taTools;
     //     }]);
+
 })
 
-.controller('AppCtrl', AppCtrl);
+//Add insanely common functions to rootscope
+.run(function($rootScope, $state, $mdSidenav, UserService) {
+
+    //Used in almost every file
+    $rootScope.goTo = function(state) {
+        $state.go(state);
+        $mdSidenav('left-nav').close();
+    };
+
+    $rootScope.getRole = function() {
+        return UserService.getRole().toLowerCase();
+    };
+})
+
+.run(function($http, $state, $rootScope, UserService, STORMPATH_CONFIG) {
+    $http.get('/smarter-ap/account')
+        .then(function(response) {
+            UserService.setUser(response.data);
+            $state.go(UserService.getDashboard());
+        });
+})
+
+.controller('AppCtrl', AppCtrl)
+
+;
 
 function AppCtrl() {}

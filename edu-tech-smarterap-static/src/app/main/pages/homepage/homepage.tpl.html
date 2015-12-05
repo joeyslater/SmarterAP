@@ -1,7 +1,24 @@
 <div class="homepage" layout="column" flex>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <span class="app-logo white"></span>
+            <span flex></span>
+            <md-button class="md-primary" ui-sref="registration">
+                Sign Up
+            </md-button>
+            <md-button class="md-primary" ui-sref="login">
+                Sign In
+            </md-button>
+        </div>
+    </md-toolbar>
     <md-content>
+        <div class="slide"></div>
+        <div class="slide"></div>
+        <div class="slide"></div>
+        <div class="slide"></div>
+        <div class="slide"></div>
         <div class="mast-image">
-            <md-icon class="material-icons">play_circle_filled</md-icon>
+            <md-icon class="material-icons play-video">play_circle_filled</md-icon>
         </div>
         <md-card>
             <md-card-content>
@@ -10,7 +27,19 @@
         </md-card>
     </md-content>
     <span flex></span>
-    <footer>
+    <footer layout="row">
         <span class="app-logo"></span>
+        <span flex></span>
+        <a href> Home </a> |
+        <a href> About </a> |
+        <a href> Contact </a>
     </footer>
+    <div class="bottom-fab homepage">
+        <md-button class="md-fab md-primary" aria-label="Add Course" ng-click="teacherCoursesDashboard.openAddNewCourseDialog($event)">
+            <md-tooltip md-direction="left">
+                Add New Course
+            </md-tooltip>
+            <md-icon class="material-icons">keyboard_arrow_down</md-icon>
+        </md-button>
+    </div>
 </div>

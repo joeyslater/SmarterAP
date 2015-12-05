@@ -1,0 +1,60 @@
+.question-query {
+    text-align: center;
+    box-shadow: 0 0 2px rgba(0, 0, 0, .2);
+    height: 48px;
+    z-index: 2;
+    input {
+        border: 0;
+        line-height: 46px;
+        max-width: 800px;
+        width: 80%;
+        padding: 0;
+        &:active,
+        &:focus {
+            outline: none;
+        }
+    }
+}
+
+.top-padding {
+    padding-top: 3px !important;
+}
+
+.question-query-expanded {
+    position: absolute;
+    z-index: 1;
+    height: auto;
+    background: white;
+    margin-top: 1px;
+    margin-left: 60px;
+    max-width: 800px;
+    width: 80%;
+    box-shadow: 0 0 2px rgba(0, 0, 0, .2);
+    font-size: 12px;
+    div {
+        //padding: 4px;
+    }
+    label {
+        padding: 0;
+        color: rgba(0, 0, 0, 0.54);
+    }
+}
+
+.question-query-overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.54);
+    z-index: 1;
+}
+
+.question-bank-results {
+    > div {
+        margin: 0 auto;
+        width: 60%;
+        .md-table-title {
+            height: 24px;
+            line-height: 24px;
+        }
+    }
+}

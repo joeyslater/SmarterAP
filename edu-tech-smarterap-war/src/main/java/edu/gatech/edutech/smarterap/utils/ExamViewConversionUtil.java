@@ -33,7 +33,7 @@ public final class ExamViewConversionUtil
 {
 	//Change this to whatever you have locally. Use the main method below to test this.
 	//We will eventually do this via upload.
-	private static final String		LOCAL_PATH				= "C:\\Users\\Joey\\Documents\\Review_8_Arrays_ListsBB\\test.dat";
+	private static final String		LOCAL_PATH				= "C:\\Users\\Joey\\Desktop\\test.dat";
 
 	private static final String		EXP_QUESTION			= "presentation/flow/flow[@class=\"QUESTION_BLOCK\"]";
 	private static final String		EXP_QUESTION_TYPE		= "itemmetadata/bbmd_questiontype";
@@ -65,6 +65,14 @@ public final class ExamViewConversionUtil
 			{
 				questions.add(createQuestionFromNode(items.item(i)));
 			}
+
+			for (final Question question : questions)
+			{
+				for (final Answer answer : question.getAnswers())
+				{
+					System.out.println(answer.getText());
+				}
+			}
 		}
 		catch (IOException | SAXException | XPathExpressionException | ParserConfigurationException e)
 		{
@@ -81,10 +89,20 @@ public final class ExamViewConversionUtil
 		final String correctAnswer = ((Node) xpath.evaluate(EXP_RESPONSE_CORRECT, item, NODE)).getTextContent().trim();
 
 		final Question question = new Question();
-		question.setText(questionNode.getTextContent().trim());
+		question.setText(fix(questionNode.getTextContent().trim()));
 		question.setAnswers(createAnswersFromNode(responsesNode, correctAnswer));
 		question.setType(QuestionType.getValueFromString(questionTypeNode.getTextContent().trim()));
 		return question;
+	}
+
+	private static String fix(String html)
+	{
+		//TODO Eventually use REGEX
+		html = html.replace("style=\"font-family:'courier new'\"", "class=\"code\"");
+		html = html.replace("style=\"font-family:'Courier New'\"", "class=\"code\"");
+		html = html.replaceAll("//(.*?)<", "<span class=\"code comment\">//$1</span><");
+		html = html.replace("style=\"font-size:10pt\"", "");
+		return html;
 	}
 
 	private static Set<Answer> createAnswersFromNode(final Node responsesNode, final String correctAnswer) throws XPathExpressionException
@@ -96,7 +114,7 @@ public final class ExamViewConversionUtil
 		{
 			final Answer answer = new Answer();
 			answer.setOrder(i);
-			answer.setText(responses.item(i).getTextContent().trim());
+			answer.setText(fix(responses.item(i).getTextContent().trim()));
 			answer.setCorrect(correctAnswer.equalsIgnoreCase(xpath.evaluate(EXP_RESPONSE_LABEL, responses.item(i))));
 			answers.add(answer);
 		}

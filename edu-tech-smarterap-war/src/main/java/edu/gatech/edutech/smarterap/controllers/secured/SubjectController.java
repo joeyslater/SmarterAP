@@ -1,5 +1,6 @@
 package edu.gatech.edutech.smarterap.controllers.secured;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +26,9 @@ public class SubjectController implements CrudController<Subject>
 	@Override
 	public List<Subject> readAll()
 	{
-		return crudService.list(Subject.class);
+		final List<Subject> subjects = crudService.list(Subject.class);
+		Collections.sort(subjects);
+		return subjects;
 	}
 
 	@Override

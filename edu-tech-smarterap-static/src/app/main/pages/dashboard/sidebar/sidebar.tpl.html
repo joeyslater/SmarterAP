@@ -1,9 +1,13 @@
 <div ng-controller='SidebarController as sidebar'>
     <md-sidenav md-component-id="left-nav">
         <md-list>
-            <md-list-item ng-click="sidebar.goToDashboard()">
+            <md-list-item ng-click="goTo('dashboard.' + getRole())">
                 <md-icon class="material-icons">home</md-icon>
                 <p>Dashboard</p>
+            </md-list-item>
+            <md-list-item ng-click="goTo('dashboard.question-bank')" ng-if="!sidebar.isOnlyStudent()">
+                <md-icon class="material-icons">question_answer</md-icon>
+                <p>Question Bank</p>
             </md-list-item>
             <md-divider></md-divider>
             <md-list-item>

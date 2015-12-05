@@ -1,6 +1,7 @@
 package edu.gatech.edutech.smarterap.dtos;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -29,8 +30,6 @@ public class User extends BaseDto implements Serializable
 	@Column(unique = true)
 	private String				href;
 
-
-
 	@Transient
 	private String				email;
 
@@ -56,6 +55,10 @@ public class User extends BaseDto implements Serializable
 	@Transient
 	private Set<SecurityRole>	securityRoles;
 
+	@JsonIgnore
+	@Transient
+	private List<Group>			groups;
+
 	public String getHref()
 	{
 		return href;
@@ -66,9 +69,15 @@ public class User extends BaseDto implements Serializable
 		this.href = href;
 	}
 
-	public String getEmail() { return email; }
+	public String getEmail()
+	{
+		return email;
+	}
 
-	public void setEmail(String email) { this.email = email;}
+	public void setEmail(final String email)
+	{
+		this.email = email;
+	}
 
 	public String getGivenName()
 	{
@@ -139,6 +148,18 @@ public class User extends BaseDto implements Serializable
 	public void setStatus(final String status)
 	{
 		this.status = status;
+	}
+
+	@JsonProperty
+	public List<Group> getGroups()
+	{
+		return groups;
+	}
+
+	@JsonIgnore
+	public void setGroups(final List<Group> groups)
+	{
+		this.groups = groups;
 	}
 
 }

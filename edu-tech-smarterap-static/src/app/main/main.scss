@@ -5,6 +5,22 @@
     height: 50px;
     width: 250px;
     display: block;
+    &.white {
+        background-image: url($svg-logo-white);
+    }
+}
+
+.bottom-fab {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    &.homepage {
+        bottom: 40px;
+    }
+}
+
+.side-info {
+    background-color: white;
 }
 
 .feedback {
@@ -47,17 +63,74 @@
     padding: 0 !important;
 }
 
+.no-scroll {
+    overflow: hidden;
+}
+
 p.md-warn {
     color: red;
 }
 
 .pointer {
     cursor: pointer;
+    &:hover {
+        color: black;
+    }
 }
 
 md-tab-content {
     background-color: #eee;
     md-content {
         background-color: #eee;
+    }
+}
+
+md-content.main {
+    background-color: #eee;
+}
+
+.md-fab-action-item {
+    .md-fab md-icon {
+        color: rgba(0, 0, 0, 0.54);
+    }
+}
+
+.pagination {
+    list-style-type: none;
+    padding: 0;
+    margin: 8px;
+    text-align: center;
+    li {
+        @extend .md-fab,
+        .md-raised,
+        .md-mini,
+        .md-button,
+        .md-ink-ripple;
+        z-index: 0;
+        height: 30px;
+        line-height: 30px;
+        width: 30px;
+        min-height: 0;
+        margin: 3px;
+        background-color: white;
+        padding: 0;
+        &.pagination-first,
+        &.pagination-prev,
+        &.pagination-next,
+        &.pagination-last {
+            height: 24px;
+            line-height: 24px;
+            width: 24px;
+        }
+        &.active {
+            background: rgb(63, 81, 181);
+            a {
+                color: white;
+            }
+        }
+    }
+    a {
+        display: block;
+        text-decoration: none;
     }
 }

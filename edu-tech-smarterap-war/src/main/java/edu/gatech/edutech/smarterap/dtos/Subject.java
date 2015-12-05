@@ -7,7 +7,7 @@ import org.pojomatic.annotations.AutoProperty;
 
 @Entity
 @AutoProperty
-public class Subject extends BaseDto
+public class Subject extends BaseDto implements Comparable<Subject>
 {
 	@Column(unique = true)
 	private String	name;
@@ -44,6 +44,12 @@ public class Subject extends BaseDto
 	public void setEnabled(final boolean enabled)
 	{
 		this.enabled = enabled;
+	}
+
+	@Override
+	public int compareTo(final Subject o)
+	{
+		return name.compareToIgnoreCase(o.getName());
 	}
 
 }

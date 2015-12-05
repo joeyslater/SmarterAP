@@ -38,7 +38,7 @@
                     </div>
                 </md-card-content>
                 <div class="md-actions" layout="row" layout-align="end center">
-                    <md-button aria-label="Enter Course" ng-click="teacherCoursesDashboard.goToCourse(course.uid);">Enter Course</md-button>
+                    <md-button aria-label="Enter Course" ui-sref="dashboard.teacher-course({'courseId': course.uid})">Enter Course</md-button>
                     <md-menu class="courses-menu">
                         <md-button class="md-icon-button" aria-label="More" ng-click="$mdOpenMenu($event)">
                             <md-icon class="material-icons">more_vert</md-icon>
@@ -106,7 +106,7 @@
                         </div>
                     </md-card-content>
                     <div class="md-actions" layout="row" layout-align="end center">
-                        <md-button aria-label="Enter Course" ng-click="teacherCoursesDashboard.goToCourse(course.uid);">Enter Course</md-button>
+                        <md-button aria-label="Enter Course" ui-sref="dashboard.teacher-course({'courseId': course.uid})">Enter Course</md-button>
                         <md-menu class="courses-menu">
                             <md-button class="md-icon-button" aria-label="More" ng-click="$mdOpenMenu($event)">
                                 <md-icon class="material-icons">more_vert</md-icon>

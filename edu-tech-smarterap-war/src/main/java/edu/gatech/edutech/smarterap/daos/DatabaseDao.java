@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.criterion.Criterion;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.gatech.edutech.smarterap.dtos.BaseDto;
@@ -48,4 +49,8 @@ public interface DatabaseDao
 	        Map<String, Object> criterias);
 
 	public <T> Long count(Class<T> clazz);
+
+	public <T> Long count(Class<T> clazz, List<Criterion> restrictions);
+
+	public <T> List<T> query(Class<T> clazz, List<Criterion> restrictions, int start, int num);
 }

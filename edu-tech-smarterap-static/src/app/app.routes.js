@@ -24,7 +24,7 @@ angular.module('smarterap')
             controller: 'RegistrationController',
             controllerAs: 'registration'
         })
-        .state('question-create', {
+        .state('dashboard.question-create', {
             url: '/question/new',
             templateUrl: 'main/pages/question/question-create.tpl.html',
             controller: 'QuestionCreateController',
@@ -38,10 +38,15 @@ angular.module('smarterap')
             abstract: true,
             templateUrl: 'main/pages/dashboard/dashboard.tpl.html',
             controller: 'DashboardController',
-            controllerAs: 'dashboard'
+            controllerAs: 'dashboard',
+            redirectTo: 'dashboard.admin'
+        })
+        .state('dashboard.default', {
+            url: '',
+            redirectTo: 'dashboard'
         })
         .state('dashboard.admin', {
-            url: "",
+            url: "/admin",
             templateUrl: 'main/pages/dashboard/admin/admin-dashboard.tpl.html',
             controller: 'AdminDashboardController',
             controllerAs: 'adminDashboard',
@@ -52,7 +57,7 @@ angular.module('smarterap')
             }
         })
         .state('dashboard.student', {
-            url: "",
+            url: "/student",
             templateUrl: 'main/pages/dashboard/student/courses/student-courses.tpl.html',
             controller: 'StudentCoursesDashboardController',
             controllerAs: 'studentCoursesDashboard',
@@ -62,8 +67,17 @@ angular.module('smarterap')
                 waitForUser: true
             }
         })
+        .state('dashboard.student-course', {
+            url: "/student/course/:courseId",
+            templateUrl: 'main/pages/dashboard/student/course/student-course.tpl.html',
+            sp: {
+                authenticate: true,
+                group: 'STUDENT',
+                waitForUser: true
+            }
+        })
         .state('dashboard.teacher', {
-            url: "",
+            url: "/teacher",
             templateUrl: 'main/pages/dashboard/teacher/courses/teacher-courses.tpl.html',
             controller: 'TeacherCoursesDashboardController',
             controllerAs: 'teacherCoursesDashboard',
@@ -73,8 +87,8 @@ angular.module('smarterap')
                 waitForUser: true
             }
         })
-        .state('dashboard.course', {
-            url: "/course/:courseId",
+        .state('dashboard.teacher-course', {
+            url: "/teacher/course/:courseId",
             templateUrl: 'main/pages/dashboard/teacher/course/course.tpl.html',
             controller: 'TeacherCourseDashboardController',
             controllerAs: 'teacherCourseDashboard',
@@ -89,10 +103,18 @@ angular.module('smarterap')
             sp: {
                 authenticate: true
             }
+        }).state('dashboard.question-bank', {
+            url: "/question-bank",
+            templateUrl: 'main/pages/question/question-bank.tpl.html',
+            controller: 'QuestionBankController',
+            controllerAs: 'questionBank',
+            sp: {
+                authenticate: true
+            }
         });
 })
 
-.run(function($rootScope, $state, $stormpath, Ui) {
+.run(function($rootScope, $state, $stormpath, Ui, UserService) {
     $stormpath.uiRouter({
         loginState: 'login'
     });
@@ -100,6 +122,25 @@ angular.module('smarterap')
     $rootScope.$on('$sessionEnd', function() {
         $state.transitionTo('login');
     });
+
+    $rootScope.$on('$stateChangeStart', function(evt, to, params) {
+        if (to.redirectTo) {
+            evt.preventDefault();
+            if (to.redirectTo === 'dashboard') {
+                $state.go(UserService.getDashboard(), params);
+            } else {
+                $state.go(to.redirectTo, params);
+            }
+        }
+        if (to.sp && to.sp.group) {
+            if (!UserService.hasRole(to.sp.group)) {
+                evt.preventDefault();
+                $state.go(UserService.getDashboard(), params);
+            }
+        }
+    });
+
+
 })
 
 

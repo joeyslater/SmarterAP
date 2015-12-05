@@ -25,12 +25,6 @@ function TeacherAssessmentsListController($q, $timeout, $state, $mdDialog, $docu
                 });
     }
 
-    ctrl.goTo = function(state) {
-        $state.go(state);
-    };
-
-
-
     ctrl.onOrderChange = function(order) {
         var deferred = $q.defer();
         $timeout(function() {

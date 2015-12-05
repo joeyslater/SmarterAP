@@ -1,5 +1,6 @@
 package edu.gatech.edutech.smarterap.configs;
 
+import java.io.IOException;
 import java.util.EnumSet;
 
 import javax.servlet.DispatcherType;
@@ -8,11 +9,13 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.filter.DelegatingFilterProxy;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.DispatcherServlet;
 
 import com.stormpath.spring.config.StormpathMethodSecurityConfiguration;
@@ -40,4 +43,13 @@ public class SmarterApInitailizer implements WebApplicationInitializer
 		final FilterRegistration.Dynamic securityFilter = sc.addFilter(AbstractSecurityWebApplicationInitializer.DEFAULT_FILTER_NAME, DelegatingFilterProxy.class);
 		securityFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
 	}
+
+	@Bean(name = "multipartResolver")
+	public CommonsMultipartResolver getResolver() throws IOException
+	{
+		final CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+		resolver.setMaxUploadSize(5242880);//5MB
+		return resolver;
+	}
+
 }

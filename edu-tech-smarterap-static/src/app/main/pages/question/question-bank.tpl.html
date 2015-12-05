@@ -1,0 +1,73 @@
+<div ng-class="{'no-scroll': questionBank.showExpandedQuery}">
+    <div class="question-query">
+        <md-icon class="material-icons ">search</md-icon>
+        <input type="text" placeholder="Search" ng-model="questionBank.queryText" />
+        <md-icon class="material-icons pointer " ng-if="!questionBank.showExpandedQuery" ng-click="questionBank.expandQuery()">arrow_drop_down</md-icon>
+        <md-icon class="material-icons pointer " ng-if="questionBank.showExpandedQuery" ng-click="questionBank.closeQuery()">arrow_drop_up</md-icon>
+    </div>
+    <div id="question-query-overlay" class="question-query-overlay" ng-if="questionBank.showExpandedQuery" ng-click="questionBank.closeQuery()"></div>
+    <div class="question-query-expanded" ng-if="questionBank.showExpandedQuery" layout-padding>
+        <div layout="row" class="top-padding">
+            <md-input-container flex class="no-margin">
+                <label>AP Course Subject</label>
+                <md-select ng-model="questionBank.query.subject" md-on-open="questionBank.getSubjects();" ng-change="questionBank.addSubjectToQuery()">
+                    <md-option ng-repeat="subject in questionBank.subjects" value="{{subject.name}}">{{subject.name}}</md-option>
+                </md-select>
+            </md-input-container>
+            <md-input-container flex class="no-margin">
+                <label>Difficulty</label>
+                <md-select placeholder="Difficulty" ng-model="questionBank.query.difficulty">
+                    <md-option ng-value="difficulty" ng-repeat="difficulty in [1, 2, 3, 4, 5]">{{difficulty}}</md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+        <div class="custom-label-container" ng-if="questionBank.query.subject">
+            <label>Tags</label>
+            <md-chips ng-model="questionBank.query.tags" readonly="false" placeholder="+ Tag"></md-chips>
+        </div>
+        <div>
+            <md-button class="md-primary md-raised">
+                <md-icon class="material-icons">search</md-icon>
+                Search
+            </md-button>
+        </div>
+    </div>
+    <div layout="column" flex>
+        <div layout="row" layout-align="center start" flex ng-if="assessmentsList.loadingAssessments">
+            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+        </div>
+        <md-content class="main question-bank-results" layout="column" flex ng-if="questionBank.results">
+            <div>
+                <uib-pagination boundary-links="true" total-items="100" max-size="5" ng-model="questionBank.pagination.currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+                <div ng-repeat="question in questionBank.results" ng-include="'main/pages/question/question-view.tpl.html'"></div>
+                <uib-pagination boundary-links="true" total-items="100" max-size="5" ng-model="questionBank.pagination.currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+            </div>
+        </md-content>
+        <div class="bottom-fab ">
+            <md-fab-speed-dial md-direction="up" class="md-fling">
+                <md-fab-trigger>
+                    <md-button aria-label=" menu " class="md-fab md-primary ">
+                        <md-tooltip md-direction="left">
+                            Menu
+                        </md-tooltip>
+                        <md-icon class="material-icons ">menu</md-icon>
+                    </md-button>
+                </md-fab-trigger>
+                <md-fab-actions>
+                    <md-button aria-label="Twitter " class="md-fab md-raised md-mini " ng-click="goTo('dashboard.question-create')">
+                        <md-tooltip md-direction="left">
+                            Add Single Question
+                        </md-tooltip>
+                        <md-icon class="material-icons ">add</md-icon>
+                    </md-button>
+                    <md-button aria-label="Facebook " class="md-fab md-raised md-mini ">
+                        <md-tooltip md-direction="left">
+                            Upload Questions
+                        </md-tooltip>
+                        <md-icon class="material-icons ">file_upload</md-icon>
+                    </md-button>
+                </md-fab-actions>
+            </md-fab-speed-dial>
+        </div>
+    </div>
+</div>

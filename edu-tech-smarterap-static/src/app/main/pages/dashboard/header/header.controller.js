@@ -2,24 +2,24 @@ angular.module('smarterap')
 
 .controller("HeaderController", HeaderController);
 
-function HeaderController($rootScope, $http, $state, Ui, $mdSidenav, STORMPATH_CONFIG) {
+function HeaderController($rootScope, $http, $state, Ui, UserService, $mdSidenav, STORMPATH_CONFIG) {
     var ctrl = this;
     ctrl.headerTitle = Ui.getHeaderTitle;
-    ctrl.user = Ui.getUser;
+    ctrl.user = UserService.getUser;
 
     ctrl.openSideNav = function() {
-
+        $mdSidenav('left-nav').open();
     };
 
     ctrl.changeDashboard = function(role) {
-        Ui.setRole(role);
-        $state.go('dashboard.' + role.toLowerCase());
+        UserService.setRole(role);
+        $state.go(UserService.getDashboard());
     };
 
     ctrl.logout = function() {
         $http.get('/smarter-ap/logout').then(function() {
             $state.go("login");
-            Ui.setUser();
+            UserService.setUser();
             $rootScope.$broadcast(STORMPATH_CONFIG.SESSION_END_EVENT);
         });
     };

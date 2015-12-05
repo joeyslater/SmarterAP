@@ -1,14 +1,31 @@
-<md-card>>
-    <md-card-content>
-        <h2 class="md-title">
-        	<span ng-bind="index"></span>.
-        	<span ng-bind-html="qusetion.description"></span>
+<md-card class="question-view">
+    <md-card-content class="no-padding">
+        <div class="question-content">
+            <h2 class="md-title question-title">
+            <span ng-if="question.index" ng-bind="question.index + '.'"></span>
+            <span ng-bind-html="question.description"></span>
         </h2>
-        <div ng-if="question.hint">
-            <span ng-bind-html="question.hint"></span>
+            <div ng-if="question.hint" class="question-hint">
+                <strong>Hint:</strong>
+                <div ng-bind-html="question.hint"></div>
+            </div>
+            <md-list class="question-answers">
+                <md-radio-group ng-model="question.nothing">
+                    <md-list-item ng-repeat="answer in question.answers" class="column">
+                        <span class="material-icons" ng-bind="answer.correct ? 'check' : 'close'"></span>
+                        <md-radio-button disabled aria-checked="answer.correct" ng-class="{'md-checked': answer.correct}" aria-label="{{answer.text}}" ng-model="answer.check"></md-radio-button>
+                        <div ng-bind-html="answer.text"></div>
+                    </md-list-item>
+                </md-radio-group>
+            </md-list>
         </div>
-        <md-radio-group ng-repeat="answer question.answers">
-            <md-radio-button ng-bind-html="answer.text"></md-radio-button>
-        </md-radio-group>
+        <div class="extra-info">
+            <div ng-if="question.subject"><strong>Subject: </strong><span ng-bind="question.subject.name"></span></div>
+            <div ng-if="question.difficulty"><strong>Difficulty: </strong><span ng-bind="question.difficulty"></span></div>
+            <div ng-if="question.tags">
+                <strong>Tags: </strong>
+                <span ng-bind="question.tags | arrayToString:'name'"></span>
+            </div>
+        </div>
     </md-card-content>
 </md-card>

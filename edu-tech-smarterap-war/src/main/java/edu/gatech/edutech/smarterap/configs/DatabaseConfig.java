@@ -74,7 +74,6 @@ public class DatabaseConfig
 	{
 		sessionFactory.setAnnotatedPackages("edu.gatech.edutech.smarterap.dtos");
 		sessionFactory.setPackagesToScan("edu.gatech.edutech.smarterap.dtos");
-
 		//		sessionFactory.setAnnotatedClasses(Tag.class, Course.class, User.class, Subject.class);
 	}
 

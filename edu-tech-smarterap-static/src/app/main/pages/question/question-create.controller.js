@@ -44,28 +44,14 @@ function QuestionCreateController($http) {
     };
 
     function getSubjects() {
-        $http({
-                method: 'GET',
-                url: '/smarter-ap/api/subjects/list',
-                responseType: "json",
-            })
+        $http.get('/smarter-ap/api/subject/list')
             .then(
                 function(response) {
-                    ctrl.subjects = [{
-                        'uid': -1,
-                        'title': 'AP Computer Science'
-                    }];
+                    ctrl.subjects = response.data;
+                    subjectDeferred.resolve(ctrl.subjects);
                 },
                 function(response) {
-                    ctrl.subjects = [{
-                        'uid': -1,
-                        'title': 'AP Computer Science'
-                    }, {
-                        'uid': 0,
-                        'title': 'AP Biology'
-                    }];
+                    ctrl.subjects = [];
                 });
     }
-
-
 }

@@ -17,7 +17,7 @@
             <md-radio-group as-sortable="questionCreate.sortOptions" ng-model="questionCreate.question.answers">
                 <md-list-item ng-repeat="answer in questionCreate.question.answers" class="column question-answer-editor" as-sortable-item>
                     <div class="editor" layout="row">
-                        <i class="material-icons reorder" as-sortable-item-handle>reorder</i>
+                        <i class="material-icons reorder" as-sortable-item-handle>drag_handle</i>
                         <md-radio-button disabled aria-label="New Answer"></md-radio-button>
                         <div contenteditable="true" class="answer-field md-primary" ng-model="answer.text" placeholder="Option {{($index + 1)}}"></div>
                         <span flex></span>
@@ -38,7 +38,7 @@
             <md-input-container flex>
                 <label>AP Course Subject</label>
                 <md-select ng-model="questionCreate.question.subject">
-                    <md-option ng-repeat="subject in questionCreate.subjects" value="{{subject.uid}}">{{subject.title}}</md-option>
+                    <md-option ng-repeat="subject in questionCreate.subjects" value="{{subject.uid}}">{{subject.name}}</md-option>
                 </md-select>
             </md-input-container>
             <div class="custom-label-container" ng-if="questionCreate.question.subject">

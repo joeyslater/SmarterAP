@@ -35,9 +35,9 @@ public class UserService
 		return databaseDao.getByUniqueField(User.class, "href", href);
 	}
 
-	public Long getUid(final String href)
+	public Long getUid(final String email)
 	{
-		final User user = databaseDao.getByUniqueField(User.class, "href", href);
+		final User user = databaseDao.getByUniqueField(User.class, "username", email);
 		if (user != null)
 		{
 			return user.getUid();
@@ -50,11 +50,12 @@ public class UserService
 
 	public User getUserFromEmail(final String email)
 	{
+
 		final Account account = stormpathDao.getAccount("email", email);
 		if (account != null)
 		{
 			final User user = build(account);
-			user.setUid(getUid(user.getHref()));
+			user.setUid(getUid(email));
 			return user;
 		}
 		return null;
@@ -125,7 +126,6 @@ public class UserService
 
 	public Set<User> addUserDetails(final Set<User> students)
 	{
-		System.out.println(students);
 		final Set<User> studentsWithDetails = Sets.newHashSet();
 		for (final User student : students)
 		{

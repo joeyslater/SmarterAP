@@ -6,4 +6,15 @@ angular.module('smarterap')
     };
 })
 
+.filter('arrayToString', function() {
+    return function(input, property) {
+        var strings = [];
+        for (var i = 0; i < input.length; i++) {
+            strings.push(input[i][property]);
+        }
+        return strings.join(',');
+    };
+})
+
+
 ;

@@ -75,7 +75,9 @@ module.exports = {
             'vendor/textAngular/dist/textAngular.min.js',
             'vendor/textAngular/dist/textAngular-rangy.min.js',
             'vendor/ng-sortable/dist/ng-sortable.js',
-            'vendor/stormpath-sdk-angularjs/dist/stormpath-sdk-angularjs.js'
+            'vendor/stormpath-sdk-angularjs/dist/stormpath-sdk-angularjs.js',
+            'vendor/angular-bootstrap/ui-bootstrap.js',
+            'vendor/angular-bootstrap/ui-bootstrap-tpls.js'
         ],
         css: [
             'vendor/angular-material/angular-material.scss',

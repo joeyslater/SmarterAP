@@ -33,14 +33,14 @@
                     </div>
                 </md-card-content>
                 <div class="md-actions" layout="row" layout-align="end center">
-                    <md-button aria-label="Enter Course" ng-click="studentCoursesDashboard.goToCourse(course.uid);">Enter Course</md-button>
+                    <md-button aria-label="Enter Course" ui-sref="dashboard.student-course({courseId: course.uid})">Enter Course</md-button>
                 </div>
             </md-card>
         </div>
     </div>
     <div hide show-sm layout="column" class="courses-list">
         <md-list>
-            <md-list-item aria-label="{{course.name}}" ng-click="studentCoursesDashboard.goToCourse(course.uid);" ng-repeat="course in studentCoursesDashboard.courses | orderBy:['name', 'section'] | filter:{enabled:true}" class="md-2-line">
+            <md-list-item aria-label="{{course.name}}" ui-sref="dashboard.student-course({courseId: course.uid})" ng-repeat="course in studentCoursesDashboard.courses | orderBy:['name', 'section'] | filter:{enabled:true}" class="md-2-line">
                 <div class="md-list-item-text" layout="column">
                     <h3 ng-bind="course.name"></h3>
                     <p ng-bind="course.section"></p>

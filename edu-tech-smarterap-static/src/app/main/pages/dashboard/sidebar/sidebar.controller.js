@@ -2,18 +2,14 @@ angular.module('smarterap')
 
 .controller("SidebarController", SidebarController);
 
-function SidebarController($state, $mdSidenav, Ui) {
+function SidebarController($state, $mdSidenav, Ui, UserService) {
     var ctrl = this;
 
-    ctrl.goTo = function(state) {
-        $state.go(state);
-        $mdSidenav('left-nav').toggle();
-    };
-
-    ctrl.goToDashboard = function() {
-        if (Ui.getRole()) {
-            $state.go('dashboard.' + Ui.getRole().toLowerCase());
+    ctrl.isOnlyStudent = function() {
+        if (UserService.getUser()) {
+            return JSON.stringify(['STUDENT']) === JSON.stringify(UserService.getUser().securityRoles);
+        } else {
+            return false;
         }
-        $mdSidenav('left-nav').toggle();
     };
 }

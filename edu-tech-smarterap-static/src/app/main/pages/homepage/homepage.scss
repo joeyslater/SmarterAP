@@ -1,11 +1,38 @@
 .homepage {
     md-toolbar {
-        background-color: white;
+        // background-color: white;
+    }
+    .slide {
+        height: 90%;
+        background-size: cover;
+        width: 100%;
+    }
+    .mast-image {
+        height: 600px;
+        width: auto;
+        background: url('/assets/images/homepage-mast.png') center no-repeat;
+        background-size: cover;
+        text-align: center;
+    }
+    .play-video {
+        font-size: 100px;
+        cursor: pointer;
+        top: 50%;
+        margin-top: -50px;
+        position: relative;
+        &:hover {
+            color: rgb(63, 81, 181);
+        }
     }
     footer {
         border-top: 1px solid #eee;
         padding: 20px;
         background-color: white;
+        a {
+            color: rgb(63, 81, 181);
+            text-decoration: none;
+            padding: 0 10px;
+        }
         .app-logo {
             height: 25px;
             width: 125px;

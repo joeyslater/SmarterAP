@@ -12,7 +12,7 @@
         <md-dialog-content layout-padding>
             <div layout="row">
                 <md-input-container flex>
-                    <input ng-model="createAssessment.newAssessment.title">
+                    <input ng-model="createAssessment.newAssessment.name">
                 </md-input-container>
             </div>
             <div layout="row">
@@ -28,10 +28,10 @@
         </md-dialog-content>
         <div class="md-actions" layout="row">
             <span flex></span>
-            <md-button ng-click="addEditCourse.cancel()">
+            <md-button ng-click="createAssessment.cancel()">
                 Cancel
             </md-button>
-            <md-button class="md-primary" ng-click="addEditCourse.save(currentCourse)">
+            <md-button class="md-primary" ng-click="createAssessment.save(newAssessment)">
                 Save
             </md-button>
         </div>

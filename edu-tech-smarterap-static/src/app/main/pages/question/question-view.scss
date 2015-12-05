@@ -1,0 +1,42 @@
+.question-view {
+    .question-title {
+        font-size: 11px;
+    }
+    .question-hint {
+        font-size: 11px;
+        color: #444;
+        background: #CFFFCF;
+        padding: 5px;
+        border: 1px black solid;
+    }
+    .question-content {
+        padding: 16px;
+    }
+    .question-answers {
+        font-size: 11px;
+        md-radio-button {
+            margin: 0;
+        }
+        md-list-item {
+            min-height: 0;
+            line-height: 20px;
+            padding: 0;
+        }
+        .material-icons {
+            padding-right: 10px;
+            color: rgba(0, 0, 0, 0.54);
+        }
+    }
+    .code {
+        font-family: monospace;
+        &.comment {
+            color: green;
+        }
+    }
+    .extra-info {
+        border-top: 1px solid #DDD;
+        background: lightblue;
+        padding: 5px;
+        font-size: 12px;
+    }
+}

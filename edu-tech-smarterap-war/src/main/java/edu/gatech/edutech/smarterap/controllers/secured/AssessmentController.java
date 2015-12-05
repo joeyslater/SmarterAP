@@ -5,11 +5,13 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.gatech.edutech.smarterap.controllers.CrudController;
 import edu.gatech.edutech.smarterap.dtos.Assessment;
+import edu.gatech.edutech.smarterap.dtos.Course;
 import edu.gatech.edutech.smarterap.dtos.json.JsonResponse;
 import edu.gatech.edutech.smarterap.services.CrudService;
 
@@ -44,10 +46,17 @@ public class AssessmentController implements CrudController<Assessment>
 	}
 
 	@Override
-	public JsonResponse<Assessment> create(final Assessment dto, final HttpServletRequest request)
+	public JsonResponse<Assessment> create(final @RequestBody Assessment dto, final HttpServletRequest request)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		if (dto.getCourseId() != null)
+		{
+			final Course course = crudService.get(Course.class, dto.getCourseId());
+			if (course != null)
+			{
+				dto.setCourse(course);
+			}
+		}
+		return crudService.create(dto);
 	}
 
 	@Override

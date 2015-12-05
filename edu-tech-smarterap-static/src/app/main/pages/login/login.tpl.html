@@ -21,9 +21,12 @@
                     <div layout="row">
                         <p class="md-body-1 md-warn" ng-bind="login.errorMessage"></p>
                     </div>
-                    <div layout="row" layout-align="end end">
+                    <div layout="row" layout-align="end end" ng-if="!login.loginLoading">
                         <md-button type="button" class="md-flat md-primary" ng-click="login.goTo('forget-password')">Forgot Password?</md-button>
                         <md-button type="submit" class="md-raised md-primary">Submit</md-button>
+                    </div>
+                    <div layout="row" layout-align="center start" flex ng-if="login.loginLoading">
+                        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
                     </div>
                 </form>
             </md-whiteframe>

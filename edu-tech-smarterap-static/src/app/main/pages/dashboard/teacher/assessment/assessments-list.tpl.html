@@ -36,7 +36,7 @@
                         <tr ng-repeat="assessment in assessmentsList.assessments | orderBy: assessmentsList.listQuery.order ">
                             <td name="Name" ng-bind=" assessment.name " ng-click="assessmentsList.enterAssessment(assessment.uid)" class="pointer"></td>
                             <td name="Open Date" ng-bind="assessment.openDate | date : short"></td>
-                            <td name="Due Date" ng-bind="assessment.dueDate  | date : short"></td>
+                            <td name="Due Date" ng-bind="assessment.closeDate | date : short"></td>
                             <td name="Turned In " ng-bind="assessment.submitted "></td>
                             <td>
                                 <md-icon class="material-icons ">delete</md-icon>

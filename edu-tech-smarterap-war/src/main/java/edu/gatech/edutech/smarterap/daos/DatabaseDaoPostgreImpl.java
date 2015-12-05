@@ -8,6 +8,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -202,7 +203,6 @@ public class DatabaseDaoPostgreImpl implements DatabaseDao
 
 	private <T> Query createQuery(final Class<T> clazz, final String queryType)
 	{
-		System.out.println(queryType + clazz.getSimpleName() + QueryConstants.WHERE_ID);
 		return getCurrentSession().createQuery(queryType + clazz.getSimpleName() + QueryConstants.WHERE_ID);
 	}
 
@@ -236,5 +236,27 @@ public class DatabaseDaoPostgreImpl implements DatabaseDao
 	public <T> Long count(final Class<T> clazz)
 	{
 		return (Long) getCurrentSession().createCriteria(clazz).setProjection(Projections.rowCount()).uniqueResult();
+	}
+
+	@Override
+	public <T> Long count(final Class<T> clazz, final List<Criterion> restrictions)
+	{
+		final Criteria criteria = getCurrentSession().createCriteria(clazz).setProjection(Projections.rowCount());
+		for (final Criterion criterion : restrictions)
+		{
+			criteria.add(criterion);
+		}
+		return (Long) criteria.uniqueResult();
+	}
+
+	@Override
+	public <T> List<T> query(final Class<T> clazz, final List<Criterion> restrictions, final int start, final int num)
+	{
+		final Criteria criteria = getCurrentSession().createCriteria(clazz).setProjection(Projections.rowCount());
+		for (final Criterion criterion : restrictions)
+		{
+			criteria.add(criterion);
+		}
+		return criteria.setFirstResult(start).setMaxResults(num).list();
 	}
 }

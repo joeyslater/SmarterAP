@@ -25,7 +25,7 @@ public class StormpathService
 		return stormpathDao.getApplication().authenticateAccount(request);
 	}
 
-	public Account getAccount(final String string)
+	public Account getTestAccount(final String string)
 	{
 		return stormpathDao.getClient().getResource("https://api.stormpath.com/v1/accounts/PIxmeeDbTNL5SqBOAWs3c", Account.class);
 	}
@@ -37,7 +37,7 @@ public class StormpathService
 
 	public Account createNewAccount(final User user) throws ResourceException
 	{
-		final Account account = stormpathDao.getDataStore().instantiate(Account.class);
+		final Account account = getNewAccount();
 		account.setEmail(user.getEmail());
 		account.setGivenName(user.getGivenName());
 		account.setSurname(user.getSurname());

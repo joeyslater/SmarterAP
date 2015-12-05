@@ -70,7 +70,7 @@ public class LoginController
 				SecurityContextHolder.getContext().setAuthentication(authRequest);
 
 				final User userFromService = userService.getUserFromEmail(authResult.getAccount().getEmail());
-				if (userFromService == null)
+				if (userFromService == null || userFromService.getUid() == -1)
 				{
 					crudService.create(build(authResult.getAccount()));
 				}
