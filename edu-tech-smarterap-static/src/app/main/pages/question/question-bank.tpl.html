@@ -33,10 +33,10 @@
         </div>
     </div>
     <div layout="column" flex>
-        <div layout="row" layout-align="center start" flex ng-if="assessmentsList.loadingAssessments">
+        <div layout="row" layout-align="center start" flex ng-if="questionBank.loadingResults || questionBank.loadingQuestions">
             <md-progress-circular md-mode="indeterminate"></md-progress-circular>
         </div>
-        <md-content class="main question-bank-results" layout="column" flex ng-if="questionBank.results">
+        <md-content class="main question-bank-results" layout="column" flex ng-if="!questionBank.loadingResults && !questionBank.loadingQuestions">
             <div>
                 <uib-pagination boundary-links="true" total-items="questionBank.count" max-size="5" ng-model="questionBank.query.currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" ng-if="questionBank.count > 10" ng-change="questionBank.getResults()"></uib-pagination>
                 <div ng-repeat="question in questionBank.results" ng-include="'main/pages/question/question-view.tpl.html'"></div>
@@ -54,13 +54,13 @@
                     </md-button>
                 </md-fab-trigger>
                 <md-fab-actions>
-                    <md-button aria-label="Twitter " class="md-fab md-raised md-mini " ng-click="goTo('dashboard.question-create')">
+                    <md-button aria-label="Single Question " class="md-fab md-raised md-mini " ng-click="goTo('dashboard.question-create')">
                         <md-tooltip md-direction="left">
                             Add Single Question
                         </md-tooltip>
                         <md-icon class="material-icons ">add</md-icon>
                     </md-button>
-                    <md-button aria-label="Facebook " class="md-fab md-raised md-mini ">
+                    <md-button aria-label="Upload Multiple " class="md-fab md-raised md-mini " upload="file-questions-dat-input">
                         <md-tooltip md-direction="left">
                             Upload Questions
                         </md-tooltip>
@@ -69,5 +69,6 @@
                 </md-fab-actions>
             </md-fab-speed-dial>
         </div>
+        <input id="file-questions-dat-input" name="file" type="file" class="ng-hide" accept=".dat" upload-blackboard="questionBank.uploadQuestions($fileContent)">
     </div>
 </div>

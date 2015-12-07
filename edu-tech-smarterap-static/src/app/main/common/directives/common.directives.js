@@ -45,6 +45,36 @@ angular.module('smarterap')
     };
 })
 
+.directive('uploadBlackboard', function($parse) {
+    return {
+        restrict: 'A',
+        scope: false,
+        link: function(scope, element, attrs) {
+            var fn = $parse(attrs.uploadBlackboard);
+
+            function changeHandler(onChangeEvent) {
+                var reader = new FileReader();
+
+                reader.onload = function(onLoadEvent) {
+                    scope.$apply(function() {
+                        fn(scope, {
+                            $fileContent: onLoadEvent.target.result
+                        });
+                    });
+                };
+
+                reader.readAsText((onChangeEvent.srcElement || onChangeEvent.target).files[0]);
+            }
+
+            element.on('change', changeHandler);
+
+            scope.$on('$destroy', function() {
+                element.off('change', changeHandler);
+            });
+        }
+    };
+})
+
 .directive('bottomBorder', function($document) {
     return {
         restrict: 'A',

@@ -132,6 +132,10 @@ td {
     }
 }
 
+.ta-hidden-input {
+    display: none;
+}
+
 table[md-data-table] > tbody > tr:first-child > td {
     border-top: 0;
 }

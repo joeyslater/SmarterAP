@@ -16,6 +16,14 @@ function PropertyService($http) {
         course = value;
     };
 
+    var questions;
+    service.setQuestions = function(value) {
+        questions = value;
+    };
+
+    service.getQuestions = function() {
+        return questions;
+    };
 
     return service;
 }

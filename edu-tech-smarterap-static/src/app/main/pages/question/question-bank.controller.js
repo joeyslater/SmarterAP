@@ -2,7 +2,7 @@ angular.module('smarterap')
 
 .controller("QuestionBankController", QuestionBankController);
 
-function QuestionBankController($mdDialog, $document, $q, $http, $timeout, Ui) {
+function QuestionBankController($mdDialog, $document, $q, $http, $timeout, $mdToast, $state, Ui, PropertyService) {
     var ctrl = this;
     ctrl.query = {
         tags: [],
@@ -54,6 +54,7 @@ function QuestionBankController($mdDialog, $document, $q, $http, $timeout, Ui) {
     };
 
     ctrl.getResults = function() {
+        var loadingResults = true;
         ctrl.query.start = ((ctrl.query.currentPage || 1) - 1) * ctrl.query.num;
         $http.post('/smarter-ap/api/question/query', JSON.stringify(ctrl.query), {
                 withCredentials: true,
@@ -65,39 +66,36 @@ function QuestionBankController($mdDialog, $document, $q, $http, $timeout, Ui) {
                 function(response) {
                     ctrl.results = response.data.left;
                     ctrl.count = response.data.right;
+                    loadingResults = false;
                 },
-                function() {}
+                function() {
+                    loadingResults = false;
+                }
             );
     };
 
     ctrl.getResults();
 
-    // ctrl.results = [{
-    //     'description': 'What is output by the following code?<br><br><span class="code">public class A <br>{<br>&nbsp; private static int count;<br><br>&nbsp; public A()<br>&nbsp; {<br>&nbsp;&nbsp;&nbsp; out.print(&quot;A&quot;);<br>&nbsp;&nbsp;&nbsp; count++;<br>&nbsp; }<br><br>&nbsp; public int getCount()<br>&nbsp; {<br>&nbsp;&nbsp;&nbsp; return count;<br>&nbsp; }<br><br></span>&nbsp;&nbsp;&nbsp; <span class="code comment">// other constructors and methods not shown</span><span class="code"><br>}<br><br>public class B extends A<br>{<br>&nbsp; public B()<br>&nbsp; {<br>&nbsp;&nbsp;&nbsp; out.print(&quot;B&quot;);<br>&nbsp; }<br>&nbsp; <br></span>&nbsp;&nbsp; <span class="code comment">// other constructors and methods not shown</span><span class="code"><br>}</span><br><br><span class="code comment">//client code</span><br><span class="code">A x = new B();<br>x = new B();<br>x = new B();<br>out.print( x.getCount() );</span><br>',
-    //     'hint': 'hintttt',
-    //     'subject': {
-    //         'name': 'Computer Science'
-    //     },
-    //     'difficulty': 3,
-    //     'tags': [{
-    //         name: 'Lists'
-    //     }],
-    //     'answers': [{
-    //         'text': '<span >are <span class="code">final</span> and <span class="code">static</span></span>',
-    //         'correct': true
-    //     }, {
-    //         'text': '<span >have private access</span>'
-    //     }, {
-    //         'text': '<span >have protected access</span>'
-    //     }, {
-    //         'text': '<span >must be initialized in the class implementing the interface</span>'
-    //     }]
-    // }, {
-    //     'description': 'What is output by the following code?<br><br><span style="font-family:courier new;">public class A <br>{<br>&nbsp; public void printIt() <br>&nbsp; {<br>&nbsp;&nbsp;&nbsp; System.out.print(50);<br>&nbsp; }<br><br></span>&nbsp;&nbsp;&nbsp; // other constructors and methods not shown<span style="font-family:\'courier new\'"><br>}<br><br>public class B extends A<br>{<br>&nbsp; public void printIt() <br>&nbsp; {<br>&nbsp;&nbsp;&nbsp; System.out.print(25);<br>&nbsp;&nbsp;&nbsp; super.printIt();<br>&nbsp; }<br>&nbsp; <br></span>&nbsp;&nbsp; // other constructors and methods not shown<span style="font-family:\'courier new\'"><br>}</span><br><br>//client code<br><span style="font-family:\'courier new\'">A x = new A();<br>out.print( x.printIt() );</span><br>}',
-    //     'hint': 'hintttt 222',
-    //     'answers': [{
-    //         'text': 'test'
-    //     }]
-    // }];
+    ctrl.uploadQuestions = function($fileContent) {
+        ctrl.loadingQuestions = true;
+        $http.post('/smarter-ap/api/question/upload', JSON.stringify($fileContent), {
+                withCredentials: true,
+                'headers': {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(
+                function(response) {
+                    $fileContent = undefined;
+                    ctrl.loadingQuestions = false;
+                    PropertyService.setQuestions(response.data);
+                    $state.go('dashboard.question-create');
+                },
+                function() {
+                    ctrl.loadingQuestions = false;
+                    $mdToast.show($mdToast.simple().content('There was an error uploading.').hideDelay(2000));
+                }
+            );
+    };
 
 }

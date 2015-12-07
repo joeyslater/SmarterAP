@@ -2,20 +2,22 @@ angular.module('smarterap')
 
 .controller('QuestionCreateController', QuestionCreateController);
 
-function QuestionCreateController($http, $q, $mdToast, $state, Ui) {
+function QuestionCreateController($http, $q, $mdToast, $state, Ui, PropertyService) {
     var ctrl = this;
     ctrl.getBorderColor = Ui.getBorderColor;
     Ui.setHeaderTitle('Create New Question');
 
-
     ctrl.showHint = false;
     ctrl.searchText = "";
 
-    ctrl.questions = [{
-        'tags': [],
-        'answers': [{}],
-        'difficulty': 3
-    }];
+    ctrl.questions = PropertyService.getQuestions();
+    if (!ctrl.questions) {
+        ctrl.questions = [{
+            'tags': [],
+            'answers': [{}],
+            'difficulty': 3
+        }];
+    }
 
     ctrl.sortableOptions = {
         containment: '#question-create-editor-answers-list'
@@ -104,6 +106,7 @@ function QuestionCreateController($http, $q, $mdToast, $state, Ui) {
 
     function createCourseSuccess(response) {
         $mdToast.show($mdToast.simple().content('Question created.').hideDelay(2000));
+        PropertyService.setQuestions(null);
         $state.go('dashboard.question-bank');
     }
 
