@@ -30,15 +30,33 @@
             <md-button class="md-primary">Invite Teachers</md-button>
         </div>
     </md-content>
-    <div flex="75" layout="row" ng-if="course.assessments">
-        <md-content layout-padding layout-margin flex>
-            test
-        </md-content>
-    </div>
-    <div flex="75" layout="row" ng-if="!course.assessments" class="no-items">
-        <span>
-            No current assessments. Create one?
-        </span>
+    <diV layout="column" flex-sm="100" flex-gt-sm="75" flex ng-if="!teacherCourseDashboard.assessmentsLoading">
+        <span class="md-table-title no-padding" hide-gt-sm>Assessments</span>
+        <div layout="row" ng-if="teacherCourseDashboard.assessments && teacherCourseDashboard.assessments.length > 0">
+            <md-content layout-margin flex class="md-whiteframe-1dp">
+                <md-data-table-container class="no-margin">
+                    <table md-data-table class="md-primary" md-progress="teacherCourseDashboard.assessmentsDeferred">
+                        <thead></thead>
+                        <tbody>
+                            <tr ng-repeat="assessment in teacherCourseDashboard.assessments" class="pointer">
+                                <td class="icon">
+                                    <md-icon class="material-icons">assignment</md-icon>
+                                </td>
+                                <td name="Name" class="md-body-2" ng-bind=" assessment.name "></td>
+                                <td name="Open Date" ng-bind="(assessment.openDate | date : short) || '---'"></td>
+                                <td name="Due Date" ng-bind="(assessment.closeDate | date : short) || '---'"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </md-data-table-container>
+            </md-content>
+        </div>
+        <div flex="75" layout="row" ng-if="!teacherCourseDashboard.assessments ||  teacherCourseDashboard.assessments.length === 0" class="no-items">
+            <span>No current assessments. Create one?</span>
+        </div>
+    </diV>
+    <div layout="row" layout-align="center start" flex ng-if="teacherCourseDashboard.assessmentsLoading">
+        <md-progress-circular md-mode=" indeterminate "></md-progress-circular>
     </div>
     <div class="bottom-fab ">
         <md-button class="md-fab md-primary " aria-label="Add New Assessment " ng-click="teacherCourseDashboard.addNewAssessment()">

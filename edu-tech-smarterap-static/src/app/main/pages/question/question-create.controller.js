@@ -95,6 +95,15 @@ function QuestionCreateController($http, $q, $mdToast, $state, Ui, PropertyServi
             for (var j = 0; j < ctrl.questions[i].answers.length; j++) {
                 ctrl.questions[i].answers[j].order = j;
             }
+        }
+        if (ctrl.questions.length > 1) {
+            $http.post('/smarter-ap/api/question/merge', angular.toJson(ctrl.questions), {
+                    'headers': {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(createCourseSuccess, createCourseFailure);
+        } else {
             $http.post('/smarter-ap/api/question/new', angular.toJson(ctrl.questions[i]), {
                     'headers': {
                         'Content-Type': 'application/json'
@@ -111,6 +120,6 @@ function QuestionCreateController($http, $q, $mdToast, $state, Ui, PropertyServi
     }
 
     function createCourseFailure(response) {
-        $mdToast.show($mdToast.simple().content('Failed to add subject, try again.').hideDelay(3000));
+        $mdToast.show($mdToast.simple().content('Failed to add question, try again.').hideDelay(3000));
     }
 }

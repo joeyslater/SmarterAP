@@ -1,6 +1,7 @@
 package edu.gatech.edutech.smarterap.controllers.secured;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,6 +20,7 @@ import edu.gatech.edutech.smarterap.dtos.QuestionQuery;
 import edu.gatech.edutech.smarterap.dtos.json.JsonResponse;
 import edu.gatech.edutech.smarterap.services.CrudService;
 import edu.gatech.edutech.smarterap.services.QuestionService;
+import edu.gatech.edutech.smarterap.utils.ExamViewConversionUtil;
 
 @RestController
 @RequestMapping("/api/question")
@@ -42,6 +44,12 @@ public class QuestionController implements CrudController<Question>
 		return questionService.query(questionQuery);
 	}
 
+	@RequestMapping(value = "/upload", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Set<Question> uploadBlackboard(@RequestBody final String data)
+	{
+		return ExamViewConversionUtil.convert(data);
+	}
+
 	@Override
 	public List<Question> readAll()
 	{
@@ -54,6 +62,22 @@ public class QuestionController implements CrudController<Question>
 	{
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@RequestMapping(value = "/merge", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public void merge(@RequestBody final List<Question> dtos, final HttpServletRequest request)
+	{
+		for (final Question dto : dtos)
+		{
+			final List<Answer> ans = dto.getAnswers();
+			dto.setAnswers(null);
+			for (final Answer answer : ans)
+			{
+				answer.setQuestion(dto);
+			}
+			dto.setAnswers(ans);
+		}
+		crudService.merge(dtos);
 	}
 
 	@Override

@@ -3,7 +3,6 @@ package edu.gatech.edutech.smarterap.utils;
 import static javax.xml.xpath.XPathConstants.NODE;
 import static javax.xml.xpath.XPathConstants.NODESET;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.List;
@@ -16,7 +15,7 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -34,8 +33,6 @@ public final class ExamViewConversionUtil
 {
 	//Change this to whatever you have locally. Use the main method below to test this.
 	//We will eventually do this via upload.
-	private static final String		LOCAL_PATH				= "C:\\Users\\Joey\\Desktop\\test.dat";
-
 	private static final String		EXP_QUESTION			= "presentation/flow/flow[@class=\"QUESTION_BLOCK\"]";
 	private static final String		EXP_QUESTION_TYPE		= "itemmetadata/bbmd_questiontype";
 	private static final String		EXP_RESPONSES			= "presentation/flow/flow[@class=\"RESPONSE_BLOCK\"]";
@@ -51,33 +48,35 @@ public final class ExamViewConversionUtil
 
 	}
 
-	public static void convert()
+	public static Set<Question> convert(final String data)
 	{
-		try
+		if (data != null)
 		{
-			builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-			xpath = XPathFactory.newInstance().newXPath();
-			final String questionsFile = FileUtils.readFileToString(new File(LOCAL_PATH));
-			final Document document = builder.parse(new InputSource(new StringReader(questionsFile)));
-
-			final Set<Question> questions = Sets.newHashSet();
-			final NodeList items = document.getElementsByTagName("item");
-			for (int i = 0; i < items.getLength(); i++)
+			try
 			{
-				questions.add(createQuestionFromNode(items.item(i)));
-			}
+				final String withoutQuotes = data.substring(1, data.length() - 1);
+				final String unescaped = StringEscapeUtils.unescapeJson(withoutQuotes);
+				builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+				xpath = XPathFactory.newInstance().newXPath();
+				final Document document = builder.parse(new InputSource(new StringReader(unescaped)));
 
-			for (final Question question : questions)
-			{
-				for (final Answer answer : question.getAnswers())
+				final Set<Question> questions = Sets.newHashSet();
+				final NodeList items = document.getElementsByTagName("item");
+				for (int i = 0; i < items.getLength(); i++)
 				{
-					System.out.println(answer.getText());
+					questions.add(createQuestionFromNode(items.item(i)));
 				}
+				return questions;
+			}
+			catch (IOException | SAXException | XPathExpressionException | ParserConfigurationException e)
+			{
+				e.printStackTrace();
+				return Sets.newHashSet();
 			}
 		}
-		catch (IOException | SAXException | XPathExpressionException | ParserConfigurationException e)
+		else
 		{
-			e.printStackTrace();
+			return Sets.newHashSet();
 		}
 	}
 
@@ -120,11 +119,6 @@ public final class ExamViewConversionUtil
 			answers.add(answer);
 		}
 		return answers;
-	}
-
-	public static void main(final String[] args)
-	{
-		ExamViewConversionUtil.convert();
 	}
 
 }

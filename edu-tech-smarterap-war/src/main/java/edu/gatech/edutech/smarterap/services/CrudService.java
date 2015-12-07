@@ -44,6 +44,11 @@ public class CrudService
 		return databaseDao.get(clazz, uid);
 	}
 
+	public <T extends BaseDto> void merge(final List<T> dtos)
+	{
+		databaseDao.merge(dtos);
+	}
+
 	public <T extends BaseDto> JsonResponse<T> create(final T dto)
 	{
 		boolean success = true;

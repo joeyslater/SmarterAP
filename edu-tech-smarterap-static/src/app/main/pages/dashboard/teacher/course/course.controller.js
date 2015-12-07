@@ -2,25 +2,45 @@ angular.module('smarterap')
 
 .controller("TeacherCourseDashboardController", TeacherCourseDashboardController);
 
-function TeacherCourseDashboardController($http, $stateParams, $timeout, Ui, $state, $mdDialog, $document, PropertyService) {
+function TeacherCourseDashboardController($http, $stateParams, $timeout, $q, Ui, $state, $mdDialog, $document, PropertyService) {
     var ctrl = this;
 
-    $http.get('/smarter-ap/api/course/' + $stateParams.courseId)
-        .then(
-            function(response) {
-                ctrl.course = response.data;
+    init();
 
-                $timeout(function() {
-                    Ui.setHeaderTitle(ctrl.course.name);
-                    PropertyService.setCourse(ctrl.course);
+    function init() {
+        ctrl.loadingCourse = true;
+        ctrl.assessmentsLoading = true;
+        var assessmentsDeferred = $q.defer();
+
+        $http.get('/smarter-ap/api/course/' + $stateParams.courseId)
+            .then(
+                function(response) {
+                    ctrl.course = response.data;
+                    ctrl.loadingCourse = false;
+                    $timeout(function() {
+                        Ui.setHeaderTitle(ctrl.course.name);
+                        PropertyService.setCourse(ctrl.course);
+                    });
+                },
+                function(response) {
+                    ctrl.course = [];
+                    ctrl.loadingCourse = false;
                 });
-            },
-            function(response) {
-                ctrl.course = {
-                    'courseId': $stateParams.courseId,
-                    'title': 'AP Computer Science'
-                };
-            });
+
+        $http.get('/smarter-ap/api/assessment/student/course/' + $stateParams.courseId)
+            .then(
+                function(response) {
+                    ctrl.assessments = response.data;
+                    ctrl.assessmentsLoading = false;
+                    assessmentsDeferred.resolve(ctrl.assessments);
+                },
+                function(response) {
+                    ctrl.assessments = undefined;
+                    ctrl.assessmentsLoading = false;
+                    assessmentsDeferred.resolve();
+                });
+        ctrl.assessmentsDeferred = assessmentsDeferred.promise;
+    }
 
     ctrl.tabs = [{
         'title': 'Home',

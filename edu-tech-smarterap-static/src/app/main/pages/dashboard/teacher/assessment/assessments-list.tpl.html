@@ -33,7 +33,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="assessment in assessmentsList.assessments | orderBy: assessmentsList.listQuery.order ">
+                        <tr ng-repeat="assessment in teacherCourseDashboard.assessments | orderBy: assessmentsList.listQuery.order ">
                             <td name="Name" ng-bind=" assessment.name " ng-click="assessmentsList.enterAssessment(assessment.uid)" class="pointer"></td>
                             <td name="Open Date" ng-bind="assessment.openDate | date : short"></td>
                             <td name="Due Date" ng-bind="assessment.closeDate | date : short"></td>

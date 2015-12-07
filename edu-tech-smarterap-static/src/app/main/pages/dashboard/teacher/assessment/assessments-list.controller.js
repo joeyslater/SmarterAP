@@ -9,22 +9,6 @@ function TeacherAssessmentsListController($q, $timeout, $state, $mdDialog, $docu
         order: 'openDate'
     };
 
-    init();
-
-    function init() {
-        ctrl.loadingAssessments = true;
-        $http.get('/smarter-ap/api/assessment/list')
-            .then(
-                function(response) {
-                    ctrl.assessments = response.data;
-                    ctrl.loadingAssessments = false;
-                },
-                function(response) {
-                    ctrl.assessments = [];
-                    ctrl.loadingAssessments = false;
-                });
-    }
-
     ctrl.onOrderChange = function(order) {
         var deferred = $q.defer();
         $timeout(function() {

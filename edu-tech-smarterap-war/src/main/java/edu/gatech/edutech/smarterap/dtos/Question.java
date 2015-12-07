@@ -19,6 +19,8 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.pojomatic.annotations.AutoProperty;
 
+import com.google.common.collect.Sets;
+
 import edu.gatech.edutech.smarterap.enums.QuestionType;
 
 @Entity
@@ -28,7 +30,7 @@ public class Question extends BaseDto
 	@Column
 	private String			text;
 	@Enumerated(EnumType.STRING)
-	private QuestionType	type	= QuestionType.MULTIPLE_CHOICE;
+	private QuestionType	type		= QuestionType.MULTIPLE_CHOICE;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "question")
 	@Fetch(FetchMode.SELECT)
@@ -37,10 +39,13 @@ public class Question extends BaseDto
 	@Column
 	private String			hint;
 
+	@Column
+	private Long			difficulty	= 3L;
+
 	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	@JoinTable(name = "question_tag", joinColumns = @JoinColumn(name = "question_id") , inverseJoinColumns = @JoinColumn(name = "tag_id") )
 	@Fetch(FetchMode.SELECT)
-	private Set<Tag>		tags;
+	private Set<Tag>		tags		= Sets.newHashSet();
 
 	@ManyToOne
 	private Subject			subject;
@@ -103,6 +108,16 @@ public class Question extends BaseDto
 	public void setSubject(final Subject subject)
 	{
 		this.subject = subject;
+	}
+
+	public Long getDifficulty()
+	{
+		return difficulty;
+	}
+
+	public void setDifficulty(final Long difficulty)
+	{
+		this.difficulty = difficulty;
 	}
 
 }
