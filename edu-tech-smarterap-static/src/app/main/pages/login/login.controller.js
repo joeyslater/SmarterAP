@@ -5,10 +5,7 @@ angular.module('smarterap')
 function LoginController($scope, $rootScope, $http, $timeout, APP, $state, Ui, UserService, $auth, $user, STORMPATH_CONFIG) {
     var ctrl = this;
     ctrl.loginLoading = false;
-    ctrl.credentials = {
-        username: 'joeyslater@gatech.edu',
-        password: 'Password1'
-    };
+    ctrl.credentials = {};
 
     ctrl.authenticate = function(credentials) {
         ctrl.loginLoading = true;
