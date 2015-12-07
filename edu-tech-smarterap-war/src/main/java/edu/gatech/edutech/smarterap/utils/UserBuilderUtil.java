@@ -18,17 +18,21 @@ public class UserBuilderUtil
 
 	public static User build(final Account account)
 	{
-		final User user = new User();
-		user.setGivenName(account.getGivenName());
-		user.setSurname(account.getSurname());
-		user.setUsername(account.getEmail());
-		user.setStatus(account.getStatus().toString());
-		user.setHref(account.getHref());
-		if (account.getGroups() != null)
+		if (account != null)
 		{
-			user.setSecurityRoles(convertSecurities(account.getGroups()));
+			final User user = new User();
+			user.setGivenName(account.getGivenName());
+			user.setSurname(account.getSurname());
+			user.setUsername(account.getEmail());
+			user.setStatus(account.getStatus().toString());
+			user.setHref(account.getHref());
+			if (account.getGroups() != null)
+			{
+				user.setSecurityRoles(convertSecurities(account.getGroups()));
+			}
+			return user;
 		}
-		return user;
+		return new User();
 	}
 
 	public static User build(final Account account, final Long uid)

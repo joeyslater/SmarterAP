@@ -42,7 +42,7 @@
                     </md-tooltip>
                     <md-icon class="material-icons ">add</md-icon>
                 </md-button>
-                <md-button aria-label="Upload Multiple " class="md-fab md-raised md-mini " upload="file-questions-dat-input">
+                <md-button aria-label="Upload Multiple " class="md-fab md-raised md-mini " upload="file-students-csv-input">
                     <md-tooltip md-direction="left">
                         Upload Students
                     </md-tooltip>
@@ -51,5 +51,5 @@
             </md-fab-actions>
         </md-fab-speed-dial>
     </div>
-    <input id="file-questions-dat-input" name="file" type="file" class="ng-hide" accept=".dat" upload-blackboard="questionBank.uploadQuestions($fileContent)">
+    <input id="file-students-csv-input" name="file" type="file" class="ng-hide" accept=".csv" upload-custom-file="studentsList.uploadStudents($fileContent)">
 </div>

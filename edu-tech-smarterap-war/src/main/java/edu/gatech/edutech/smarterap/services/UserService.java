@@ -155,18 +155,27 @@ public class UserService
 	public void addStudentToCourse(final Long uid, final String email)
 	{
 		final Course course = databaseDao.get(Course.class, uid);
-
-		final User u = new User();
-		u.setUsername(email);
-		User user = getUserAccount(u);
-		if (user == null)
+		final String[] emails = email.split(",");
+		for (String e : emails)
 		{
-			user = u;
+			e = e.trim();
+			final User u = databaseDao.getByUniqueField(User.class, "username", e);
+			if (u == null)
+			{
+				User user = getUserFromEmail(e);
+				if (user == null)
+				{
+					user = new User();
+					user.setUsername(email);
+					databaseDao.saveOrUpdate(user);
+				}
+				course.getStudents().add(user);
+			}
+			else
+			{
+				course.getStudents().add(u);
+			}
 		}
-
-		System.out.println(user);
-		course.getStudents().add(user);
-
 		databaseDao.saveOrUpdate(course);
 	}
 }

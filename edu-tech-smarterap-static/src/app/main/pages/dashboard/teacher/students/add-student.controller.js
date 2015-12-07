@@ -10,8 +10,7 @@ function AddStudentToCourseController($http, $mdDialog, $mdToast, $state, $state
     };
 
     ctrl.save = function() {
-        console.log(ctrl.form.email);
-        $http.post('smarter-ap/api/course/' + $stateParams.courseId + '/student/add', angular.toJson(ctrl.form), {
+        $http.post('smarter-ap/api/course/' + $stateParams.courseId + '/student/add', ctrl.form.email, {
                 withCredentials: true,
                 'headers': {
                     'Content-Type': 'application/json'

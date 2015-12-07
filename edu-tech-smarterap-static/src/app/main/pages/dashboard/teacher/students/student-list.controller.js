@@ -2,7 +2,7 @@ angular.module('smarterap')
 
 .controller("TeacherStudentsListController", TeacherStudentsListController);
 
-function TeacherStudentsListController($timeout, $q, $http, $document, $mdDialog, PropertyService, $stateParams) {
+function TeacherStudentsListController($timeout, $q, $http, $document, $mdDialog, $mdToast, PropertyService, $stateParams) {
     var ctrl = this;
     ctrl.listQuery = {
         order: 'username'
@@ -41,6 +41,25 @@ function TeacherStudentsListController($timeout, $q, $http, $document, $mdDialog
             parent: angular.element($document[0].body),
             targetEvent: $event,
             clickOutsideToClose: true
+        }).finally(function() {
+            ctrl.getStudents();
         });
+    };
+
+    ctrl.uploadStudents = function($fileContent) {
+        $http.post('smarter-ap/api/course/' + $stateParams.courseId + '/student/add', $fileContent, {
+                withCredentials: true,
+                'headers': {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(
+                function(response) {
+                    ctrl.getStudents();
+                    $mdToast.show($mdToast.simple().content('Successfully added.').hideDelay(2000));
+                },
+                function(response) {
+                    $mdToast.show($mdToast.simple().content('Unable to add. Try again later.').hideDelay(2000));
+                });
     };
 }

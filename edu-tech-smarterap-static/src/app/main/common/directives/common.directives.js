@@ -45,12 +45,12 @@ angular.module('smarterap')
     };
 })
 
-.directive('uploadBlackboard', function($parse) {
+.directive('uploadCustomFile', function($parse) {
     return {
         restrict: 'A',
         scope: false,
         link: function(scope, element, attrs) {
-            var fn = $parse(attrs.uploadBlackboard);
+            var fn = $parse(attrs.uploadCustomFile);
 
             function changeHandler(onChangeEvent) {
                 var reader = new FileReader();
