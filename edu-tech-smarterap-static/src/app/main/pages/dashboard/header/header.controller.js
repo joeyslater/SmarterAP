@@ -18,9 +18,9 @@ function HeaderController($rootScope, $http, $state, Ui, UserService, $mdSidenav
 
     ctrl.logout = function() {
         $http.get('/smarter-ap/logout').then(function() {
-            $state.go("login");
-            UserService.setUser();
+            UserService.setUser(null);
             $rootScope.$broadcast(STORMPATH_CONFIG.SESSION_END_EVENT);
+            $state.go("login");
         });
     };
 

@@ -63,6 +63,11 @@ public class Course extends BaseDto
 
 	}
 
+	public Course(final Long uid)
+	{
+		setUid(uid);
+	}
+
 	public String getName()
 	{
 		return name;

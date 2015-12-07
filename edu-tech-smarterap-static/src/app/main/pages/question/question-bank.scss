@@ -3,6 +3,7 @@
     box-shadow: 0 0 2px rgba(0, 0, 0, .2);
     height: 48px;
     z-index: 2;
+    background: white;
     input {
         border: 0;
         line-height: 46px;
@@ -25,8 +26,9 @@
     z-index: 1;
     height: auto;
     background: white;
-    margin-top: 1px;
-    margin-left: 60px;
+    left: 0;
+    right: 0;
+    margin: 1px auto;
     max-width: 800px;
     width: 80%;
     box-shadow: 0 0 2px rgba(0, 0, 0, .2);
@@ -52,6 +54,9 @@
     > div {
         margin: 0 auto;
         width: 60%;
+        @media (max-width: $layout-breakpoint-sm - 1) {
+            width: 100%;
+        }
         .md-table-title {
             height: 24px;
             line-height: 24px;

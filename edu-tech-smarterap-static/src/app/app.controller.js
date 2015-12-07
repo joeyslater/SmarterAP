@@ -17,16 +17,33 @@ angular.module('smarterap', [
 ])
 
 .config(function($provide, STORMPATH_CONFIG) {
-    $provide.decorator('taOptions', ['taRegisterTool', '$delegate', function(taRegisterTool, taOptions, taAppl) {
+    $provide.decorator('taOptions', ['taRegisterTool', '$delegate', function(taRegisterTool, taOptions, taAppl, taSelection) {
         taRegisterTool('code', {
-            display: '<span>Test</span>'
+            buttontext: 'Code',
+            action: function() {
+                return this.$editor().wrapSelection("formatBlock", '<div class="code">');
+            }
         });
-        taOptions.toolbar[1].push('code');
+        taRegisterTool('comment', {
+            buttontext: 'Code Comment',
+            action: function() {
+                return this.$editor().wrapSelection("formatBlock", '<div class="code comment">');
+            }
+        });
+        taRegisterTool('normal', {
+            buttontext: 'Normal',
+            action: function() {
+                return this.$editor().wrapSelection("formatBlock", "<div>");
+            }
+        });
+        taOptions.toolbar = [
+            ['bold', 'italics', 'underline', 'ul', 'ol', 'justifyLeft', 'justifyRight', 'justifyCenter'],
+            ['normal', 'code', 'comment']
+        ];
         taOptions.classes = {
-            toolbarButton: 'md-flat md-button md-icon-button',
+            toolbarButton: 'md-flat md-button',
             toolbarButtonActive: 'md-primary',
-            disabled: 'button-disabled'
-
+            disabled: 'disabled'
         };
 
         return taOptions;
@@ -38,25 +55,36 @@ angular.module('smarterap', [
     STORMPATH_CONFIG.REGISTER_URI = "/smarter-ap/register";
     STORMPATH_CONFIG.DESTROY_SESSION_ENDPOINT = "/smarter-ap/logout";
 
-    //     $provide.decorator('taTools', ['$delegate', function(taTools) {
-    //         taTools.bold.iconclass = 'icon-bold';
-    //         taTools.italics.iconclass = 'icon-italic';
-    //         taTools.underline.iconclass = 'icon-underline';
-    //         taTools.ul.iconclass = 'icon-list-ul';
-    //         taTools.ol.iconclass = 'icon-list-ol';
-    //         taTools.undo.iconclass = 'icon-undo';
-    //         taTools.redo.iconclass = 'icon-repeat';
-    //         taTools.justifyLeft.iconclass = 'icon-align-left';
-    //         taTools.justifyRight.iconclass = 'icon-align-right';
-    //         taTools.justifyCenter.iconclass = 'icon-align-center';
-    //         taTools.clear.iconclass = 'icon-ban-circle';
-    //         taTools.insertLink.iconclass = 'icon-link';
-    //         taTools.insertImage.iconclass = 'icon-picture';
-    //         // there is no quote icon in old font-awesome so we change to text as follows
-    //         delete taTools.quote.iconclass;
-    //         taTools.quote.buttontext = 'quote';
-    //         return taTools;
-    //     }]);
+    $provide.decorator('taTools', ['$delegate', function(taTools) {
+        taTools.bold.buttontext = '<md-icon class="material-icons">format_bold</md-icon>';
+        taTools.bold.iconclass = undefined;
+        taTools.italics.buttontext = '<md-icon class="material-icons">format_italics</md-icon>';
+        taTools.italics.iconclass = undefined;
+        taTools.underline.buttontext = '<md-icon class="material-icons">format_underline</md-icon>';
+        taTools.underline.iconclass = undefined;
+        taTools.ul.buttontext = '<md-icon class="material-icons">format_list_bulleted</md-icon>';
+        taTools.ul.iconclass = undefined;
+        taTools.ol.buttontext = '<md-icon class="material-icons">format_list_numbered</md-icon>';
+        taTools.ol.iconclass = undefined;
+        taTools.undo.buttontext = '<md-icon class="material-icons">undo</md-icon>';
+        taTools.undo.iconclass = undefined;
+        taTools.redo.buttontext = '<md-icon class="material-icons">redo</md-icon>';
+        taTools.redo.iconclass = undefined;
+        taTools.justifyLeft.buttontext = '<md-icon class="material-icons">format_align_left</md-icon>';
+        taTools.justifyLeft.iconclass = undefined;
+        taTools.justifyRight.buttontext = '<md-icon class="material-icons">format_align_right</md-icon>';
+        taTools.justifyRight.iconclass = undefined;
+        taTools.justifyCenter.buttontext = '<md-icon class="material-icons">format_align_centers</md-icon>';
+        taTools.justifyCenter.iconclass = undefined;
+        taTools.clear.buttontext = '<md-icon class="material-icons">format_clear</md-icon>';
+        taTools.clear.iconclass = undefined;
+        taTools.p.buttontext = 'Normal';
+        taTools.p.iconclass = undefined;
+        taTools.pre.buttontext = 'Code';
+        taTools.pre.iconclass = undefined;
+        taTools.pre.tooltiptext = "Code";
+        return taTools;
+    }]);
 
 })
 
@@ -72,14 +100,6 @@ angular.module('smarterap', [
     $rootScope.getRole = function() {
         return UserService.getRole().toLowerCase();
     };
-})
-
-.run(function($http, $state, $rootScope, UserService, STORMPATH_CONFIG) {
-    $http.get('/smarter-ap/account')
-        .then(function(response) {
-            UserService.setUser(response.data);
-            $state.go(UserService.getDashboard());
-        });
 })
 
 .controller('AppCtrl', AppCtrl)

@@ -40,7 +40,7 @@
     </div>
     <div hide show-sm layout="column" class="courses-list">
         <md-list>
-            <md-list-item aria-label="{{course.name}}" ui-sref="dashboard.student-course({courseId: course.uid})" ng-repeat="course in studentCoursesDashboard.courses | orderBy:['name', 'section'] | filter:{enabled:true}" class="md-2-line">
+            <md-list-item aria-label="{{course.name}}" ui-sref="dashboard.student-course({courseId: course.uid})" ng-repeat="course in studentCoursesDashboard.courses | orderBy:['name', 'section'] | filter:{enabled:true}" class="md-2-line no-margin-child">
                 <div class="md-list-item-text" layout="column">
                     <h3 ng-bind="course.name"></h3>
                     <p ng-bind="course.section"></p>

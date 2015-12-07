@@ -22,10 +22,6 @@ function TeacherCourseDashboardController($http, $stateParams, $timeout, Ui, $st
                 };
             });
 
-    ctrl.goTo = function(state) {
-        $state.go(state);
-    };
-
     ctrl.tabs = [{
         'title': 'Home',
         'template': 'main/pages/dashboard/teacher/course/course-home.tpl.html'

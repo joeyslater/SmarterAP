@@ -21,7 +21,9 @@ function LoginController($scope, $rootScope, $http, $timeout, APP, $state, Ui, U
             .then(
                 function(response) {
                     $timeout(function() {
-                        $rootScope.$broadcast(STORMPATH_CONFIG.AUTHENTICATION_SUCCESS_EVENT_NAME, response);
+                        UserService.isLoggedIn().then(function() {
+                            $rootScope.$broadcast(STORMPATH_CONFIG.AUTHENTICATION_SUCCESS_EVENT_NAME, response);
+                        });
                     });
                 },
                 function(response) {
@@ -32,22 +34,4 @@ function LoginController($scope, $rootScope, $http, $timeout, APP, $state, Ui, U
                     });
                 });
     };
-
-    $rootScope.$on(STORMPATH_CONFIG.AUTHENTICATION_SUCCESS_EVENT_NAME, function(data) {
-        $http.get('/smarter-ap/account')
-            .then(function(response) {
-                UserService.setUser(response.data);
-                $state.go(UserService.getDashboard());
-            });
-    });
-
-    init();
-
-    function init() {
-        $http.get('/smarter-ap/account')
-            .then(function(response) {
-                UserService.setUser(response.data);
-                $state.go(UserService.getDashboard());
-            });
-    }
 }

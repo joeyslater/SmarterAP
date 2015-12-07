@@ -15,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.pojomatic.annotations.AutoProperty;
@@ -24,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @AutoProperty
-public class Assessment extends BaseDto
+public class Assessment extends BaseDto implements Comparable<Assessment>
 {
 	@Column
 	private String			name;
@@ -120,6 +121,17 @@ public class Assessment extends BaseDto
 	public void setCloseDate(final Date closeDate)
 	{
 		this.closeDate = closeDate;
+	}
+
+	@Override
+	public int compareTo(final Assessment o)
+	{
+		final int a = ObjectUtils.compare(openDate, o.getOpenDate(), true);
+		if (a == 0)
+		{
+			return name.compareToIgnoreCase(o.getName());
+		}
+		return a;
 	}
 
 }

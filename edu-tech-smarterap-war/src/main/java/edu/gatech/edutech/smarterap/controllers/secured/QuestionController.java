@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.gatech.edutech.smarterap.controllers.CrudController;
+import edu.gatech.edutech.smarterap.dtos.Answer;
 import edu.gatech.edutech.smarterap.dtos.Question;
 import edu.gatech.edutech.smarterap.dtos.QuestionQuery;
 import edu.gatech.edutech.smarterap.dtos.json.JsonResponse;
@@ -56,10 +57,16 @@ public class QuestionController implements CrudController<Question>
 	}
 
 	@Override
-	public JsonResponse<Question> create(final Question dto, final HttpServletRequest request)
+	public JsonResponse<Question> create(@RequestBody final Question dto, final HttpServletRequest request)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		final List<Answer> ans = dto.getAnswers();
+		dto.setAnswers(null);
+		for (final Answer answer : ans)
+		{
+			answer.setQuestion(dto);
+		}
+		dto.setAnswers(ans);
+		return crudService.create(dto);
 	}
 
 	@Override

@@ -5,14 +5,20 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.gatech.edutech.smarterap.controllers.CrudController;
 import edu.gatech.edutech.smarterap.dtos.Assessment;
 import edu.gatech.edutech.smarterap.dtos.Course;
+import edu.gatech.edutech.smarterap.dtos.StudentAssessment;
 import edu.gatech.edutech.smarterap.dtos.json.JsonResponse;
+import edu.gatech.edutech.smarterap.services.AssessmentService;
 import edu.gatech.edutech.smarterap.services.CrudService;
 
 @RestController
@@ -20,7 +26,10 @@ import edu.gatech.edutech.smarterap.services.CrudService;
 public class AssessmentController implements CrudController<Assessment>
 {
 	@Autowired
-	private CrudService crudService;
+	private CrudService			crudService;
+
+	@Autowired
+	private AssessmentService	assessmentService;
 
 	@Override
 	public Long count()
@@ -28,21 +37,30 @@ public class AssessmentController implements CrudController<Assessment>
 		return crudService.count(Assessment.class);
 	}
 
-	//	public List<Assessment> readAllFromCourse(final Long courseId)
-	//	{
-	//		return crudService.;
-	//	}
-
 	@Override
 	public List<Assessment> readAll()
 	{
 		return crudService.list(Assessment.class);
 	}
 
+	@ResponseBody
+	@RequestMapping(value = "/student/course/{courseId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<StudentAssessment> readAllAssessmentsForCourse(@PathVariable final Long courseId)
+	{
+		return assessmentService.readAllStudentAssessmentsForCourse(courseId, 0, 10);
+	}
+
 	@Override
-	public Assessment read(final Long uid)
+	public Assessment read(@PathVariable final Long uid)
 	{
 		return crudService.get(Assessment.class, uid);
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/student/{uid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public StudentAssessment readStudentAssessment(@PathVariable final Long uid)
+	{
+		return assessmentService.readStudentAssessment(uid);
 	}
 
 	@Override

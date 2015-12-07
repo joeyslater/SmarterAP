@@ -38,9 +38,9 @@
         </div>
         <md-content class="main question-bank-results" layout="column" flex ng-if="questionBank.results">
             <div>
-                <uib-pagination boundary-links="true" total-items="100" max-size="5" ng-model="questionBank.pagination.currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+                <uib-pagination boundary-links="true" total-items="questionBank.count" max-size="5" ng-model="questionBank.query.currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" ng-if="questionBank.count > 10" ng-change="questionBank.getResults()"></uib-pagination>
                 <div ng-repeat="question in questionBank.results" ng-include="'main/pages/question/question-view.tpl.html'"></div>
-                <uib-pagination boundary-links="true" total-items="100" max-size="5" ng-model="questionBank.pagination.currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+                <uib-pagination boundary-links="true" total-items="questionBank.count" max-size="5" ng-model="questionBank.query.currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" ng-if="questionBank.count > 10" ng-change="questionBank.getResults()"></uib-pagination>
             </div>
         </md-content>
         <div class="bottom-fab ">

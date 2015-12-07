@@ -2,7 +2,7 @@ angular.module('smarterap')
 
 .controller("AddEditCourseController", AddEditCourseController);
 
-function AddEditCourseController($http, $mdDialog, $mdToast, $state, Ui, $location, course) {
+function AddEditCourseController($http, $mdDialog, $mdToast, $state, Ui, course) {
     var ctrl = this;
     var copy = angular.copy(course);
     ctrl.currentCourse = copy ? copy : {};
@@ -40,7 +40,9 @@ function AddEditCourseController($http, $mdDialog, $mdToast, $state, Ui, $locati
                 })
                 .then(
                     function(response) {
-                        $location.url("/dashboard/course/" + response.data.data.uid);
+                        $state.go('dashboard.teacher-course', {
+                            'courseId': response.data.data.uid
+                        });
                         $mdDialog.hide();
                         $mdToast.show($mdToast.simple().content('Course created.').hideDelay(2000));
                     },

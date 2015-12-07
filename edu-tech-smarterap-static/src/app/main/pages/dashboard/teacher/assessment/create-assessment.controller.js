@@ -16,7 +16,6 @@ function CreateAssessmentController($mdDialog, $http, $mdToast, Ui, PropertyServ
         if (course) {
             ctrl.newAssessment.courseId = course.uid;
         }
-        console.log(ctrl.newAssessment);
         $http.post('/smarter-ap/api/assessment/new', angular.toJson(ctrl.newAssessment), {
                 withCredentials: true,
                 'headers': {

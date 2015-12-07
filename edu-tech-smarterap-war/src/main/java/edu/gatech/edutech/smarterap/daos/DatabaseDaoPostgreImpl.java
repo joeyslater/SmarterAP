@@ -14,6 +14,8 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
+import com.google.common.collect.Lists;
+
 import edu.gatech.edutech.smarterap.dtos.BaseDto;
 import edu.gatech.edutech.smarterap.exceptions.ErrorCode;
 import edu.gatech.edutech.smarterap.exceptions.SmarterApException;
@@ -249,14 +251,23 @@ public class DatabaseDaoPostgreImpl implements DatabaseDao
 		return (Long) criteria.uniqueResult();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> List<T> query(final Class<T> clazz, final List<Criterion> restrictions, final int start, final int num)
 	{
-		final Criteria criteria = getCurrentSession().createCriteria(clazz).setProjection(Projections.rowCount());
-		for (final Criterion criterion : restrictions)
+		try
 		{
-			criteria.add(criterion);
+			final Criteria criteria = getCurrentSession().createCriteria(clazz);
+			for (final Criterion criterion : restrictions)
+			{
+				criteria.add(criterion);
+			}
+			return criteria.setFirstResult(start).setMaxResults(num).list();
 		}
-		return criteria.setFirstResult(start).setMaxResults(num).list();
+		catch (final Exception e)
+		{
+			e.printStackTrace();
+			return Lists.newArrayList();
+		}
 	}
 }

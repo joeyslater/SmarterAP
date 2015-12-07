@@ -4,17 +4,8 @@ angular.module('smarterap')
 
 function TeacherCoursesDashboardController($http, $location, $document, $mdDialog, $timeout, $mdToast, Ui) {
     var ctrl = this;
+    ctrl.getBorderColor = Ui.getBorderColor;
     ctrl.loadingCourses = true;
-
-    var bottomColors = [
-        "#3F51B5", "#FF5722", "#9C27B0", "#E91E63", "#FFC107", "#4CAF50", "#3F51B5", "#673AB7", "#F44336", "#009688"
-    ];
-
-    bottomColors = shuffle(bottomColors);
-
-    ctrl.goToCourse = function(uid) {
-        $location.url("/dashboard/course/" + uid);
-    };
 
     ctrl.openAddNewCourseDialog = function($event) {
         $mdDialog.show({
@@ -71,10 +62,6 @@ function TeacherCoursesDashboardController($http, $location, $document, $mdDialo
         return false;
     };
 
-    ctrl.getBorderColor = function($index) {
-        return bottomColors[$index % bottomColors.length];
-    };
-
     ctrl.enable = function(course, shouldEnable) {
         var copy = angular.copy(course);
         copy.enabled = !course.enabled;
@@ -94,25 +81,4 @@ function TeacherCoursesDashboardController($http, $location, $document, $mdDialo
                 });
 
     };
-
-    function shuffle(array) {
-        var currentIndex = array.length,
-            temporaryValue, randomIndex;
-
-        // While there remain elements to shuffle...
-        while (0 !== currentIndex) {
-
-            // Pick a remaining element...
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex -= 1;
-
-            // And swap it with the current element.
-            temporaryValue = array[currentIndex];
-            array[currentIndex] = array[randomIndex];
-            array[randomIndex] = temporaryValue;
-        }
-
-        return array;
-    }
-
 }

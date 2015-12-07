@@ -1,35 +1,22 @@
-<md-whiteframe class="md-whiteframe-1dp question-editor" layout layout-align="center center">
-    <md-card>
-        <md-toolbar md-scroll-shrink>
-            <div class="md-toolbar-tools">
-                <span>Create New Question</span>
-            </div>
-        </md-toolbar>
+<md-whiteframe class="md-whiteframe-1dp question-editor question-view" layout-align="center start" layout="row" flex ng-repeat="question in questionCreate.questions">
+    <md-card flex-sm="100" flex-md="70" flex-lg="60" flex-gt-lg="50" bottom-border="{{questionCreate.getBorderColor($index)}}">
         <div class="custom-label-container wysiwyg">
-            <label class="slider-label md-static" ng-show="!!questionCreate.question.description">Question Text</label>
-            <div contenteditable="true" class="question-text" ng-model="questionCreate.question.description" placeholder="Enter question text here."></div>
+            <label class="slider-label md-static" ng-show="!!question.text">Question Text</label>
+            <div text-angular ta-default-wrap="div" class="question-text" ng-model="question.text" placeholder="Enter question text here."></div>
         </div>
-        <div class="custom-label-container wysiwyg" ng-if="questionCreate.showHint">
-            <label class="slider-label md-static" ng-show="!!questionCreate.question.hint">Hint Text</label>
-            <div contenteditable="true" class="question-text" ng-model="questionCreate.question.hint" placeholder="Enter hint text here."></div>
+        <div class="custom-label-container wysiwyg" ng-if="question.showHint">
+            <label class="slider-label md-static" ng-show="!!question.hint">Hint Text</label>
+            <div text-angular class="question-text" ta-default-wrap="div" ng-model="question.hint" placeholder="Enter hint text here."></div>
         </div>
         <md-list id="question-create-editor-answers-list">
-            <md-radio-group as-sortable="questionCreate.sortOptions" ng-model="questionCreate.question.answers">
-                <md-list-item ng-repeat="answer in questionCreate.question.answers" class="column question-answer-editor" as-sortable-item>
+            <md-radio-group as-sortable="questionCreate.sortOptions" ng-model="question.answers">
+                <md-list-item ng-repeat="answer in question.answers track by $index" class="column question-answer-editor" as-sortable-item ng-click="$evt.stopPropagatopm();">
                     <div class="editor" layout="row">
                         <i class="material-icons reorder" as-sortable-item-handle>drag_handle</i>
                         <md-radio-button disabled aria-label="New Answer"></md-radio-button>
-                        <div contenteditable="true" class="answer-field md-primary" ng-model="answer.text" placeholder="Option {{($index + 1)}}"></div>
-                        <span flex></span>
-                        <i class="material-icons close">close</i>
-                    </div>
-                    <div class="wysiwyg-editor" layout="row" flex="100" class="clearfix">
-                        <md-button class="md-icon-button" aria-label="italics">
-                            <md-icon class="material-icons">format_bold</md-icon>
-                        </md-button>
-                        <md-button class="md-icon-button" aria-label="bold">
-                            <md-icon class="material-icons">format_italics</md-icon>
-                        </md-button>
+                        <div text-angular class="answer-field" ta-default-wrap="div" ng-model="answer.text" placeholder="Option {{($index + 1)}}" flex></div>
+                        <i class="material-icons close" ng-click="questionCreate.removeAnswer(question, $index)">close</i>
+                        <md-checkbox ng-model="answer.correct" aria-label="answer.correct" ng-change="questionCreate.setCorrectAnswer(question, answer)"></md-checkbox>
                     </div>
                 </md-list-item>
             </md-radio-group>
@@ -37,46 +24,45 @@
         <div layout="column" layout-padding>
             <md-input-container flex>
                 <label>AP Course Subject</label>
-                <md-select ng-model="questionCreate.question.subject">
-                    <md-option ng-repeat="subject in questionCreate.subjects" value="{{subject.uid}}">{{subject.name}}</md-option>
+                <md-select ng-model="question.subject" md-on-open="questionCreate.getSubjects();" ng-change="questionCreate.clearTags(question)">
+                    <md-option ng-repeat="subject in questionCreate.subjects" ng-value="{{subject}}">{{subject.name}}</md-option>
                 </md-select>
             </md-input-container>
-            <div class="custom-label-container" ng-if="questionCreate.question.subject">
+            <div class="custom-label-container" ng-if="question.subject">
                 <label>Tags</label>
-                <md-chips ng-model="questionCreate.question.tags" readonly="false" placeholder="+ Tag"></md-chips>
+                <md-chips ng-model="question.tags" md-autocomplete-snap md-require-match="true">
+                    <md-autocomplete md-selected-item="questionCreate.selectedItem" md-search-text="questionCreate.searchText" md-items="item in questionCreate.querySearch(question, questionCreate.searchText)" md-item-text="item.name" placeholder="+tag" md-no-cache="true" md-min-length="3">
+                        <span md-highlight-text="questionCreate.searchText">{{item.name}}</span>
+                    </md-autocomplete>
+                    <md-chip-template>
+                        <span>{{$chip.name}}</span>
+                    </md-chip-template>
+                </md-chips>
             </div>
             <div class="custom-label-container">
                 <label class="custom-label md-static">Difficulty Level (1 - easy / 5 - difficult)</label>
-                <md-slider flex class="md-primary" md-discrete ng-model="questionCreate.question.difficulty" step="1" min="1" max="5" aria-label="Difficulty Level"></md-slider>
+                <md-slider flex class="md-primary" md-discrete ng-model="question.difficulty" step="1" min="1" max="5" aria-label="Difficulty Level"></md-slider>
             </div>
-            <div class="custom-label-container">
-                <label class="custom-label">Weighted Points</label>
-                <md-slider flex class="md-primary" md-discrete ng-model="questionCreate.question.points" step="1" min="1" max="5" aria-label="Point Weight"></md-slider>
-            </div>
-        </div>
-        <div class="form-actions right" layout-padding>
-            <md-button class="md-primary md-raised">Submit</md-button>
-            <md-button class="md-raised">Cancel</md-button>
         </div>
     </md-card>
-    <md-whiteframe class="extra-form-actions md-whiteframe-1dp" layout="column">
-        <md-button class="md-icon-button" aria-label="Add Answer" ng-click="questionCreate.addNewAnswer();">
+    <md-whiteframe class="extra-form-actions md-whiteframe-1dp" layout-gt-sm="column" layout-sm="row">
+        <md-button class="md-icon-button" aria-label="Add Answer" ng-click="questionCreate.addNewAnswer(question);">
             <md-tooltip md-direction="right">
                 Add New Answer
             </md-tooltip>
             <md-icon class="material-icons"><i class="material-icons">add_circle_outline</i></md-icon>
         </md-button>
-        <md-button class="md-icon-button" aria-label="Add Hint Text" ng-click="questionCreate.toggleShowHint();">
+        <md-button class="md-icon-button" aria-label="Add Hint Text" ng-click="questionCreate.toggleShowHint(question);">
             <md-tooltip md-direction="right">
                 Add / Remove Hint Text
             </md-tooltip>
-            <md-icon class="material-icons">{{questionCreate.showHint ? "help" : "help_outline"}}</md-icon>
-        </md-button>
-        <md-button class="md-icon-button" aria-label="Add Hint Text" ng-click="questionCreate.print();">
-            <md-tooltip md-direction="right">
-                Add / Remove Hint Text
-            </md-tooltip>
-            <md-icon class="material-icons">settings</md-icon>
+            <md-icon class="material-icons">{{questionCreate.question.showHint ? "help" : "help_outline"}}</md-icon>
         </md-button>
     </md-whiteframe>
 </md-whiteframe>
+<div class="form-actions right" layout="row" layout-padding layout-align="center start">
+    <div flex-sm="100" flex-md="70" flex-lg="60" flex-gt-lg="50" layout-align="center start" class="no-padding">
+        <md-button class="md-primary md-raised" ng-click="questionCreate.submit()">Submit</md-button>
+        <md-button class="md-raised" ng-click="goTo('dashboard.question-bank')">Cancel</md-button>
+    </div>
+</div>

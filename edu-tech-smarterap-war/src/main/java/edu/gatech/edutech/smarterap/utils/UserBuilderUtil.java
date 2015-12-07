@@ -1,14 +1,11 @@
 package edu.gatech.edutech.smarterap.utils;
 
-import java.util.List;
 import java.util.Set;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.stormpath.sdk.account.Account;
 import com.stormpath.sdk.group.GroupList;
 
-import edu.gatech.edutech.smarterap.dtos.Group;
 import edu.gatech.edutech.smarterap.dtos.User;
 import edu.gatech.edutech.smarterap.enums.SecurityRole;
 
@@ -30,7 +27,6 @@ public class UserBuilderUtil
 		if (account.getGroups() != null)
 		{
 			user.setSecurityRoles(convertSecurities(account.getGroups()));
-			user.setGroups(convertSecuritiesToGroup(account.getGroups()));
 		}
 		return user;
 	}
@@ -43,20 +39,6 @@ public class UserBuilderUtil
 			roles.add(SecurityRole.toEnum(group.getHref()));
 		}
 		return roles;
-	}
-
-	private static List<Group> convertSecuritiesToGroup(final GroupList groups)
-	{
-		final List<Group> list = Lists.newArrayList();
-		for (final com.stormpath.sdk.group.Group group : groups)
-		{
-			final Group g = new Group();
-			g.setName(group.getName());
-			g.setDescription(group.getDescription());
-			g.setHref(g.getHref());
-			list.add(g);
-		}
-		return list;
 	}
 
 }

@@ -1,5 +1,6 @@
 package edu.gatech.edutech.smarterap.dtos;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -27,15 +28,20 @@ public class Question extends BaseDto
 	@Column
 	private String			text;
 	@Enumerated(EnumType.STRING)
-	private QuestionType	type;
-	@OneToMany
-	private Set<Answer>		answers;
+	private QuestionType	type	= QuestionType.MULTIPLE_CHOICE;
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "question")
+	@Fetch(FetchMode.SELECT)
+	private List<Answer>	answers;
+
 	@Column
 	private String			hint;
+
 	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	@JoinTable(name = "question_tag", joinColumns = @JoinColumn(name = "question_id") , inverseJoinColumns = @JoinColumn(name = "tag_id") )
 	@Fetch(FetchMode.SELECT)
 	private Set<Tag>		tags;
+
 	@ManyToOne
 	private Subject			subject;
 
@@ -59,12 +65,12 @@ public class Question extends BaseDto
 		this.type = type;
 	}
 
-	public Set<Answer> getAnswers()
+	public List<Answer> getAnswers()
 	{
 		return answers;
 	}
 
-	public void setAnswers(final Set<Answer> answers)
+	public void setAnswers(final List<Answer> answers)
 	{
 		this.answers = answers;
 	}

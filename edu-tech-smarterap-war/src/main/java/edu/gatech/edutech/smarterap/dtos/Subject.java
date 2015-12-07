@@ -16,6 +16,15 @@ public class Subject extends BaseDto implements Comparable<Subject>
 	@Column
 	private boolean	enabled	= true;
 
+	public Subject(final Long uid)
+	{
+		setUid(uid);
+	}
+
+	public Subject()
+	{
+	}
+
 	public String getName()
 	{
 		return name;

@@ -1,12 +1,12 @@
 package edu.gatech.edutech.smarterap.utils;
 
-import static com.google.common.collect.Sets.newHashSet;
 import static javax.xml.xpath.XPathConstants.NODE;
 import static javax.xml.xpath.XPathConstants.NODESET;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.List;
 import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -23,6 +23,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import edu.gatech.edutech.smarterap.dtos.Answer;
@@ -105,15 +106,15 @@ public final class ExamViewConversionUtil
 		return html;
 	}
 
-	private static Set<Answer> createAnswersFromNode(final Node responsesNode, final String correctAnswer) throws XPathExpressionException
+	private static List<Answer> createAnswersFromNode(final Node responsesNode, final String correctAnswer) throws XPathExpressionException
 	{
 		final NodeList responses = (NodeList) xpath.evaluate(EXP_RESPONSE, responsesNode, NODESET);
-		final Set<Answer> answers = newHashSet();
+		final List<Answer> answers = Lists.newArrayList();
 
 		for (int i = 0; i < responses.getLength(); i++)
 		{
 			final Answer answer = new Answer();
-			answer.setOrder(i);
+			answer.setOrder(i + 0L);
 			answer.setText(fix(responses.item(i).getTextContent().trim()));
 			answer.setCorrect(correctAnswer.equalsIgnoreCase(xpath.evaluate(EXP_RESPONSE_LABEL, responses.item(i))));
 			answers.add(answer);

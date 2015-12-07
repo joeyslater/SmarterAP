@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.stormpath.sdk.account.Account;
-import com.stormpath.sdk.group.Group;
 
 import edu.gatech.edutech.smarterap.dtos.User;
 import edu.gatech.edutech.smarterap.utils.UserBuilderUtil;
@@ -35,8 +34,6 @@ public class UserController
 			else
 			{
 				user = UserBuilderUtil.build(account);
-				System.out.println("Testing");
-				System.out.println(user);
 			}
 			return user;
 		}
@@ -46,29 +43,4 @@ public class UserController
 			return null;
 		}
 	}
-
-	@RequestMapping(value = "/test", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public Group testAccount(final HttpServletRequest request, final HttpSession session, final HttpServletResponse response)
-	{
-		try
-		{
-			final Account account = (Account) session.getAttribute("sessionUser");
-			if (account == null)
-			{
-				response.setStatus(401);
-			}
-			else
-			{
-				return account.getGroups().single();
-			}
-		}
-		catch (final Exception e)
-		{
-			e.printStackTrace();
-			return null;
-		}
-		return null;
-	}
-
 }

@@ -1,43 +1,60 @@
-<div layout="row" class="course-home" layout-align="center start">
-    <md-content flex="25" layout-padding layout-margin class="side-info md-whiteframe-1dp" ng-if="teacherCourseDashboard.course">
-        <div class="no-margin no-padding">
-            <span class="md-body-2">Name: </span>
-        </div>
-        <div class="no-margin no-padding">
-            <span class="md-body-1" ng-bind="teacherCourseDashboard.course.name"></span>
-        </div>
-        <div class="no-margin no-padding">
-            <span class="md-body-2">Section: </span>
-        </div>
-        <div class="no-margin no-padding">
-            <span class="md-body-1" ng-bind="teacherCourseDashboard.course.section"></span>
-        </div>
-        <div class="no-margin no-padding">
-            <span class="md-body-2">Subject: </span>
-        </div>
-        <div class="no-margin no-padding">
-            <span class="md-body-1" ng-bind="teacherCourseDashboard.course.subject.name"></span>
-        </div>
-        <div class="no-margin no-padding">
-            <span class="md-body-2">Instructors: </span>
-        </div>
-        <div class="no-margin no-padding">
-            <ul ng-repeat="ownerName in teacherCourseDashboard.course.ownerNames" class="no-margin no-padding">
-                <li><span class="md-body-1" ng-bind="ownerName"></span></li>
-            </ul>
-        </div>
-        <div class="no-margin no-padding" layout="column" layout-align="center center">
-            <md-button class="md-primary">Invite Teachers</md-button>
-        </div>
-    </md-content>
-    <div flex="75" layout="row" ng-if="course.assessments">
-        <md-content layout-padding layout-margin flex>
-            test
+<div layout="row" class="course-home" layout-align-gt-sm="center start" layout-align-sm="start start" layout-wrap>
+    <div flex-sm="100" flex-gt-sm="25" ng-if="studentCourseDashboard.course">
+        <md-content layout-padding layout-margin class="side-info md-whiteframe-1dp">
+            <div class="no-margin no-padding">
+                <span class="md-body-2">Name: </span>
+            </div>
+            <div class="no-margin no-padding">
+                <span class="md-body-1" ng-bind="studentCourseDashboard.course.name"></span>
+            </div>
+            <div class="no-margin no-padding">
+                <span class="md-body-2">Section: </span>
+            </div>
+            <div class="no-margin no-padding">
+                <span class="md-body-1" ng-bind="studentCourseDashboard.course.section"></span>
+            </div>
+            <div class="no-margin no-padding">
+                <span class="md-body-2">Subject: </span>
+            </div>
+            <div class="no-margin no-padding">
+                <span class="md-body-1" ng-bind="studentCourseDashboard.course.subject.name"></span>
+            </div>
+            <div class="no-margin no-padding">
+                <span class="md-body-2">Instructors: </span>
+            </div>
+            <div class="no-margin no-padding">
+                <ul ng-repeat="ownerName in studentCourseDashboard.course.ownerNames" class="no-margin no-padding">
+                    <li><span class="md-body-1" ng-bind="ownerName"></span></li>
+                </ul>
+            </div>
         </md-content>
     </div>
-    <div flex="75" layout="row" ng-if="!course.assessments" class="no-items">
-        <span>
-            No current assessments. Create one?
-        </span>
+    <diV layout="column" flex-sm="100" flex-gt-sm="75" flex ng-if="!studentCourseDashboard.assessmentsLoading">
+        <span class="md-table-title no-padding" hide-gt-sm>Assessments</span>
+        <div layout="row" ng-if="studentCourseDashboard.assessments">
+            <md-content layout-margin flex class="md-whiteframe-1dp">
+                <md-data-table-container class="no-margin">
+                    <table md-data-table class="md-primary" md-progress="studentCourseDashboard.assessmentsDeferred">
+                        <thead></thead>
+                        <tbody>
+                            <tr ng-repeat="assessment in studentCourseDashboard.assessments" ng-click="studentCourseDashboard.startAssessment(assessment.uid);" class="pointer">
+                                <td class="icon">
+                                    <md-icon class="material-icons">assignment</md-icon>
+                                </td>
+                                <td name="Name" class="md-body-2" ng-bind=" assessment.name "></td>
+                                <td name="Open Date" ng-bind="(assessment.openDate | date : short) || '---'"></td>
+                                <td name="Due Date" ng-bind="(assessment.closeDate | date : short) || '---'"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </md-data-table-container>
+            </md-content>
+        </div>
+        <div flex="75" layout="row" ng-if="!studentCourseDashboard.assessments" class="no-items">
+            <span>No current assessments. Congrats!</span>
+        </div>
+    </diV>
+    <div layout="row" layout-align="center start" flex ng-if="studentCourseDashboard.assessmentsLoading">
+        <md-progress-circular md-mode=" indeterminate "></md-progress-circular>
     </div>
 </div>

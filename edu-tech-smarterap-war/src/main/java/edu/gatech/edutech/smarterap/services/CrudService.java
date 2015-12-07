@@ -59,10 +59,10 @@ public class CrudService
 		}
 		catch (final Exception e)
 		{
+			System.out.println(e.getMessage());
 			message = "Unable to create";
-			//			LOG.error(message, e);
-			e.printStackTrace();
 			success = false;
+			e.printStackTrace();
 		}
 		return new JsonResponse<T>(success, message, dto);
 	}

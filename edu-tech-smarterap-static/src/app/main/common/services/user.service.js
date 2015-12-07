@@ -2,7 +2,7 @@ angular.module('smarterap')
 
 .service('UserService', UserService);
 
-function UserService() {
+function UserService($http, $q) {
     var service = {};
 
     var user;
@@ -18,9 +18,26 @@ function UserService() {
     service.getUser = function() {
         return user;
     };
+    service.isLoggedIn = function() {
+        var deferred = $q.defer();
+        if (user) {
+            deferred.resolve();
+        } else {
+            $http.get('/smarter-ap/account')
+                .then(
+                    function(response) {
+                        service.setUser(response.data);
+                        deferred.resolve();
+                    },
+                    function() {
+                        deferred.reject();
+                    });
+        }
+        return deferred.promise;
+    };
 
     service.getDashboard = function() {
-        return role ? 'dashboard.' + role.toLowerCase() : 'homepage';
+        return role ? 'dashboard.' + role.toLowerCase() : 'dashboard.default';
     };
 
     var role;

@@ -23,6 +23,16 @@ public abstract class BaseDto
 	@GeneratedValue
 	private Long uid = -1L;
 
+	public BaseDto()
+	{
+
+	}
+
+	public BaseDto(final Long uid)
+	{
+		this.uid = uid;
+	}
+
 	public Long getUid()
 	{
 		return uid;
@@ -50,5 +60,4 @@ public abstract class BaseDto
 	{
 		return Pojomatic.toString(this);
 	}
-
 }
