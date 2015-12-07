@@ -104,7 +104,7 @@ function QuestionCreateController($http, $q, $mdToast, $state, Ui, PropertyServi
                 })
                 .then(createCourseSuccess, createCourseFailure);
         } else {
-            $http.post('/smarter-ap/api/question/new', angular.toJson(ctrl.questions[i]), {
+            $http.post('/smarter-ap/api/question/new', angular.toJson(ctrl.questions[0]), {
                     'headers': {
                         'Content-Type': 'application/json'
                     }
