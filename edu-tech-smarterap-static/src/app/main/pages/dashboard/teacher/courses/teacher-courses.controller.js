@@ -31,6 +31,8 @@ function TeacherCoursesDashboardController($http, $location, $document, $mdDialo
             parent: angular.element($document[0].body),
             targetEvent: $event,
             clickOutsideToClose: true,
+            bindToController: true,
+
             locals: {
                 course: course
             }

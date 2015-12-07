@@ -63,6 +63,11 @@ public class StormpathService
 		return stormpathDao.getTenant().verifyAccountEmail(token);
 	}
 
+	public Account get(final String email)
+	{
+		return stormpathDao.getAccount("email", email);
+	}
+
 	public void sendVerificationEmail(final String email)
 	{
 		final VerificationEmailRequest verificationEmailRequest = Applications.verificationEmailBuilder().setLogin(email).setAccountStore(stormpathDao.getDirectory()).build();

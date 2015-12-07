@@ -17,6 +17,8 @@ function QuestionCreateController($http, $q, $mdToast, $state, Ui, PropertyServi
             'answers': [{}],
             'difficulty': 3
         }];
+    } else {
+        ctrl.questions = ctrl.questions.splice(1, 6);
     }
 
     ctrl.sortableOptions = {

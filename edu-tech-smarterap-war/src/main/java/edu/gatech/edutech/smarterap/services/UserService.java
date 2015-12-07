@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.stormpath.sdk.account.Account;
@@ -19,6 +20,7 @@ import edu.gatech.edutech.smarterap.daos.DatabaseDao;
 import edu.gatech.edutech.smarterap.daos.StormpathDao;
 import edu.gatech.edutech.smarterap.dtos.Course;
 import edu.gatech.edutech.smarterap.dtos.User;
+import edu.gatech.edutech.smarterap.utils.UserBuilderUtil;
 
 @Service
 @Transactional
@@ -137,5 +139,34 @@ public class UserService
 			studentsWithDetails.add(student);
 		}
 		return studentsWithDetails;
+	}
+
+	public List<User> getStudentsForCourse(final Long uid)
+	{
+		final List<User> students = Lists.newArrayList();
+		final Course course = databaseDao.get(Course.class, uid);
+		for (final User user : course.getStudents())
+		{
+			students.add(UserBuilderUtil.build(stormpathDao.getAccount("email", user.getUsername()), user.getUid()));
+		}
+		return students;
+	}
+
+	public void addStudentToCourse(final Long uid, final String email)
+	{
+		final Course course = databaseDao.get(Course.class, uid);
+
+		final User u = new User();
+		u.setUsername(email);
+		User user = getUserAccount(u);
+		if (user == null)
+		{
+			user = u;
+		}
+
+		System.out.println(user);
+		course.getStudents().add(user);
+
+		databaseDao.saveOrUpdate(course);
 	}
 }

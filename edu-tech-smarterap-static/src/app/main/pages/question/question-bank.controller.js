@@ -8,7 +8,8 @@ function QuestionBankController($mdDialog, $document, $q, $http, $timeout, $mdTo
         tags: [],
         start: 0,
         currentPage: 0,
-        num: 10
+        num: 10,
+        queryText: ''
     };
     ctrl.queryText = '';
     ctrl.pagination = {
@@ -28,10 +29,11 @@ function QuestionBankController($mdDialog, $document, $q, $http, $timeout, $mdTo
         });
     };
 
-    ctrl.openImportQuestionsDialog = function() {};
-
-    ctrl.addSubjectToQuery = function() {
-        ctrl.queryText = ctrl.queryText + ' ' + 'subject: "' + ctrl.query.subject + '"';
+    ctrl.clear = function() {
+        ctrl.query.queryText = "";
+        ctrl.query.tags = [];
+        delete ctrl.query.subject;
+        delete ctrl.query.difficulty;
     };
 
     ctrl.getSubjects = function() {
@@ -53,8 +55,25 @@ function QuestionBankController($mdDialog, $document, $q, $http, $timeout, $mdTo
         return deferred.promise;
     };
 
+    ctrl.search = function() {
+        ctrl.getResults();
+    };
+
+    ctrl.queryTag = function(searchText) {
+        var deferred = $q.defer();
+        $http.get('/smarter-ap/api/tag/query?subjectId=' + ctrl.query.subject.uid + '&q=' + searchText)
+            .then(
+                function(response) {
+                    deferred.resolve(response.data);
+                },
+                function(response) {
+                    deferred.resolve([]);
+                });
+        return deferred.promise;
+    };
+
     ctrl.getResults = function() {
-        var loadingResults = true;
+        ctrl.loadingResults = true;
         ctrl.query.start = ((ctrl.query.currentPage || 1) - 1) * ctrl.query.num;
         $http.post('/smarter-ap/api/question/query', JSON.stringify(ctrl.query), {
                 withCredentials: true,
@@ -66,10 +85,11 @@ function QuestionBankController($mdDialog, $document, $q, $http, $timeout, $mdTo
                 function(response) {
                     ctrl.results = response.data.left;
                     ctrl.count = response.data.right;
-                    loadingResults = false;
+                    ctrl.loadingResults = false;
+                    ctrl.closeQuery();
                 },
                 function() {
-                    loadingResults = false;
+                    ctrl.loadingResults = false;
                 }
             );
     };

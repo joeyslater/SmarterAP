@@ -14,10 +14,6 @@ function AdminDashboardController($http, $location, Ui) {
     }, {
         'title': 'Tags',
         'template': 'main/pages/dashboard/admin/tags/tags-list.tpl.html'
-    }, {
-        'title': 'Questions'
-    }, {
-        'title': 'Database'
     }];
 
     Ui.setHeaderTitle('Admin Dashboard');

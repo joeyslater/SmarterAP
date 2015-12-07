@@ -1,24 +1,8 @@
 <div ng-controller='AdminSubjectsListController as subjectsList' layout="row">
     <md-content layout="column" flex>
         <md-card>
-            <md-data-table-toolbar class="alternate" ng-show="!subjectsList.selected.length">
-                <span flex></span>
-                <md-button ng-click="subjectsList.openAddNewSubjectDialog($event)">
-                    <md-icon class="material-icons">add</md-icon>
-                </md-button>
-            </md-data-table-toolbar>
-            <md-data-table-toolbar class="alternate" ng-show="subjectsList.selected.length">
-                <div>{{subjectsList.selected.length === subjectsList.subjects.length ? 'All' : subjectsList.selected.length}} {{subjectsList.selected.length > 1 ? 'subjects' : 'subject'}} selected</div>
-                <span flex></span>
-                <div>
-                    <md-select ng-model="subjectsList.updateAllStatus" placeholder="Update Enabled Status">
-                        <md-option>enabled</md-option>
-                        <md-option>disabled</md-option>
-                    </md-select>
-                </div>
-            </md-data-table-toolbar>
             <md-data-table-container>
-                <table md-data-table class="md-primary " md-row-select="subjectsList.selected " md-progress="subjectsList.subjectDeferred ">
+                <table md-data-table class="md-primary" md-progress="subjectsList.subjectDeferred ">
                     <thead md-order="subjectsList.listQuery.order " md-trigger="subjectsList.onOrderChange ">
                         <tr>
                             <th order-by="name " name="Name"></th>
@@ -45,4 +29,12 @@
             </md-data-table-container>
         </md-card>
     </md-content>
+    <div class="bottom-fab">
+        <md-button class="md-fab md-primary" aria-label="Add Course" ng-click="subjectsList.openAddNewSubjectDialog($event)">
+            <md-tooltip md-direction="left">
+                Add New Subject
+            </md-tooltip>
+            <md-icon class="material-icons">add</md-icon>
+        </md-button>
+    </div>
 </div>

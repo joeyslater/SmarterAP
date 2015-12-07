@@ -38,7 +38,7 @@
                     <table md-data-table class="md-primary" md-progress="teacherCourseDashboard.assessmentsDeferred">
                         <thead></thead>
                         <tbody>
-                            <tr ng-repeat="assessment in teacherCourseDashboard.assessments" class="pointer">
+                            <tr ng-repeat="assessment in teacherCourseDashboard.assessments" class="pointer" ui-sref="dashboard.teacher-assessment({assessmentId: assessment.uid})">
                                 <td class="icon">
                                     <md-icon class="material-icons">assignment</md-icon>
                                 </td>

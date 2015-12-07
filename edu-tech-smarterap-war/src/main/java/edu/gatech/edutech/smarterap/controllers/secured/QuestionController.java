@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.gatech.edutech.smarterap.controllers.CrudController;
@@ -96,8 +97,14 @@ public class QuestionController implements CrudController<Question>
 	@Override
 	public JsonResponse<Question> delete(final Long uid)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return crudService.delete(Question.class, uid);
+	}
+
+	@RequestMapping(value = "/{uid}/delete", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public JsonResponse<Question> delete2(final Long uid)
+	{
+		return crudService.delete(Question.class, uid);
 	}
 
 	@Override

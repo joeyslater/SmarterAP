@@ -1,43 +1,23 @@
-<div ng-controller='TeacherAssessmentsListController as studentsList'>
-    <md-content layout="column" flex style="background: #eee;">
+<div ng-controller='TeacherStudentsListController as studentsList' layout="row" flex layout-align="center start">
+    <md-content layout="column" flex style="background: #eee;" flex-sm="100" flex-md="70" flex-lg="60" flex-gt-lg="50">
         <md-card>
-            <md-data-table-toolbar ng-show="!studentsList.selected.length">
-                <div flex></div>
-                <input id="file-students-csv-input" name="file" type="file" class="ng-hide" accept=".csv">
-                <md-button id="file-students-csv-upload" upload="file-students-csv-input">
-                    Import via .csv
-                </md-button>
-                <md-input-container ng-model="studentsLists.newStudentEmail" md-no-float>
-                    <input placeholder="Add Student (Email)"></input>
-                </md-input-container>
-                <md-icon ng-click="studentsLists.addStudent(studentsLists.newStudentEmail)" class="material-icons">add</md-icon>
-            </md-data-table-toolbar>
-            <md-data-table-toolbar class="alternate" ng-show="studentsList.selected.length">
-                <div>{{studentsList.selected.length === studentsList.students.length ? 'All' : studentsList.selected.length}} {{studentsList.selected.length > 1 ? 'students' : 'student'}} selected</div>
-                <span flex></span>
-                <div>
-                    <md-icon class="material-icons">delete</md-icon>
-                </div>
-            </md-data-table-toolbar>
             <md-data-table-container>
-                <table md-data-table class="md-primary " md-row-select="studentsList.selected " md-progress="deferred ">
+                <table md-data-table class="md-primary " md-progress="deferred ">
                     <thead md-order="studentsList.listQuery.order " md-trigger="studentsList.onOrderChange ">
                         <tr>
                             <th order-by="surname " name="Last Name"></th>
                             <th order-by="givenName " name="First Name"></th>
                             <th order-by="emailAddress " name="Email Address"></th>
-                            <th order-by="active " name="Status"></th>
                             <th name="Actions"></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="student in teacherCourseDashboard.course.students | orderBy: studentsList.listQuery.order ">
+                        <tr ng-repeat="student in studentsList.students | orderBy: studentsList.listQuery.order ">
                             <td name="Last Name " ng-bind="student.surname "></td>
                             <td name="First Name " ng-bind="student.givenName "></td>
                             <td name="Email Address " ng-bind="student.username "></td>
-                            <td name="Status " ng-bind="student.status"></td>
                             <td>
-                                <md-icon class="material-icons">delete</md-icon>
+                                <!-- <md-icon class="material-icons">delete</md-icon> -->
                             </td>
                         </tr>
                     </tbody>
@@ -45,4 +25,31 @@
             </md-data-table-container>
         </md-card>
     </md-content>
+    <div class="bottom-fab ">
+        <md-fab-speed-dial md-direction="up" class="md-fling">
+            <md-fab-trigger>
+                <md-button aria-label=" menu " class="md-fab md-primary ">
+                    <md-tooltip md-direction="left">
+                        Menu
+                    </md-tooltip>
+                    <md-icon class="material-icons ">menu</md-icon>
+                </md-button>
+            </md-fab-trigger>
+            <md-fab-actions>
+                <md-button aria-label="Single Question " class="md-fab md-raised md-mini " ng-click="studentsList.openAddStudentDialog($event)">
+                    <md-tooltip md-direction="left">
+                        Add Single Student
+                    </md-tooltip>
+                    <md-icon class="material-icons ">add</md-icon>
+                </md-button>
+                <md-button aria-label="Upload Multiple " class="md-fab md-raised md-mini " upload="file-questions-dat-input">
+                    <md-tooltip md-direction="left">
+                        Upload Students
+                    </md-tooltip>
+                    <md-icon class="material-icons ">file_upload</md-icon>
+                </md-button>
+            </md-fab-actions>
+        </md-fab-speed-dial>
+    </div>
+    <input id="file-questions-dat-input" name="file" type="file" class="ng-hide" accept=".dat" upload-blackboard="questionBank.uploadQuestions($fileContent)">
 </div>

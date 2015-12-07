@@ -124,15 +124,19 @@ angular.module('smarterap')
             sp: {
                 authenticate: true
             }
-        }).state('dashboard.teacher-assessment', {
-            url: "/assessment",
-            templateUrl: 'main/pages/dashboard/teacher/assessment/create-assessment.tpl.html',
-            controller: 'CreateAssessmentController',
-            controllerAs: 'createAssessment',
+        })
+        .state('dashboard.teacher-assessment', {
+            url: "/teacher/assessment/:assessmentId",
+            templateUrl: 'main/pages/dashboard/teacher/assessment/teacher-assessment.tpl.html',
+            controller: 'TeacherAssessmentDashboardController',
+            controllerAs: 'teacherAssessment',
             sp: {
-                authenticate: true
+                authenticate: true,
+                group: 'TEACHER',
+                waitForUser: true
             }
-        }).state('dashboard.question-bank', {
+        })
+        .state('dashboard.question-bank', {
             url: "/question-bank",
             templateUrl: 'main/pages/question/question-bank.tpl.html',
             controller: 'QuestionBankController',

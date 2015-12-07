@@ -31,6 +31,13 @@ public class UserBuilderUtil
 		return user;
 	}
 
+	public static User build(final Account account, final Long uid)
+	{
+		final User user = build(account);
+		user.setUid(uid);
+		return user;
+	}
+
 	private static Set<SecurityRole> convertSecurities(final GroupList groups)
 	{
 		final Set<SecurityRole> roles = Sets.newHashSet();

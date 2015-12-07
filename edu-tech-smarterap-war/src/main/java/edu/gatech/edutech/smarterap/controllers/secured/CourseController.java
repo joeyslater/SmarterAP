@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.gatech.edutech.smarterap.controllers.CrudController;
 import edu.gatech.edutech.smarterap.dtos.Course;
+import edu.gatech.edutech.smarterap.dtos.User;
 import edu.gatech.edutech.smarterap.dtos.json.JsonResponse;
 import edu.gatech.edutech.smarterap.services.CrudService;
 import edu.gatech.edutech.smarterap.services.UserService;
@@ -80,5 +82,19 @@ public class CourseController implements CrudController<Course>
 	public List<Course> registered(final HttpServletRequest request)
 	{
 		return userService.getCoursesRegisteredByUser(request.getUserPrincipal().getName());
+	}
+
+	@RequestMapping("{uid}/students")
+	@ResponseBody
+	public List<User> readStudents(@PathVariable final Long uid, final HttpServletRequest request)
+	{
+		return userService.getStudentsForCourse(uid);
+	}
+
+	@RequestMapping("{uid}/student/add")
+	@ResponseBody
+	public void addStudentToCourse(@PathVariable final Long uid, @RequestBody final String email, final HttpServletRequest request)
+	{
+		userService.addStudentToCourse(uid, email);
 	}
 }

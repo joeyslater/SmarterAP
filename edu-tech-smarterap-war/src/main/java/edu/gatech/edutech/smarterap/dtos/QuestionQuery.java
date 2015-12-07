@@ -1,20 +1,21 @@
 package edu.gatech.edutech.smarterap.dtos;
 
 import static com.google.common.collect.Sets.newHashSet;
+import static org.hibernate.criterion.Restrictions.eq;
+import static org.hibernate.criterion.Restrictions.ilike;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Restrictions;
 import org.pojomatic.annotations.AutoProperty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Lists;
 
 @AutoProperty
-public class QuestionQuery implements Serializable
+public class QuestionQuery extends BaseDto
 {
 	@JsonIgnore
 	private static final long	serialVersionUID	= 1L;
@@ -22,9 +23,9 @@ public class QuestionQuery implements Serializable
 	private long				page;
 	private int					start				= 0;
 	private int					num					= 10;
-	private String				text;
-	private String				subjectName;
-	private Set<String>			tags				= newHashSet();
+	private String				queryText;
+	private Subject				subject;
+	private Set<Tag>			tags				= newHashSet();
 	private Long				difficulty;
 
 	public long getPage()
@@ -37,32 +38,32 @@ public class QuestionQuery implements Serializable
 		this.page = page;
 	}
 
-	public String getText()
+	public String getQueryText()
 	{
-		return text;
+		return queryText;
 	}
 
-	public void setText(final String text)
+	public void setQueryText(final String queryText)
 	{
-		this.text = text;
+		this.queryText = queryText;
 	}
 
-	public String getSubjectName()
+	public Subject getSubject()
 	{
-		return subjectName;
+		return subject;
 	}
 
-	public void setSubjectName(final String subjectName)
+	public void setSubject(final Subject subject)
 	{
-		this.subjectName = subjectName;
+		this.subject = subject;
 	}
 
-	public Set<String> getTags()
+	public Set<Tag> getTags()
 	{
 		return tags;
 	}
 
-	public void setTags(final Set<String> tags)
+	public void setTags(final Set<Tag> tags)
 	{
 		this.tags = tags;
 	}
@@ -80,9 +81,17 @@ public class QuestionQuery implements Serializable
 	public List<Criterion> toCriterionList()
 	{
 		final List<Criterion> criterias = Lists.newArrayList();
+		if (StringUtils.isNotEmpty(queryText))
+		{
+			criterias.add(ilike("text", "%" + queryText + "%"));
+		}
 		if (difficulty != null)
 		{
-			criterias.add(Restrictions.eq("difficulty", difficulty));
+			criterias.add(eq("difficulty", difficulty));
+		}
+		if (subject != null)
+		{
+			criterias.add(eq("subject", subject));
 		}
 		return criterias;
 	}

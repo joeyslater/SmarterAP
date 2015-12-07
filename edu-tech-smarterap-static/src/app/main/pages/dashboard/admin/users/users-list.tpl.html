@@ -10,7 +10,7 @@
                 </md-select> -->
             </md-data-table-toolbar>
             <md-data-table-container>
-                <table md-data-table class="md-primary " md-row-select="usersList.selected " md-progress="usersList.userDeferred ">
+                <table md-data-table class="md-primary " md-progress="usersList.userDeferred ">
                     <thead md-order="usersList.listQuery.order " md-trigger="usersList.onOrderChange ">
                         <tr>
                             <th order-by="surname " name="Last Name"></th>
@@ -27,37 +27,31 @@
                             <td name="First Name " ng-bind="user.givenName "></td>
                             <td name="Email Address " ng-bind="user.username "></td>
                             <td name="Status ">
-                                <md-select ng-model="user.status" placeholder="Status">
+                                <md-select ng-model="user.status" placeholder="Status" ng-change="usersList.updateStatus(user)">
                                     <md-option value="ENABLED">ENABLED</md-option>
                                     <md-option value="DISABLED">DISABLED</md-option>
                                 </md-select>
                             </td>
                             <td name="Email Address " ng-bind="user.securityRoles ? user.securityRoles.sort().join(', ') : ''"></td>
                             <td>
-                                <md-icon class="material-icons">edit</md-icon>
                                 <md-menu>
                                     <md-button class="md-icon-button" aria-label="Actions" ng-click="$mdOpenMenu($event)">
                                         <md-icon class="material-icons">more_vert</md-icon>
                                     </md-button>
                                     <md-menu-content width="2">
                                         <md-menu-item>
-                                            <md-button class="md-ident" ng-click="">
-                                                <span md-menu-align-target>Add to Group</span>
-                                            </md-button>
-                                        </md-menu-item>
-                                        <md-menu-item>
-                                            <md-button ng-click="">
-                                                <span md-menu-align-target>Remove from Group</span>
+                                            <md-button class="md-ident" ng-click="usersList.updateGroupDialog($event, user)">
+                                                <span md-menu-align-target>Update Group Membership</span>
                                             </md-button>
                                         </md-menu-item>
                                         <md-divider></md-divider>
                                         <md-menu-item>
-                                            <md-button class="md-ident" ng-click="">
+                                            <md-button class="md-ident" ng-click="usersList.resetPassword(user)">
                                                 <span md-menu-align-target>Reset Password</span>
                                             </md-button>
                                         </md-menu-item>
                                         <md-menu-item>
-                                            <md-button ng-click="">
+                                            <md-button ng-click="usersList.resendVerification(user)">
                                                 <span md-menu-align-target>Resend Verification Email</span>
                                             </md-button>
                                         </md-menu-item>

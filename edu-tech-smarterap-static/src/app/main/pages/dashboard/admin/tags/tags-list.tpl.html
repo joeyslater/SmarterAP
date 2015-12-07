@@ -1,24 +1,8 @@
 <div ng-controller='AdminTagsListController as tagsList' layout="row">
     <md-content layout="column" flex>
         <md-card>
-            <md-data-table-toolbar class="alternate" ng-show="!tagsList.selected.length">
-                <span flex></span>
-                <md-button aria-label="Add Course" ng-click="tagsList.openAddNewTagDialog($event)">
-                    <md-icon class="material-icons">add</md-icon>
-                </md-button>
-            </md-data-table-toolbar>
-            <md-data-table-toolbar class="alternate" ng-show="tagsList.selected.length">
-                <div>{{tagsList.selected.length === tagsList.tags.length ? 'All' : tagsList.selected.length}} {{tagsList.selected.length > 1 ? 'tags' : 'tag'}} selected</div>
-                <span flex></span>
-                <div>
-                    <md-select ng-model="tagsList.updateAllStatus" placeholder="Update Enabled Status">
-                        <md-option>enabled</md-option>
-                        <md-option>disabled</md-option>
-                    </md-select>
-                </div>
-            </md-data-table-toolbar>
             <md-data-table-container>
-                <table md-data-table class="md-primary " md-row-select="tagsList.selected " md-progress="tagsList.tagDeferred ">
+                <table md-data-table class="md-primary " md-progress="tagsList.tagDeferred ">
                     <thead md-order="tagsList.listQuery.order " md-trigger="tagsList.onOrderChange ">
                         <tr>
                             <th order-by="name " name="Name"></th>
@@ -31,9 +15,6 @@
                         <tr ng-repeat="tag in tagsList.tags | orderBy: tagsList.listQuery.order ">
                             <td name="Name " ng-bind="tag.name ">
                                 <span ng-if="!tagsList.edit[tag.uid]" ng-bind="tag.name"></span>
-                                <md-input-container>
-                                    <input type="text" ng-model="tag.name" />
-                                </md-input-container>
                             </td>
                             <td name="Subject " ng-bind="tag.subject.name "></td>
                             <td name="Enabled">
@@ -50,4 +31,12 @@
             </md-data-table-container>
         </md-card>
     </md-content>
+    <div class="bottom-fab">
+        <md-button class="md-fab md-primary" aria-label="Add Course" ng-click="tagsList.openAddNewTagDialog($event)">
+            <md-tooltip md-direction="left">
+                Add New Subject
+            </md-tooltip>
+            <md-icon class="material-icons">add</md-icon>
+        </md-button>
+    </div>
 </div>

@@ -1,0 +1,30 @@
+<md-dialog aria-label="Add Tag" ng-cloak>
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Update Groups</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="userGroup.cancel()">
+                    <md-icon class="material-icon" aria-label="Close Dialog">close</md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <div layout="column">
+                    <md-checkbox aria-label="Admin" ng-model="userGroup.admin">Admin</md-checkbox>
+                    <md-checkbox aria-label="Student" ng-model="userGroup.student">Student</md-checkbox>
+                    <md-checkbox aria-label="Teacher" ng-model="userGroup.teacher">Teacher</md-checkbox>
+                </div>
+        </md-dialog-content>
+        <div class="md-dialog-actions" layout="row">
+            <span flex></span>
+            <md-button ng-click="userGroup.cancel()">
+                Cancel
+            </md-button>
+            <md-button ng-click="userGroup.save()">
+                Save
+            </md-button>
+        </div>
+    </form>
+</md-dialog>

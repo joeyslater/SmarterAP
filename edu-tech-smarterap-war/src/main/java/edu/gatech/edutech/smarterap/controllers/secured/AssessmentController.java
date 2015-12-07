@@ -63,6 +63,13 @@ public class AssessmentController implements CrudController<Assessment>
 		return assessmentService.readStudentAssessment(uid);
 	}
 
+	@ResponseBody
+	@RequestMapping(value = "/teacher/{uid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Assessment readTeacherAssessment(@PathVariable final Long uid)
+	{
+		return crudService.get(Assessment.class, uid);
+	}
+
 	@Override
 	public JsonResponse<Assessment> create(final @RequestBody Assessment dto, final HttpServletRequest request)
 	{
