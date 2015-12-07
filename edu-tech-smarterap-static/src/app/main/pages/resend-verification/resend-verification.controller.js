@@ -17,7 +17,7 @@ function ResendVerificationController($http, $state, $log, $mdToast) {
                 })
                 .then(
                     function(response) {
-                        $mdToast.show($mdToast.simple().content('Successfully resent verificiation email.').hideDelay(3000));
+                        $mdToast.show($mdToast.simple().content('Successfully resent verification email.').hideDelay(3000));
                         $state.go('login');
                     },
                     function(response) {
